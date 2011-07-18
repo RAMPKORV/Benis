@@ -40,4 +40,8 @@ public class Conversation {
         listeners.add(l);
     }
 
+    public static void removeConversationsListener(ConversationsListener l){
+        listeners.remove(l);
+    }
+
 }

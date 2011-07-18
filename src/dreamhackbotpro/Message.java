@@ -12,6 +12,14 @@ public class Message {
         this.to = to;
     }
 
+    /**
+     * Convenience constructor for quick testing
+     * @param message
+     */
+    public Message(String message) {
+        this.message = message;
+    }
+
     public String getFrom() {
         return from;
     }
