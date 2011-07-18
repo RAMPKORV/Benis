@@ -4,8 +4,9 @@
  */
 package dreamhackbotpro;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 import org.jibble.pircbot.PircBot;
 
 /**
@@ -15,13 +16,17 @@ import org.jibble.pircbot.PircBot;
 public class IrcHandler extends PircBot implements ConversationsListener {
     //TODO extend PircBot
     
-    private List<IrcListener> listeners = new ArrayList<IrcListener>();
+    private Set<IrcListener> listeners = new HashSet<IrcListener>();
 
     public IrcHandler() {
     }
 
     public void addIrcListener(IrcListener l) {
         listeners.add(l);
+    }
+
+    public void removeIrcListener(IrcListener l) {
+        listeners.remove(l);
     }
 
     @Override
