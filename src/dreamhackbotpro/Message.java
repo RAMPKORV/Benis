@@ -1,18 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dreamhackbotpro;
 
-/**
- *
- * @author patrik
- */
 public class Message {
-	public String from;
-	public String message;
-	public String to;
+
+    private String from;
+    private String message;
+    private String to;
 
     public Message(String from, String message, String to) {
         this.from = from;
@@ -30,6 +22,11 @@ public class Message {
 
     public String getTo() {
         return to;
+    }
+
+    @Override
+    public String toString() {
+        return from+": "+message;
     }
     
 }
