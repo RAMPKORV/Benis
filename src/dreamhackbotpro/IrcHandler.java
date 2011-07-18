@@ -73,6 +73,6 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     public void onConversationMessage(Message m) {
-        this.sendMessage(m.to, m.message);
+        this.sendMessage(m.getTo(), m.getMessage());
     }
 }
