@@ -20,6 +20,8 @@ public class Main {
         GUI gui = new GUI();
         irc.addIrcListener(gui);
         Conversation.addConversationsListener(gui);
+        SeatReader seatReader = new SeatReader();
+        Conversation.addConversationsListener(seatReader);
         try {
             irc.connect();
         } catch (InterruptedException ex) {
