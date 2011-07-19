@@ -15,7 +15,6 @@ import java.util.Map;
 public class Bot implements IrcListener{
     
     private Map<String, User> users = new HashMap<String, User>();
-    private int maxConversations = 20;
     private User orphanUser = null;
     private MessageFilter filter = new MessageFilter();
 
