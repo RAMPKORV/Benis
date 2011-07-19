@@ -45,6 +45,10 @@ public class Bot implements IrcListener{
      */
     private void parseSentence(User u, String s){
         //TODO
+        
+        //if \d+kr not found, check for any separate number
+        //side effect: model numbers may be only numbers
+        //weak solution: Only interpret separate numbers that ends with 0 as prices.
     }
 
     @Override
