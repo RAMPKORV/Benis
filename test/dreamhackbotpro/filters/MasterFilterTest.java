@@ -53,9 +53,9 @@ public class MasterFilterTest extends MessageFilterTest {
 
     @Test
     public void testWTSSimple() {
-        checkFromTo("wts snus", "WTs snus");
+        checkFromTo("wts snus", "WTS snus");
         checkFromTo("säljer snus", "WTS snus");
-        checkFromTo("jag säljer snuss", "WTS snus");
+        checkFromTo("jag säljer snus", "WTS snus");
         checkFromTo("snus säljes", "WTS snus");
     }
     
