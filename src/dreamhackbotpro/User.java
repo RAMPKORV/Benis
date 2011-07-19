@@ -56,7 +56,7 @@ public class User {
     }
 
     /**
-     * Calculates if the Yser is most interested in buying or selling
+     * Calculates if the User is most interested in buying or selling
      * @return true if most of the Users interest is WTB
      */
     public boolean isMostlyBuying(){
