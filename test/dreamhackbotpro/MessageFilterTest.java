@@ -18,10 +18,9 @@ import static org.junit.Assert.*;
  */
 public class MessageFilterTest {
 
-    private MessageFilter filter;
+    private MessageFilter filter = new MessageFilter();
 
-    public MessageFilterTest(MessageFilter implementation) {
-        filter = implementation;
+    public MessageFilterTest() {
     }
 
     @BeforeClass

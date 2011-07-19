@@ -110,6 +110,10 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener, L
     public void onQuit(String user) {
         appendToChannel("User left: "+user);
     }
+    
+    public void onError(String error) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     public void onConversationMessage(Message m) {
         

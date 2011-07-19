@@ -39,5 +39,9 @@ public class Bot implements IrcListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public void onError(String error) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
 }
