@@ -41,4 +41,8 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public void onError(String error) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
