@@ -23,6 +23,7 @@ public class Bot implements IrcListener{
     }
 
     public void onMessage(Message m) {
+        Message filtered = filter.getFiltered(m);
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

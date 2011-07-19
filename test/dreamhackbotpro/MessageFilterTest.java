@@ -62,11 +62,10 @@ public class MessageFilterTest {
 
     @Test
     public void testWTSSimple() {
-        // Check that good messages remain the same
-        checkUnfiltered("wts snus");
-        checkUnfiltered("säljer snus");
-        checkUnfiltered("jag säljer snus");
-        checkUnfiltered("snus säljes");
+        checkFromTo("wts snus", "WTs snus");
+        checkFromTo("säljer snus", "WTS snus");
+        checkFromTo("jag säljer snuss", "WTS snus");
+        checkFromTo("snus säljes", "WTS snus");
     }
     
     @Test
