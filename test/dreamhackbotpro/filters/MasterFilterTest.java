@@ -1,10 +1,15 @@
+package dreamhackbotpro.filters;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package dreamhackbotpro;
 
+
+import dreamhackbotpro.Message;
+import dreamhackbotpro.filters.MasterFilter;
+import dreamhackbotpro.filters.MessageFilter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,11 +21,10 @@ import static org.junit.Assert.*;
  *
  * @author patrik
  */
-public class MessageFilterTest {
+public class MasterFilterTest extends MessageFilterTest {
 
-    private MessageFilter filter = new MessageFilter();
-
-    public MessageFilterTest() {
+    public MasterFilterTest() {
+        super(new MasterFilter());
     }
 
     @BeforeClass
@@ -37,19 +41,6 @@ public class MessageFilterTest {
 
     @After
     public void tearDown() {
-    }
-
-    private void checkFromTo(String from, String to) {
-        Message original;
-        Message filtered;
-        original = new Message(from);
-        filtered = filter.getFiltered(original);
-        assertEquals(filtered.getMessage(), to);
-    }
-
-    // Check that good messages remain the same
-    private void checkUnfiltered(String message) {
-        checkFromTo(message, message);
     }
 
     @Test
