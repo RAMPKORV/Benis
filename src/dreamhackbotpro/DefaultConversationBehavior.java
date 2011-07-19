@@ -18,6 +18,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public void transformMessage(Conversation c, Message m) {
+        //FIXME some of the strings may contain reserved regex characters
+        //FIXME the transformation of names is different depending on which user the message is from
         m.setMessage(m.getMessage().replaceAll(c.getBuyer().getName(), "%SELLER%"));
         m.setMessage(m.getMessage().replaceAll(c.getSeller().getName(), c.getBuyer().getName()));
         m.setMessage(m.getMessage().replaceAll("%SELLER%", c.getSeller().getName()));
