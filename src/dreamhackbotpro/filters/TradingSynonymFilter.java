@@ -1,6 +1,8 @@
 package dreamhackbotpro.filters;
 
 import dreamhackbotpro.Message;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -17,23 +19,32 @@ public class TradingSynonymFilter implements MessageFilter{
         
         m.setMessage(s);
     }
-    
+
+    private Pattern buying = Pattern.compile("(jag köper|jag vill ha|köper|wtb)", Pattern.CASE_INSENSITIVE);
+    private Pattern buyingBefore = Pattern.compile("\\.([^\\. ]*) köpes", Pattern.CASE_INSENSITIVE);
     private String replaceBuyingSynonyms(String s){
-        //TODO ignore case
-        s = s.replaceAll("jag köper", "WTB");
-        s = s.replaceAll("jag vill ha", "WTB");
-        s = s.replaceAll("köper", "WTB");
-        s = s.replaceAll("wtb", "WTB");
-        //TODO "x köpes" to "WTB x"
+        Matcher m = buying.matcher(s);
+        s = m.replaceAll("WTB");
+        String thing = null;
+        m = buyingBefore.matcher(s);
+        while(m.find()) {
+            thing = m.group(1);
+            s = s.replaceAll(m.group(0), ". WTB " + thing);
+        }
         return s;
     }
     
+    private Pattern selling = Pattern.compile("(jag säljer|jag vill sälja|säljer|wts)", Pattern.CASE_INSENSITIVE);
+    private Pattern sellingBefore = Pattern.compile("\\.([^\\. ]*) köpes", Pattern.CASE_INSENSITIVE);
     private String replaceSellingSynonyms(String s){
-        //TODO ignore case
-        s = s.replaceAll("jag säljer", "WTS");
-        s = s.replaceAll("säljer", "WTS");
-        s = s.replaceAll("wts", "WTS");
-        //TODO "x säljes" to "WTS x"
+        Matcher m = selling.matcher(s);
+        s = m.replaceAll("WTS");
+        String thing = null;
+        m = sellingBefore.matcher(s);
+        while(m.find()) {
+            thing = m.group(1);
+            s = s.replaceAll(m.group(0), ". WTS " + thing);
+        }
         return s;
     }
     
