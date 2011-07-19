@@ -30,7 +30,7 @@ public class User {
     /**
      * Called when the User has done anything
      */
-    public void updateActivity(){
+    public synchronized void updateActivity(){
         lastMessage = System.currentTimeMillis();
     }
 
