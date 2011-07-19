@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class TradingSynonymFilterTest extends MessageFilterTest {
 
     public TradingSynonymFilterTest() {
-        super(new TradingSynonymFilter());
+    super(new TradingSynonymFilter());
     }
 
     @BeforeClass
@@ -49,13 +49,13 @@ public class TradingSynonymFilterTest extends MessageFilterTest {
         checkFromTo("köper snus","WTB snus");
         checkFromTo("wtb snus","WTB snus");
         checkFromTo("snus köpes","WTB snus");
-        checkFromTo("Hej på er. Snus köpes","WTB Snus");
+        checkFromTo("Hej på er. Snus köpes","Hej på er. WTB Snus");
         checkFromTo("jag säljer snus","WTS snus");
         checkFromTo("jag vill sälja snus","WTS snus");
         checkFromTo("säljer snus","WTS snus");
         checkFromTo("wts snus","WTS snus");
         checkFromTo("snus säljes","WTS snus");
-        checkFromTo("Hej på er. Snus säljes","WTS Snus");
+        checkFromTo("Hej på er. Snus säljes","Hej på er. WTS Snus");
     }
 
 }
