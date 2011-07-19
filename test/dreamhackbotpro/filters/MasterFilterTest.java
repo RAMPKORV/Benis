@@ -47,7 +47,7 @@ public class MasterFilterTest extends MessageFilterTest {
     public void testWTBSimple() {
         checkFromTo("wtb snus", "WTB snus");
         checkFromTo("köper snus", "WTB snus");
-        checkFromTo("jag köper snuss", "WTB snus");
+        checkFromTo("jag köper snus", "WTB snus");
         checkFromTo("Jag vill ha snus", "WTB snus");
     }
 
@@ -60,25 +60,21 @@ public class MasterFilterTest extends MessageFilterTest {
     }
     
     @Test
-    public void testWTBNormal() {
-        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE");
-    }
-    
-    @Test
     public void testWTSNormal() {
-        checkFromTo("Säljer Snus! Original portion!", "WTS Snus");
+        checkFromTo("Säljer Snus! Original portion!", "WTS Snus! Original portion!"); //Bot should later ignore "Original portion!"
         checkFromTo("WTB CIGG PAKET. OÖPPNAT!!!!! DU FÅR 60kr!!!", "WTB CIGG PAKET 60kr");
     }
 
     @Test
     public void testWTBComplex() {
         checkFromTo("Någon som säljer<--------> WOW GULD?!!!!!", "WTB wow guld");
+        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE");
     }
 
     @Test
     public void testWTSComplex() {
         checkFromTo("säljer wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353+ IL  ",
-                "WTS wow acc");
+                "WTS wow acc"); //ska Filter eller Bot känna av att det efter "med" är skitsnack?
         checkFromTo("-------| STEELSERIES SIBERIA NECKBAND HEADSET TILL SALU, SKRIV BUD! |-----------", "WTS STEELSERIES SIBERIA NECKBAND HEADSET");
         checkFromTo("SÄLJER ICECOFFEE  , Sockerdricka och dextro mint BILLIGT!!!!!!!!!", "WTS ICECOFFEE. WTS Sockerdricka. WTS dextro mint");
         checkFromTo("musmatta steelseries 4HD Small s?ljes 100kr!", "WTS musmatta steelseries 4HD Small 100kr");

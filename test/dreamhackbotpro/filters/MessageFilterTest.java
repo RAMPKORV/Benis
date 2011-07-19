@@ -51,7 +51,7 @@ public abstract class MessageFilterTest {
     protected final void checkFromTo(String from, String to) {
         Message m = new Message(from);
         mf.filter(m);
-        assertEquals(m.getMessage(), to);
+        assertEquals(to, m.getMessage());
     }
 
     // Check that good messages remain the same
