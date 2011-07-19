@@ -45,7 +45,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
-        opUsers.remove(recipient);
+        //opUsers.remove(recipient);
     }
 
     public String getChannel() {
@@ -168,6 +168,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     public void onConversationMessage(Message m) {
+        if(opUsers.contains(m.getTo()))
+            return;
         this.sendMessage(m.getTo(), m.getMessage());
     }
 }
