@@ -7,7 +7,11 @@ package dreamhackbotpro.filters;
 public class MasterFilter extends CompositeMessageFilter {
     public MasterFilter() {
         addMessageFilter(new WhiteSpaceCleanerFilter());
+        
+        addMessageFilter(new PriceSynonymFilter());
+        
         addMessageFilter(new DelimeterFilter());
+        
         addMessageFilter(new TradingSynonymFilter());
     }
 }
