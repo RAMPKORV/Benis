@@ -17,9 +17,11 @@ public class User {
     private List<Interest> interests = new ArrayList<Interest>();
     private Conversation conversation = null;
     private long lastMessage;
+    private String name;
 
-    public User() {
+    public User(String name) {
         this.lastMessage = System.currentTimeMillis();
+        this.name=name;
     }
 
     /**
@@ -91,6 +93,27 @@ public class User {
                 return true;
         }
         return false;
+    }
+
+    public void messageConversationBuddy(Message m) {
+        if(conversation==null)
+            throw new NullPointerException();
+        conversation.onMessage(this, m);
+    }
+
+    /**
+     * Should only be called in the Conversation constructor
+     */
+    public void setConversation(Conversation conversation) {
+        this.conversation=conversation;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name=name;
     }
 
 }

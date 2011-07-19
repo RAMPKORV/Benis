@@ -36,5 +36,9 @@ public class Message {
     public String toString() {
         return from+": "+message;
     }
+
+    public void setTo(String to) {
+        this.to=to;
+    }
     
 }

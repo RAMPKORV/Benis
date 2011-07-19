@@ -26,6 +26,12 @@ public class Conversation {
         this.seller = seller;
         this.buyerThing = buyerThing;
         this.sellerThing = sellerThing;
+        buyer.setConversation(this);
+        seller.setConversation(this);
+        
+        //TODO send a greeting to buyer and seller
+        //Problem: Do not send greeting before buyerThing and sellerThing has been generated in the other constructor
+        //Possible solution: add a public sendGreeting method called after Conversation has been constructed
     }
 
     public Conversation(User buyer, User seller) {
@@ -47,6 +53,19 @@ public class Conversation {
 
     public static void removeConversationsListener(ConversationsListener l){
         listeners.remove(l);
+    }
+
+    public void onMessage(User u, Message m) {
+        if(u==buyer)
+            m.setTo(seller.getName());
+        else
+            m.setTo(buyer.getName());
+        
+        //do all the logic. Replace buyerThing with sellerThing etc.
+        
+        for(ConversationsListener l : listeners){
+            l.onConversationMessage(m);
+        }
     }
 
 }

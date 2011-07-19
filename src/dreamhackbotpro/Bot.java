@@ -20,7 +20,7 @@ public class Bot implements IrcListener{
     public void onMessage(final Message m) {
         User user = users.get(m.getFrom());
         if(user==null){
-            user = new User();
+            user = new User(m.getFrom());
             users.put(m.getFrom(), user);
         }
         else
@@ -34,10 +34,12 @@ public class Bot implements IrcListener{
     public void onNameChange(String oldName, String newName) {
         User user = users.get(oldName);
         if(user==null){
-            user = new User();
+            user = new User(newName);
             users.put(newName, user);
             return;
         }
+        else
+            user.setName(newName);
         user.updateActivity();
         users.remove(oldName);
         users.put(newName, user);
@@ -46,7 +48,7 @@ public class Bot implements IrcListener{
     public void onPrivateMessage(Message m) {
         User user = users.get(m.toString());
         if(user==null){
-            user = new User();
+            user = new User(m.getFrom());
             users.put(m.getFrom(), user);
         }
         else
@@ -61,7 +63,7 @@ public class Bot implements IrcListener{
             orphanUser=null;
         }
         
-        //TODO tell users Conversation that he sent a message to his buddy
+        user.messageConversationBuddy(m);
     }
 
     public void onQuit(String userName) {
