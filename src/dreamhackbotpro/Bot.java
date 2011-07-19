@@ -4,6 +4,7 @@ import dreamhackbotpro.filters.MasterFilter;
 import dreamhackbotpro.filters.MessageFilter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * A class that finds out what users are interested in based on messages and connects users together
@@ -18,6 +19,7 @@ public class Bot implements IrcListener{
     public Bot(){
     }
 
+    Pattern delimeter = Pattern.compile("[0-9]*\\.[0-9]*");
     @Override
     public void onMessage(final Message m) {
         User user = users.get(m.getFrom());
@@ -31,8 +33,7 @@ public class Bot implements IrcListener{
         messageFilter.filter(m);
         
         //handle each sentence individually
-        //FIXME make sure it doesnt split on the dot in something like "Razor Naga 2.0 billigt"
-        for(String s : m.getMessage().split("\\.")){
+        for(String s : m.getMessage().split("\\.(?![0-9])")){
             parseSentence(user, s);
         }
     }
