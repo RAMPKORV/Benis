@@ -44,7 +44,7 @@ public class MessageFilterTest {
         Message filtered;
         original = new Message(from);
         filtered = filter.getFiltered(original);
-        assertEquals(filtered, to);
+        assertEquals(filtered.getMessage(), to);
     }
 
     private void checkUnfiltered(String message) {
