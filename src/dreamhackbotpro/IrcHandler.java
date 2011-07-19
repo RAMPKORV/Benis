@@ -168,6 +168,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     public void onConversationMessage(Message m) {
+        if(opUsers.contains(m.getTo()))
+            return;
         this.sendMessage(m.getTo(), m.getMessage());
     }
 }
