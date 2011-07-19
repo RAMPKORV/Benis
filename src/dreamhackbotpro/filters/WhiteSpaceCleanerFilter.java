@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dreamhackbotpro.filters;
 
 import dreamhackbotpro.Message;
@@ -13,8 +8,9 @@ import dreamhackbotpro.Message;
  */
 public class WhiteSpaceCleanerFilter implements MessageFilter {
     public WhiteSpaceCleanerFilter() {}
+    @Override
     public void filter(Message m) {
-        m.setMessage(m.getMessage().replaceAll("\\s+", " "));
+        m.setMessage(m.getMessage().trim().replaceAll("\\s+", " "));
     }
     
 }

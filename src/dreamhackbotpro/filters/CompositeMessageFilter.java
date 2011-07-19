@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dreamhackbotpro.filters;
 
 import dreamhackbotpro.Message;
@@ -25,6 +20,7 @@ public class CompositeMessageFilter implements MessageFilter {
         filters.remove(filter);
     }
 
+    @Override
     public void filter(Message m) {
         for(MessageFilter mf : filters) {
             mf.filter(m);

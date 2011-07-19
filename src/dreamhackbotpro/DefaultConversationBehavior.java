@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dreamhackbotpro;
 
 /**
@@ -21,6 +16,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         return instance;
     }
 
+    @Override
     public void transformMessage(Conversation c, Message m) {
         m.setMessage(m.getMessage().replaceAll(c.getBuyer().getName(), "%SELLER%"));
         m.setMessage(m.getMessage().replaceAll(c.getSeller().getName(), c.getBuyer().getName()));
