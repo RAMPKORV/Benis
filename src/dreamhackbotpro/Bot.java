@@ -18,7 +18,6 @@ public class Bot implements IrcListener{
     public Bot(){
     }
 
-
     @Override
     public void onMessage(final Message m) {
         User user = users.get(m.getFrom());
@@ -31,7 +30,20 @@ public class Bot implements IrcListener{
         
         messageFilter.filter(m);
         
-        throw new UnsupportedOperationException("Not supported yet.");
+        //handle each sentence individually
+        //FIXME make sure it doesnt split on the dot in something like "Razor Naga 2.0 billigt"
+        for(String s : m.getMessage().split("\\.")){
+            parseSentence(user, s);
+        }
+    }
+    
+    /**
+     * Parse a sentence to see what the user wants to buy or sell
+     * @param u The User who said the sentence
+     * @param s The sentence to parse
+     */
+    private void parseSentence(User u, String s){
+        //TODO
     }
 
     @Override
