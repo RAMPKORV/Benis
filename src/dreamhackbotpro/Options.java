@@ -16,7 +16,7 @@ public class Options {
     
     private Options(){}
     
-    public static Options getInstance(){
+    public static synchronized Options getInstance(){
         if(instance==null)
             instance=new Options();
         return instance;
