@@ -2,3 +2,5 @@ build
 dist
 private
 nbproject
+build.xml
+manifest.mf
