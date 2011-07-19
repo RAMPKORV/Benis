@@ -20,8 +20,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     private String ircChannel;
 
     private Set<String> opUsers = new HashSet<String>();
-    
     private Set<IrcListener> listeners = new HashSet<IrcListener>();
+    
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
         this.ircNick = nick;
@@ -165,6 +165,11 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     @Override
     protected void onKick(String channel, String kickerNick, String kickerLogin, String kickerHostname, String recipientNick, String reason) {
         onQuit(recipientNick);
+    }
+
+    @Override
+    protected void onVersion(String sourceNick, String sourceLogin, String sourceHostname, String target) {
+        this.sendRawLine("NOTICE " + sourceNick + " :\u0001VERSION " + Options.getInstance().getVersion() + "\u0001");
     }
 
     @Override

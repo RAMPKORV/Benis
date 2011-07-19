@@ -8,6 +8,7 @@ public class Options {
     
     private int maxActiveConversations=20;
     private long inactiveTimeLimit=2*60; //2 minutes
+    private String version = "mIRC v6.17 Khaled Mardam-Bey";
     
     private static Options instance = null;
     
@@ -34,5 +35,11 @@ public class Options {
     public void setInactiveTimeLimit(long inactiveTimeLimit) {
         this.inactiveTimeLimit = inactiveTimeLimit;
     }
+
+    public String getVersion() {
+        return version;
+    }
+
+    
     
 }
