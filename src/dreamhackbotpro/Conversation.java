@@ -19,6 +19,8 @@ public class Conversation {
     private String buyerThing;
     private String sellerThing;
 
+    private ConversationBehavior behavior = null;
+
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing) {
@@ -62,6 +64,7 @@ public class Conversation {
             m.setTo(buyer.getName());
         
         //do all the logic. Replace buyerThing with sellerThing etc.
+        behavior.transformMessage(this, m);
         
         for(ConversationsListener l : listeners){
             l.onConversationMessage(m);
