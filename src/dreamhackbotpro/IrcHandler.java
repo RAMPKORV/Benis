@@ -101,6 +101,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
                 connectionAttempts++;
             }
         } while (this.isConnected() == false);
+        joinChannel(ircChannel);
     }
 
     public void addIrcListener(IrcListener l) {
