@@ -51,6 +51,8 @@ public abstract class MessageFilterTest {
     protected final void checkFromTo(String from, String to) {
         Message m = new Message(from);
         mf.filter(m);
+        System.out.println("FIRST: " + m.getMessage());
+        System.out.println("SECOND: " + to);
         assertEquals(m.getMessage(), to);
     }
 

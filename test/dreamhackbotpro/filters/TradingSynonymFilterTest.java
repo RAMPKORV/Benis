@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class TradingSynonymFilterTest extends MessageFilterTest {
 
     public TradingSynonymFilterTest() {
-        super(new WhiteSpaceCleanerFilter());
+        super(new TradingSynonymFilter());
     }
 
     @BeforeClass
