@@ -14,7 +14,7 @@ public class Conversation {
     private String buyerThing;
     private String sellerThing;
 
-    private ConversationBehavior behavior = null;
+    private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
@@ -42,6 +42,14 @@ public class Conversation {
 
     public User getSeller() {
         return seller;
+    }
+
+    public String getBuyerThing() {
+        return buyerThing;
+    }
+
+    public String getSellerThing() {
+        return sellerThing;
     }
 
     public static void addConversationsListener(ConversationsListener l){

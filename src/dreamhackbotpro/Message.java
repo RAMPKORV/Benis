@@ -40,5 +40,9 @@ public class Message {
     public void setTo(String to) {
         this.to=to;
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
     
 }
