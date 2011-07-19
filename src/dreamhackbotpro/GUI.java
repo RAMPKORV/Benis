@@ -47,7 +47,7 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener, L
         
         conversationData = new DefaultListModel();
         
-        conversationData.addElement("#channelname");
+        conversationData.addElement("Main channel");
         conversationData.addElement("Options");
         for (int i = 0; i < 30; i+=2) {
             //test stuff. TODO remove
@@ -92,28 +92,34 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener, L
         channel.append('\n'+timeStamp()+s);
     }
 
+    @Override
     public void onMessage(Message m) {
         appendToChannel(m.toString());
     }
 
+    @Override
     public void onNameChange(String oldName, String newName) {
         //TODO output "oldName changed name to newName" in channel tab
         //TODO check if the user is in any chat, append namechange in chat
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void onPrivateMessage(Message m) {
         //do nothing. Handled in onConversationMessage
     }
 
+    @Override
     public void onQuit(String user) {
         appendToChannel("User left: "+user);
     }
     
+    @Override
     public void onError(String error) {
         appendToChannel(error);
     }
 
+    @Override
     public void onConversationMessage(Message m) {
         
         JTextArea chat = chats.get(m.getFrom()+" - "+m.getTo());
@@ -123,6 +129,7 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener, L
         chat.append('\n'+timeStamp()+m.toString());
     }
     
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         boolean enableLiveUpdate = true;
         if(e.getValueIsAdjusting() != enableLiveUpdate)

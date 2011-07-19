@@ -41,6 +41,7 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
         errorField.setText("");
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         int maxConversations = -1;
         try {

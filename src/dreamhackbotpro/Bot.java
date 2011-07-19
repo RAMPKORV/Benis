@@ -1,6 +1,5 @@
 package dreamhackbotpro;
 
-import dreamhackbotpro.filters.CompositeMessageFilter;
 import dreamhackbotpro.filters.MasterFilter;
 import dreamhackbotpro.filters.MessageFilter;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ public class Bot implements IrcListener{
     }
 
 
+    @Override
     public void onMessage(final Message m) {
         User user = users.get(m.getFrom());
         if(user==null){
@@ -34,6 +34,7 @@ public class Bot implements IrcListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void onNameChange(String oldName, String newName) {
         User user = users.get(oldName);
         if(user==null){
@@ -48,6 +49,7 @@ public class Bot implements IrcListener{
         users.put(newName, user);
     }
 
+    @Override
     public void onPrivateMessage(Message m) {
         User user = users.get(m.toString());
         if(user==null){
@@ -69,6 +71,7 @@ public class Bot implements IrcListener{
         user.messageConversationBuddy(m);
     }
 
+    @Override
     public void onQuit(String userName) {
         User user = users.get(userName);
         if(user==null)
@@ -92,6 +95,7 @@ public class Bot implements IrcListener{
         
     }
 
+    @Override
     public void onError(String error) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
