@@ -28,6 +28,11 @@ public class Conversation {
         this.sellerThing = sellerThing;
     }
 
+    public Conversation(User buyer, User seller) {
+        this(buyer, seller, null, null);
+        //TODO Generate buyerThing and sellerThing based on buyer and seller interest
+    }
+
     public User getBuyer() {
         return buyer;
     }

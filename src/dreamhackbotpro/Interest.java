@@ -28,5 +28,13 @@ public class Interest {
     public boolean isBuying() {
         return wtb;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getThing() {
+        return thing;
+    }
     
 }

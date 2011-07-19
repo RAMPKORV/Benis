@@ -95,6 +95,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
+        //TODO return if sender is OP
         for(IrcListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
         }
@@ -102,6 +103,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
+        //TODO return if sender is OP
         for(IrcListener l : listeners) {
             l.onPrivateMessage(new Message(sender, message, null));
         }
@@ -109,12 +111,14 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
+        //TODO return if oldNick/newNick is OP
         for(IrcListener l : listeners) {
             l.onNameChange(oldNick,newNick);
         }
     }
 
     private void onQuit(String nick) {
+        //TODO return if nick is OP
         for(IrcListener l : listeners) {
             l.onQuit(nick);
         }
