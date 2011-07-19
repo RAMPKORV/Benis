@@ -26,7 +26,7 @@ package org.jibble.pircbot;
  *          <a href="http://www.jibble.org/">http://www.jibble.org/</a>
  * @version    1.5.0 (Build time: Mon Dec 14 20:07:17 2009)
  */
-public class User {
+public class IrcUser {
     
     
     /**
@@ -35,7 +35,7 @@ public class User {
      * @param prefix The status of the user, for example, "@".
      * @param nick The nick of the user.
      */
-    User(String prefix, String nick) {
+    IrcUser(String prefix, String nick) {
         _prefix = prefix;
         _nick = nick;
         _lowerNick = nick.toLowerCase();
@@ -121,8 +121,8 @@ public class User {
      * @return true if o is a User object with a matching lowercase nick.
      */
     public boolean equals(Object o) {
-        if (o instanceof User) {
-            User other = (User) o;
+        if (o instanceof IrcUser) {
+            IrcUser other = (IrcUser) o;
             return other._lowerNick.equals(_lowerNick);
         }
         return false;
@@ -146,8 +146,8 @@ public class User {
      * @return the result of calling compareTo on lowercased nicks.
      */
     public int compareTo(Object o) {
-        if (o instanceof User) {
-            User other = (User) o;
+        if (o instanceof IrcUser) {
+            IrcUser other = (IrcUser) o;
             return other._lowerNick.compareTo(_lowerNick);
         }
         return -1;

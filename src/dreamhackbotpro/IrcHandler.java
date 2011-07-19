@@ -6,9 +6,13 @@ package dreamhackbotpro;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.jibble.pircbot.IrcException;
+import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
@@ -21,6 +25,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     private String ircNick;
     private String ircServer;
     private String ircChannel;
+
+    private Set<String> opUsers = new HashSet<String>();
     
     private Set<IrcListener> listeners = new HashSet<IrcListener>();
 
@@ -28,6 +34,25 @@ public class IrcHandler extends PircBot implements ConversationsListener {
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
+    }
+
+    @Override
+    protected void onUserList(String channel, IrcUser[] users) {
+        for(IrcUser u : users) {
+            if(u.isOp()) {
+                opUsers.add(u.getNick());
+            }
+        }
+    }
+
+    @Override
+    protected void onOp(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+        opUsers.add(recipient);
+    }
+
+    @Override
+    protected void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+        opUsers.remove(recipient);
     }
 
     public String getChannel() {
@@ -111,16 +136,23 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
-        //TODO return if oldNick/newNick is OP
-        for(IrcListener l : listeners) {
-            l.onNameChange(oldNick,newNick);
+        if(opUsers.contains(oldNick)) {
+            opUsers.remove(oldNick);
+            opUsers.add(newNick);
+        } else {
+            for(IrcListener l : listeners) {
+                l.onNameChange(oldNick,newNick);
+            }
         }
     }
 
     private void onQuit(String nick) {
-        //TODO return if nick is OP
-        for(IrcListener l : listeners) {
-            l.onQuit(nick);
+        if(opUsers.contains(nick)) {
+            opUsers.remove(nick);
+        } else {
+            for(IrcListener l : listeners) {
+                l.onQuit(nick);
+            }
         }
     }
 
