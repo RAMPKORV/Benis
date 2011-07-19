@@ -2,10 +2,7 @@ package dreamhackbotpro;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
@@ -116,7 +113,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
-        //TODO return if sender is OP
+        if(opUsers.contains(sender))
+            return;
         for(IrcListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
         }
@@ -124,7 +122,8 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
-        //TODO return if sender is OP
+        if(opUsers.contains(sender))
+            return;
         for(IrcListener l : listeners) {
             l.onPrivateMessage(new Message(sender, message, null));
         }
