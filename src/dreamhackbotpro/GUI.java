@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -112,7 +111,7 @@ public class GUI extends JFrame implements IrcListener, ConversationsListener, L
     }
     
     public void onError(String error) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        appendToChannel(error);
     }
 
     public void onConversationMessage(Message m) {
