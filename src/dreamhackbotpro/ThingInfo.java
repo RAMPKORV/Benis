@@ -14,7 +14,8 @@ import java.util.List;
  *
  * @author patrik
  */
-class ThingInfo {
+class ThingInfo implements Comparable {
+    private String thing = null;
     private long counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
     private int buyers = 0;
@@ -23,7 +24,10 @@ class ThingInfo {
     private float median = 0;
 
     ThingInfo(Interest i) {
-        addInterest(i);
+        thing = i.getThing();
+        try {
+            addInterest(i);
+        } catch(Exception ex) {}
     }
 
     public int getBuyers() {
@@ -47,7 +51,10 @@ class ThingInfo {
         return median;
     }
 
-    public void addInterest(Interest i) {
+    public void addInterest(Interest i) throws Exception {
+        if(thing != null && !i.getThing().equals(thing)) {
+            throw new Exception("Wrong interest");
+        }
         prices.add(i.getPrice());
         counter++;
         if(i.isBuying())
@@ -67,6 +74,18 @@ class ThingInfo {
             result = (lowerMiddle + upperMiddle) / 2;
         }
         return result;
+    }
+
+    public int compareTo(Object t) {
+        if(!(t instanceof ThingInfo))
+            throw new ClassCastException();
+        ThingInfo ti = (ThingInfo)t;
+        if(this.counter > ti.getCounter())
+            return 1;
+        if(this.counter == ti.getCounter())
+            return 0;
+        else
+            return -1;
     }
 
 
