@@ -25,7 +25,6 @@ public class TradingSynonymFilter implements MessageFilter{
     private String replaceBuyingSynonyms(String s){
         Matcher m = buying.matcher(s);
         s = m.replaceAll("WTB");
-        String thing = null;
         m = buyingBefore.matcher(s);
         while(m.find()) {
             s = s.replaceAll(m.group(0), m.group(1) + "WTB " + m.group(2));
@@ -38,7 +37,6 @@ public class TradingSynonymFilter implements MessageFilter{
     private String replaceSellingSynonyms(String s){
         Matcher m = selling.matcher(s);
         s = m.replaceAll("WTS");
-        String thing = null;
         m = sellingBefore.matcher(s);
         while(m.find()) {
             s = s.replaceAll(m.group(0), m.group(1) + "WTS " + m.group(2));

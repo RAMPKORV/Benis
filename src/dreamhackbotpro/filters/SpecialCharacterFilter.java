@@ -14,9 +14,9 @@ public class SpecialCharacterFilter implements MessageFilter{
     @Override
     public void filter(Message m) {
         String s = m.getMessage();
-        s = s.replaceAll("[^a-zA-ZåäöÅÄÖ0-9\\:\\.\\-\\&\\!\\, ]", "");
-        s = s.replaceAll("\\:(?!\\-)","");
-        s = s.replaceAll("(?<!\\:)\\-(?![a-zA-Z0-9])","");
+        s = s.replaceAll("[^a-zA-ZåäöÅÄÖ0-9\\:\\.\\-\\&\\!\\?\\, ]", " ");
+        s = s.replaceAll("\\:(?!\\-)"," ");
+        s = s.replaceAll("(?<!\\:)\\-(?![a-zA-Z0-9])"," ");
         Matcher matcher = pattern.matcher(s);
         while(matcher.find()) {
             s = matcher.replaceAll("" + matcher.group().charAt(0));
