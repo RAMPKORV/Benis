@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Replaces delimeters with periods and adds space where it is missing
  * @author patrik
  */
 public class DelimeterFilter implements MessageFilter {
