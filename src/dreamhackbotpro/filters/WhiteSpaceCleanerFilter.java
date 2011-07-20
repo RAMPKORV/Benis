@@ -11,6 +11,7 @@ public class WhiteSpaceCleanerFilter implements MessageFilter {
     @Override
     public void filter(Message m) {
         m.setMessage(m.getMessage().trim().replaceAll("\\s+", " "));
+        m.setMessage(m.getMessage().replaceAll(" \\.","."));
     }
     
 }
