@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class User {
     
-    private List<Interest> interests = new ArrayList<Interest>();
+    private volatile List<Interest> interests = new ArrayList<Interest>();
     private Conversation conversation = null;
     private long lastMessage;
     private String name;
