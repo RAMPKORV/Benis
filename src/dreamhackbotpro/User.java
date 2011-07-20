@@ -61,8 +61,9 @@ public class User {
         float cmp = 0;
         Map<String, ThingInfo> things = Interest.getInterestsMap();
         for(Interest i : interests) {
-            median = things.get(i.getThing()).getMedian();
-            stdDev = things.get(i.getThing()).getStdDev();
+            ThingInfo ti = things.get(i.getThing());
+            median = ti.getMedian();
+            stdDev = ti.getStdDev();
             cmp = ((i.getPrice()-median)/stdDev);
             cmp = i.isBuying() ? cmp : -cmp;
             if(cmp > stdDevsMax) {
