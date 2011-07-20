@@ -45,7 +45,5 @@ public class Options {
     public String getFinger() {
         return finger;
     }
-
-    
-    
+      
 }

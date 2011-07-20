@@ -1,5 +1,7 @@
 package dreamhackbotpro;
 
+import java.util.regex.Pattern;
+
 /**
  * Basic buyer/seller and buyerthing/sellerthing replaces without any analysis.
  * @author patrik
@@ -18,13 +20,16 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public void transformMessage(Conversation c, Message m) {
-        //FIXME some of the strings may contain reserved regex characters
-        //FIXME the transformation of names is different depending on which user the message is from
-        m.setMessage(m.getMessage().replaceAll(c.getBuyer().getName(), "%SELLER%"));
-        m.setMessage(m.getMessage().replaceAll(c.getSeller().getName(), c.getBuyer().getName()));
-        m.setMessage(m.getMessage().replaceAll("%SELLER%", c.getSeller().getName()));
-        m.setMessage(m.getMessage().replaceAll(c.getBuyerThing(), "%SELLERTHING%"));
-        m.setMessage(m.getMessage().replaceAll(c.getSellerThing(), c.getBuyerThing()));
-        m.setMessage(m.getMessage().replaceAll("%SELLERTHING%", c.getSellerThing()));
+        // TODO: Fetch botNick from somewhere else
+        String botNick = "Monsquaz";
+        if(m.getFrom().equals(c.getBuyer().getName())) {
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(c.getBuyer().getName()), botNick));
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(botNick), c.getSeller().getName()));
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(c.getBuyerThing()), c.getSellerThing()));
+        } else {
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(c.getSeller().getName()), botNick));
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(botNick), c.getBuyer().getName()));
+            m.setMessage(m.getMessage().replaceAll("(?i)"+Pattern.quote(c.getSellerThing()), c.getBuyerThing()));
+        }
     }
 }
