@@ -61,8 +61,8 @@ public class MasterFilterTest extends MessageFilterTest {
     
     @Test
     public void testWTSNormal() {
-        checkFromTo("Säljer Snus! Original portion!", "WTS Snus! Original portion!"); //Bot should later ignore "Original portion!"
-        checkFromTo("WTB CIGG PAKET. OÖPPNAT!!!!! DU FÅR 60kr!!!", "WTB CIGG PAKET 60kr");
+        checkFromTo("Säljer Snus! Original portion!", "WTS Snus. Original portion."); //Bot should later ignore "Original portion!"
+        checkFromTo("WTB CIGG PAKET. OÖPPNAT!!!!! DU FÅR 60kr!!!", "WTB CIGG PAKET. OÖPPNAT. DU FÅR 60kr.");
     }
 
     @Test
@@ -73,8 +73,8 @@ public class MasterFilterTest extends MessageFilterTest {
 
     @Test
     public void testWTSComplex() {
-        checkFromTo("säljer wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353+ IL  ",
-                "WTS wow acc"); //ska Filter eller Bot känna av att det efter "med" är skitsnack?
+        checkFromTo("säljer wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353+ IL",
+                "WTS wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353 IL");
         checkFromTo("-------| STEELSERIES SIBERIA NECKBAND HEADSET TILL SALU, SKRIV BUD! |-----------", "WTS STEELSERIES SIBERIA NECKBAND HEADSET");
         checkFromTo("SÄLJER ICECOFFEE  , Sockerdricka och dextro mint BILLIGT!!!!!!!!!", "WTS ICECOFFEE. WTS Sockerdricka. WTS dextro mint");
         checkFromTo("musmatta steelseries 4HD Small s?ljes 100kr!", "WTS musmatta steelseries 4HD Small 100kr");
@@ -93,8 +93,8 @@ public class MasterFilterTest extends MessageFilterTest {
         checkFromTo("Jag    köper    snus",   "WTB snus");
         checkFromTo("Jag     köper     snus", "WTB snus");
         checkFromTo("Säljer xperia x1 >300kr<", "WTS xperia x1 300kr");
-        checkFromTo("WTB FNATIC MATTA!!!", "WTB FNATIC MATTA");
-        checkFromTo("wts powerkings pm", "WTS powerkings");
+        checkFromTo("WTB FNATIC MATTA!!!", "WTB FNATIC MATTA.");
+        checkFromTo("wts powerkings pm", "WTS powerkings pm");
     }
 
 }
