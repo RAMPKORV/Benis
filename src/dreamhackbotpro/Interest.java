@@ -31,5 +31,11 @@ public class Interest {
     public String getThing() {
         return thing;
     }
+
+    @Override
+    public String toString() {
+        return thing+'-'+price+'-'+wtb;
+    }
+    
     
 }
