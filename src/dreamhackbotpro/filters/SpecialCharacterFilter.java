@@ -17,8 +17,8 @@ public class SpecialCharacterFilter implements MessageFilter{
         String s = m.getMessage();
 //        Matcher matcher = pattern.matcher(m.getMessage());
         //FIXME
-        s = s.replaceAll("(!a-zA-ZåäöÅÄÖ\\.\\d,-&\\!)", " ");
-        
+        //s = s.replaceAll("(!a-zA-ZåäöÅÄÖ\\.\\d,-&\\!)", " ");
+        s = s.replaceAll("[^a-zA-ZåäöÅÄÖ0-9\\.\\-\\&\\!\\, ]", "");
         m.setMessage(s);
     }
     
