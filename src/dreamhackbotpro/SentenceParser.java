@@ -1,5 +1,8 @@
 package dreamhackbotpro;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *
  * @author wasd
@@ -22,6 +25,8 @@ public class SentenceParser {
      * @param s The sentence to parse
      * @return The the Interest parsed. null if no Interest found
      */
+    Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([A-Za-zÅÄÖåäö])+ ([1-9][0-9]*)+kr");
+    Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([A-Za-zÅÄÖåäö])+");
     public Interest parseSentences(String s){
         
         
@@ -36,7 +41,14 @@ public class SentenceParser {
          * if matches pattern: "(WTB|WTS) [A-Za-zÅÄÖåäö]+" Example: WTB snus
          *      return new Interest(secondWord, firstWord==WTB)
          */
-        
+         Matcher matcher = singleWordWithPrice.matcher(s);
+         if(matcher.find()) {
+             return new Interest(matcher.group(2), Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
+         }
+                 matcher = singleWordWithoutPrice.matcher(s);
+         if(matcher.find()) {
+             return new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
+         }
         
         //user parsePrice to parse the price if an item is found
         
