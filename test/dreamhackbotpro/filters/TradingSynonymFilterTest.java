@@ -56,6 +56,8 @@ public class TradingSynonymFilterTest extends MessageFilterTest {
         checkFromTo("wts snus","WTS snus");
         checkFromTo("snus säljes","WTS snus");
         checkFromTo("Hej på er. Snus säljes","Hej på er. WTS Snus");
+        checkFromTo("Säljer snus","WTS snus");
+        checkFromTo("SÄLJER snus","WTS snus");
     }
 
 }

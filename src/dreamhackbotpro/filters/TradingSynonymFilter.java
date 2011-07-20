@@ -20,8 +20,8 @@ public class TradingSynonymFilter implements MessageFilter{
         m.setMessage(s);
     }
 
-    private Pattern buying = Pattern.compile("(någon som säljer|någon som har|jag köper|jag vill ha|köper|wtb)", Pattern.CASE_INSENSITIVE);
-    private Pattern buyingBefore = Pattern.compile("(^|\\. )([^\\. ]+) köpes", Pattern.CASE_INSENSITIVE);
+    private Pattern buying = Pattern.compile("(någon som säljer|någon som har|jag köper|jag vill ha|köper|wtb)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    private Pattern buyingBefore = Pattern.compile("(^|\\. )([^\\. ]+) köpes", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     private String replaceBuyingSynonyms(String s){
         Matcher m = buying.matcher(s);
         s = m.replaceAll("WTB");
@@ -32,8 +32,8 @@ public class TradingSynonymFilter implements MessageFilter{
         return s;
     }
     
-    private Pattern selling = Pattern.compile("(jag säljer|jag vill sälja|säljer|wts)", Pattern.CASE_INSENSITIVE);
-    private Pattern sellingBefore = Pattern.compile("(^|\\. )([^\\. ]+) (säljes|till salu)", Pattern.CASE_INSENSITIVE);
+    private Pattern selling = Pattern.compile("(jag säljer|jag vill sälja|säljer|wts)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    private Pattern sellingBefore = Pattern.compile("(^|\\. )([^\\. ]+) (säljes|till salu)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     private String replaceSellingSynonyms(String s){
         Matcher m = selling.matcher(s);
         s = m.replaceAll("WTS");

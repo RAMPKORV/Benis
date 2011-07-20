@@ -68,7 +68,7 @@ public class MasterFilterTest extends MessageFilterTest {
     @Test
     public void testWTBComplex() {
         checkFromTo("Någon som säljer<--------> WOW GULD?!!!!!", "WTB WOW GULD.");
-        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE. WTS SKIN TILL TRYNDA OCH SINGED");
+        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE. WTS SKIN TILL TRYNDA OCH SINGED.");
     }
 
     @Test

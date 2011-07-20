@@ -24,6 +24,7 @@ public class CompositeMessageFilter implements MessageFilter {
     public void filter(Message m) {
         for(MessageFilter mf : filters) {
             mf.filter(m);
+            System.out.println(m.getMessage());
         }
     }
 

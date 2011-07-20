@@ -13,7 +13,7 @@ public class MasterFilter extends CompositeMessageFilter {
         addMessageFilter(new PriceSynonymFilter());
         
         addMessageFilter(new DelimeterFilter());
-        
+
         addMessageFilter(new TradingSynonymFilter());
     }
 }
