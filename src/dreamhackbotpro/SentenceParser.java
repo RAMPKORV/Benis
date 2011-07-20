@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  */
 public class SentenceParser {
 
-    private Pattern widthoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)");
+    private Pattern withoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)");
     private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+?) ([1-9][0-9]*)kr");
     private static SentenceParser instance;
 
@@ -52,7 +52,6 @@ public class SentenceParser {
             if (result == null) {
                 result = found;
             }
-            return result;
         }
 
         // Return if we already have our stuff
@@ -60,7 +59,7 @@ public class SentenceParser {
             return result;
         }
 
-        matcher = widthoutPrice.matcher(s);
+        matcher = withoutPrice.matcher(s);
         while (matcher.find()) {
             thing = matcher.group(2);
             words = thing.split(" ");
@@ -72,7 +71,6 @@ public class SentenceParser {
             if (result == null) {
                 result = found;
             }
-            return result;
         }
 
         //user parsePrice to parse the price if an item is found
