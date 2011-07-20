@@ -67,15 +67,15 @@ public class MasterFilterTest extends MessageFilterTest {
 
     @Test
     public void testWTBComplex() {
-        checkFromTo("Någon som säljer<--------> WOW GULD?!!!!!", "WTB WOW GULD");
-        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE");
+        checkFromTo("Någon som säljer<--------> WOW GULD?!!!!!", "WTB WOW GULD.");
+        checkFromTo("||WTB CIGG & TÄNDARE||SÄLJER SKIN TILL TRYNDA OCH SINGED||", "WTB CIGG & TÄNDARE. WTS SKIN TILL TRYNDA OCH SINGED");
     }
 
     @Test
     public void testWTSComplex() {
         checkFromTo("säljer wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353+ IL",
                 "WTS wow acc med spel tid biligt har 3 85 warrior,hunter,shamman alla har fult pvp gear men shamman och warriorn har dugligt gear för pve runt 353 IL");
-        checkFromTo("-------| STEELSERIES SIBERIA NECKBAND HEADSET TILL SALU, SKRIV BUD! |-----------", "WTS STEELSERIES SIBERIA NECKBAND HEADSET");
+        checkFromTo("-------| STEELSERIES SIBERIA NECKBAND HEADSET TILL SALU, SKRIV BUD! |-----------", "WTS STEELSERIES SIBERIA NECKBAND HEADSET, SKRIV BUD.");
         checkFromTo("SÄLJER ICECOFFEE  , Sockerdricka och dextro mint BILLIGT!!!!!!!!!", "WTS ICECOFFEE. WTS Sockerdricka. WTS dextro mint");
         checkFromTo("musmatta steelseries 4HD Small s?ljes 100kr!", "WTS musmatta steelseries 4HD Small 100kr");
         checkFromTo("ACE EDGE3200 gaming mouse säljes eller bytes mot en mionix naos5000 PM!", "WTS ACE EDGE3200 gaming mouse");
