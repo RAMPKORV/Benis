@@ -85,6 +85,12 @@ public class MasterFilterTest extends MessageFilterTest {
         checkFromTo("Säljer Keyboard Ace AC-KC6 100kr. och Ikari optical mus! 150kr", "WTS Keyboard Ace AC-KC6 100kr. WTS Ikari optical mus 150kr");
         checkFromTo("********--------> säljer Razer DEATHADDER (PM) <-------  10kr         *****", "WTS Razer DEATHADDER PM 10kr");
     }
+    
+    @Test
+    public void testMeh(){
+        checkFromTo("A B TILL SALU", "WTS A B");
+//        checkFromTo("STEELSERIES SIBERIA NECKBAND HEADSET TILL SALU", "WTS STEELSERIES SIBERIA NECKBAND HEADSET");
+    }
 
     @Test
     public void testCrapRemoval() {

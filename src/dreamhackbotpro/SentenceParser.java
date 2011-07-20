@@ -24,6 +24,9 @@ public class SentenceParser {
      */
     public Interest parseSentence(String s){
         
+        //first check: (WTB|WTS) [A-Za-zÅÄÖåäö]+ \d+kr
+        //if it fails, move on to more advanced parsing
+        
         //user parsePrice to parse the price if an item is found
         
         return null;
