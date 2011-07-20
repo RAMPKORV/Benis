@@ -22,10 +22,21 @@ public class SentenceParser {
      * @param s The sentence to parse
      * @return The the Interest parsed. null if no Interest found
      */
-    public Interest parseSentence(String s){
+    public Interest parseSentences(String s){
         
-        //first check: (WTB|WTS) [A-Za-zÅÄÖåäö]+ \d+kr
-        //if it fails, move on to more advanced parsing
+        
+        //Problem:
+        //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
+        //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
+        
+        /**psuedo code:
+         * if matches pattern: "(WTB|WTS) [A-Za-zÅÄÖåäö]+ \d+kr" Example: WTB snus 50kr
+         *      return new Interest(secondWord, parseInt(thirdWord without kr), firstWord==WTB)
+         * 
+         * if matches pattern: "(WTB|WTS) [A-Za-zÅÄÖåäö]+" Example: WTB snus
+         *      return new Interest(secondWord, firstWord==WTB)
+         */
+        
         
         //user parsePrice to parse the price if an item is found
         
