@@ -59,5 +59,17 @@ public class TradingSynonymFilterTest extends MessageFilterTest {
         checkFromTo("Säljer snus","WTS snus");
         checkFromTo("SÄLJER snus","WTS snus");
     }
+    
+    @Test
+    public void testReverseSynonyms(){
+        checkFromTo("X TILL SALU", "WTS X");
+        checkFromTo("A B TILL SALU", "WTS A B");
+        
+        checkFromTo("X KÖPES", "WTB X");
+        checkFromTo("A B KÖPES", "WTB A B");
+        
+        checkFromTo("X SÄLJES", "WTS X");
+        checkFromTo("A B SÄLJES", "WTS A B");
+    }
 
 }
