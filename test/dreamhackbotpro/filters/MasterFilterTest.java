@@ -83,6 +83,7 @@ public class MasterFilterTest extends MessageFilterTest {
         checkFromTo("Säljer Kämd Razer mus, den som ger bud får köpa innom 1 minut!!!!!!", "WTS Kämd Razer mus");
         checkFromTo("säljer ett steel series shift tangent bord 400", "WTS steel series shift tangent bord 400");
         checkFromTo("Säljer Keyboard Ace AC-KC6 100kr. och Ikari optical mus! 150kr", "WTS Keyboard Ace AC-KC6 100kr. WTS Ikari optical mus 150kr");
+        checkFromTo("********--------> säljer Razer DEATHADDER (PM) <-------  10kr         *****", "WTS Razer DEATHADDER PM 10kr");
     }
 
     @Test

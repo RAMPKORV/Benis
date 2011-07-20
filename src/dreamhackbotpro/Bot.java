@@ -33,21 +33,8 @@ public class Bot implements IrcListener{
         
         //handle each sentence individually
         for(String s : m.getMessage().split("\\.(?![0-9])")){
-            parseSentence(user, s);
+            SentenceParser.getInstance().parseSentence(user, s);
         }
-    }
-    
-    /**
-     * Parse a sentence to see what the user wants to buy or sell
-     * @param u The User who said the sentence
-     * @param s The sentence to parse
-     */
-    private void parseSentence(User u, String s){
-        //TODO
-        
-        //if \d+kr not found, check for any separate number
-        //side effect: model numbers may be only numbers
-        //weak solution: Only interpret separate numbers that ends with 0 as prices.
     }
 
     @Override
