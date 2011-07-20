@@ -55,6 +55,7 @@ public class SentenceParserTest {
     @Test
     public void testParseHard() {
         expectedInterest("WTS ett steel series shift tangent bord 400.", "tangentbord", 400, false);
+        expectedInterest("För endast 45kr så WTS jag ett paket cigg.", "cigg", 45, false);
     }
     
     private void expectedInterest(String sentence, String thing, int price, boolean wtb){

@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
  */
 public class SentenceParser {
     
+    //FIXME matches multiple words
+    private Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+) ([1-9][0-9]*)kr");
+    private Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+)");
+    
     private static SentenceParser instance;
     
     private SentenceParser() {}
@@ -25,8 +29,6 @@ public class SentenceParser {
      * @param s The sentence to parse
      * @return The the Interest parsed. null if no Interest found
      */
-    Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+) ([1-9][0-9]*)kr");
-    Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+)");
     public Interest parseSentences(String s){   
         //Problem:
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
