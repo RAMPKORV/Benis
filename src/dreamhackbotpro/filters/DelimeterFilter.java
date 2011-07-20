@@ -18,6 +18,8 @@ public class DelimeterFilter implements MessageFilter {
     public void filter(Message m) {
         m.setMessage(m.getMessage().replaceAll("[\\|\\(\\)\\{\\}/'\\\":!?\\.]+", "."));
         m.setMessage(m.getMessage().replaceAll("^\\.", ""));
+        m.setMessage(m.getMessage().replaceAll("[ ]+\\.", "."));
+        m.setMessage(m.getMessage().replaceAll("[\\.]{2,}", "."));
         Matcher matcher = pattern.matcher(m.getMessage());
         while(matcher.find()) {
             m.setMessage(matcher.replaceAll(". " + matcher.group(1)));

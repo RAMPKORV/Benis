@@ -15,5 +15,7 @@ public class MasterFilter extends CompositeMessageFilter {
         addMessageFilter(new DelimeterFilter());
 
         addMessageFilter(new TradingSynonymFilter());
+
+        addMessageFilter(new WhiteSpaceCleanerFilter());
     }
 }
