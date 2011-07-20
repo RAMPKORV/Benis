@@ -22,6 +22,10 @@ public class ThingInfo implements Comparable {
     private boolean changed = true;
     private float median = 0;
 
+    public String getThing() {
+        return thing;
+    }
+
     ThingInfo(Interest i) {
         thing = i.getThing();
         try {
@@ -79,7 +83,7 @@ public class ThingInfo implements Comparable {
         if(!(t instanceof ThingInfo))
             throw new ClassCastException();
         ThingInfo ti = (ThingInfo)t;
-        if(this.counter > ti.getCounter())
+        if(this.counter < ti.getCounter())
             return 1;
         if(this.counter == ti.getCounter())
             return 0;
