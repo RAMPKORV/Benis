@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public class SentenceParser {
     
     //FIXME matches multiple words
-    private Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+) ([1-9][0-9]*)kr");
-    private Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+)");
+    private Pattern widthoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)");
+    private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+?) ([1-9][0-9]*)kr");
     
     private static SentenceParser instance;
     
@@ -33,15 +33,16 @@ public class SentenceParser {
         //Problem:
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
         //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
-        
-         Matcher matcher = singleWordWithPrice.matcher(s);
-         if(matcher.find()) { 
+
+         Matcher matcher = withPrice.matcher(s);
+         if(matcher.find()) { System.out.println("WITHPRICE " + matcher.group(0));
              return new Interest(matcher.group(2), Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
          }
-         matcher = singleWordWithoutPrice.matcher(s);
-         if(matcher.find()) { 
+         matcher = widthoutPrice.matcher(s);
+         if(matcher.find()) { System.out.println("WITHOUTPRICE " + matcher.group(0));
              return new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
          }
+
         
         //user parsePrice to parse the price if an item is found
         
