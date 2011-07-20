@@ -4,7 +4,6 @@ import dreamhackbotpro.filters.MasterFilter;
 import dreamhackbotpro.filters.MessageFilter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * A class that finds out what users are interested in based on messages and connects users together

@@ -45,8 +45,11 @@ public class SpecialCharacterFilterTest extends MessageFilterTest {
     @Test
     public void testFilter() {
         checkFromTo("köpes >>SNUS<<","köpes SNUS");
-        checkFromTo("-------- SPAM --------","- SPAM -");
-        checkFromTo("-_-_-_-_ SPAM -_-_-_-_","- SPAM -");
+        checkFromTo("-------- SPAM --------","SPAM");
+        checkFromTo("-_-_-_-_ SPAM -_-_-_-_","SPAM");
+        checkFromTo("Köper ::: snus :::", "Köper snus");
+        checkFromTo("Säljer snus: 20:-", "Säljer snus 20:-");
+        checkFromTo("Jag säljer en --- >> X-53 << --- 57:-", "Jag säljer en X-53 57:-");
     }
 
 }
