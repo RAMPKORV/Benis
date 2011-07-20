@@ -52,7 +52,7 @@ public class SentenceParserTest {
     }
     
     private void expectedInterest(String sentence, String thing, int price, boolean wtb){
-        checkFromTo(thing, thing+'-'+price+'-'+wtb);
+        checkFromTo(sentence, thing+'-'+price+'-'+wtb);
     }
     
     private void checkFromTo(String from, String to) {

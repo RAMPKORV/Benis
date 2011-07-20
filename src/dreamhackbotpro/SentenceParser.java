@@ -25,11 +25,9 @@ public class SentenceParser {
      * @param s The sentence to parse
      * @return The the Interest parsed. null if no Interest found
      */
-    Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([A-Za-zÅÄÖåäö])+ ([1-9][0-9]*)+kr");
-    Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([A-Za-zÅÄÖåäö])+");
-    public Interest parseSentences(String s){
-        
-        
+    Pattern singleWordWithPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+) ([1-9][0-9]*)kr");
+    Pattern singleWordWithoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ]+)");
+    public Interest parseSentences(String s){   
         //Problem:
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
         //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
@@ -42,11 +40,11 @@ public class SentenceParser {
          *      return new Interest(secondWord, firstWord==WTB)
          */
          Matcher matcher = singleWordWithPrice.matcher(s);
-         if(matcher.find()) {
+         if(matcher.find()) { 
              return new Interest(matcher.group(2), Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
          }
-                 matcher = singleWordWithoutPrice.matcher(s);
-         if(matcher.find()) {
+         matcher = singleWordWithoutPrice.matcher(s);
+         if(matcher.find()) { 
              return new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
          }
         
