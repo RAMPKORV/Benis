@@ -9,8 +9,10 @@ public class Options {
     private int maxActiveConversations=20;
     private long inactiveTimeLimit=2*60; //2 minutes
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
-    
+    private String finger = "Toe";
+
     private static Options instance = null;
+
     
     private Options(){}
     
@@ -38,6 +40,10 @@ public class Options {
 
     public String getVersion() {
         return version;
+    }
+
+    public String getFinger() {
+        return finger;
     }
 
     

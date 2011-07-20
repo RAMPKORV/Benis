@@ -173,6 +173,11 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     }
 
     @Override
+    protected void onFinger(String sourceNick, String sourceLogin, String sourceHostname, String target) {
+        this.sendRawLine("NOTICE " + sourceNick + " :\u0001FINGER " + Options.getInstance().getFinger() + "\u0001");
+    }
+
+    @Override
     public void onConversationMessage(Message m) {
         if(opUsers.contains(m.getTo()))
             return;
