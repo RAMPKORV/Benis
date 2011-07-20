@@ -6,7 +6,6 @@
 package dreamhackbotpro;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  *
  * @author patrik
  */
-class ThingInfo implements Comparable {
+public class ThingInfo implements Comparable {
     private String thing = null;
     private long counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();

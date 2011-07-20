@@ -19,6 +19,14 @@ public class Interest {
     private static Map<String,ThingInfo> interestsMap = new WeakHashMap<String,ThingInfo>();
     private static SortedSet<ThingInfo> interestsSorted = new TreeSet<ThingInfo>();
 
+    public static Map<String, ThingInfo> getInterestsMap() {
+        return interestsMap;
+    }
+
+    public static SortedSet<ThingInfo> getInterestsSorted() {
+        return interestsSorted;
+    }
+    
     public Interest(String thing, boolean wtb){
         this(thing, -1, wtb);
     }
