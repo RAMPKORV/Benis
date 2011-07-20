@@ -7,6 +7,7 @@ package dreamhackbotpro;
 public class Options {
     
     private int maxActiveConversations=20;
+    private int secondsBetweenNewConversation=15;
     private long inactiveTimeLimit=2*60; //2 minutes
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
@@ -44,6 +45,14 @@ public class Options {
 
     public String getFinger() {
         return finger;
+    }
+
+    public int getSecondsBetweenNewConversation() {
+        return secondsBetweenNewConversation;
+    }
+
+    public void setSecondsBetweenNewConversation(int secondsBetweenNewConversation) {
+        this.secondsBetweenNewConversation = secondsBetweenNewConversation;
     }
       
 }
