@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
  */
 public class SentenceParser {
     
-    //FIXME matches multiple words
     private Pattern widthoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)");
     private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+?) ([1-9][0-9]*)kr");
     
@@ -34,19 +33,44 @@ public class SentenceParser {
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
         //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
 
+         Interest result = null;
+         Interest found = null;
+         String thing = null;
+         String[] words = null;
+
          Matcher matcher = withPrice.matcher(s);
-         if(matcher.find()) { System.out.println("WITHPRICE " + matcher.group(0));
-             return new Interest(matcher.group(2), Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
-         }
-         matcher = widthoutPrice.matcher(s);
-         if(matcher.find()) { System.out.println("WITHOUTPRICE " + matcher.group(0));
-             return new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
+         while(matcher.find()) {
+             thing = matcher.group(2);
+             words = thing.split(" ");
+             if(words.length > 1)
+                 thing = parseThing(matcher.group(2));
+             // We return the first result, but create the others anyway.
+             found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
+             if(result == null)
+                 result = found;
+             return result;
          }
 
-        
+         // Return if we already have our stuff
+         if(result != null)
+             return result;
+
+         matcher = widthoutPrice.matcher(s);
+         while(matcher.find()) {
+             thing = matcher.group(2);
+             words = thing.split(" ");
+             if(words.length > 1)
+                 thing = parseThing(matcher.group(2));
+             // We return the first result, but create the others anyway.
+             found = new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
+             if(result == null)
+                 result = found;
+             return result;
+         }
+
         //user parsePrice to parse the price if an item is found
         
-        return null;
+        return result;
     }
     
     /**
@@ -63,6 +87,11 @@ public class SentenceParser {
         //problem: if "orginalpris 100kr" found, it will think that that's the price that the item is being sold for
         
         return -1;
+    }
+
+    public String parseThing(String thing) {
+        // For now, simply return the first word.
+        return thing.split(" ")[0];
     }
     
 }
