@@ -36,10 +36,12 @@ public class Interest {
         this.price = price;
         this.wtb = wtb;
         try {
-            if(interestsMap.containsKey(thing)) {
-                interestsMap.get(thing).addInterest(this);
-            } else {
-                ThingInfo ti = new ThingInfo(this);
+            ThingInfo ti = interestsMap.get(thing);
+            if(ti!=null){
+                ti.addInterest(this);
+            }
+            else{
+                ti = new ThingInfo(this);
                 interestsMap.put(thing, ti);
                 interestsSorted.add(ti);
             }
