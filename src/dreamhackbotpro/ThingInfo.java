@@ -19,8 +19,10 @@ public class ThingInfo implements Comparable {
     private List<Integer> prices = new ArrayList<Integer>();
     private int buyers = 0;
     private int sellers = 0;
-    private boolean changed = true;
+    private boolean medianCalculated = false;
+    private boolean stdDevCalculated = false;
     private float median = 0;
+    private float stdDev = 0;
 
     public String getThing() {
         return thing;
@@ -46,12 +48,29 @@ public class ThingInfo implements Comparable {
     }
 
     public float getMedian() {
-        if(!changed)
+        if(medianCalculated)
             return median;
         Collections.sort(prices);
         median = med(prices);
-        changed = false;
+        medianCalculated = false;
         return median;
+    }
+
+    /**
+     * Get standard deviant, where median is taken as average
+     * @return
+     */
+    public float getStdDev() {
+        if(stdDevCalculated)
+            return stdDev;
+        float med = getMedian();
+        float result = 0;
+        for(Integer i : prices) {
+            result += (i - med)*(i - med);
+        }
+        result = (float) Math.sqrt(result / counter);
+        stdDevCalculated = true;
+        return result;
     }
 
     public void addInterest(Interest i) throws Exception {
@@ -64,7 +83,8 @@ public class ThingInfo implements Comparable {
             buyers++;
         else
             sellers++;
-        changed = true;
+        medianCalculated = false;
+        stdDevCalculated = false;
     }
 
     public static float med(List<Integer> data) {
