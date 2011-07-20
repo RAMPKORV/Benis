@@ -2,6 +2,7 @@ package dreamhackbotpro;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -50,6 +51,26 @@ public class User {
      */
     public int getAmountOfInterests(){
         return interests.size();
+    }
+
+    public Interest getPrioritizedInterest() {
+        Interest result = null;
+        float stdDevsMax = 0;
+        float stdDev = -10;
+        float median = 0;
+        float cmp = 0;
+        Map<String, ThingInfo> things = Interest.getInterestsMap();
+        for(Interest i : interests) {
+            median = things.get(i.getThing()).getMedian();
+            stdDev = things.get(i.getThing()).getStdDev();
+            cmp = ((i.getPrice()-median)/stdDev);
+            cmp = i.isBuying() ? cmp : -cmp;
+            if(cmp > stdDevsMax) {
+                stdDevsMax = Math.abs(stdDev);
+                result = i;
+            }
+        }
+        return result;
     }
 
     /**
