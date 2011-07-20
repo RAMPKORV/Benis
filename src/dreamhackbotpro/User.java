@@ -66,7 +66,7 @@ public class User {
             cmp = ((i.getPrice()-median)/stdDev);
             cmp = i.isBuying() ? cmp : -cmp;
             if(cmp > stdDevsMax) {
-                stdDevsMax = stdDev;
+                stdDevsMax = Math.abs(stdDev);
                 result = i;
             }
         }
