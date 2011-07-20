@@ -43,6 +43,8 @@ public class SentenceParserTest {
     public void testParseSimple() {
         expectedInterest("WTB snus 50kr", "snus", 50, true);
         expectedInterest("WTS snus 50kr", "snus", 50, false);
+        expectedInterest("WTB snus", "snus", -1, true);
+        expectedInterest("WTS wow acc med två 80s", "wow acc", -1, false);
     }
     
     private void expectedInterest(String sentence, String thing, int price, boolean wtb){
