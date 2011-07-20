@@ -33,6 +33,7 @@ public class SentenceParser {
         //Problem:
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
         //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
+        //Possible solution: Add a filter that merges the sentences. Something like "(WTB|WTS) +(!\d+kr) +\. (!WTB|WTS) +\d+kr" then replace . with ,
         
          Matcher matcher = singleWordWithPrice.matcher(s);
          if(matcher.find()) { 

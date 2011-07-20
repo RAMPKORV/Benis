@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
@@ -31,10 +30,8 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
         
         left.weightx = 0.05;
         left.gridwidth = GridBagConstraints.RELATIVE;
-        left.fill = 300;
         
         right.fill = GridBagConstraints.HORIZONTAL;
-        right.anchor = GridBagConstraints.NORTHWEST;
         right.weightx = 1.0;
         right.gridwidth = GridBagConstraints.REMAINDER;
         right.insets = new Insets(5, 5, 5, 5);

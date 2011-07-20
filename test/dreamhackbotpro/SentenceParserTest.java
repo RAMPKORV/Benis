@@ -44,6 +44,7 @@ public class SentenceParserTest {
     @Test
     public void testParseCommon() {
         expectedInterest("WTS wow acc med två 80s", "wow acc", -1, false);
+        expectedInterest("WTS powerking billigt", "powerking", -1, false); //Should a filter remove 'billigt'?
     }
     
     @Test
