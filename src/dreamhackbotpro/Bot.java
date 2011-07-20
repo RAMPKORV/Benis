@@ -14,6 +14,7 @@ public class Bot implements IrcListener{
     private Map<String, User> users = new HashMap<String, User>();
     private User orphanUser = null;
     private MessageFilter messageFilter = new MasterFilter();
+    private SentenceParser parser = SentenceParser.getInstance();
 
     public Bot(){
     }
@@ -32,7 +33,10 @@ public class Bot implements IrcListener{
         
         //handle each sentence individually
         for(String s : m.getMessage().split("\\.(?![0-9])")){
-            SentenceParser.getInstance().parseSentence(user, s);
+            Interest i = parser.parseSentence(s);
+            if(i!=null){
+                user.addInterest(i);
+            }
         }
     }
 

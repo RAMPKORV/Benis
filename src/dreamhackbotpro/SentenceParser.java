@@ -20,11 +20,13 @@ public class SentenceParser {
      * Parse a sentence to see what the user wants to buy or sell
      * @param u The User who said the sentence
      * @param s The sentence to parse
+     * @return The the Interest parsed. null if no Interest found
      */
-    public void parseSentence(User u, String s){
+    public Interest parseSentence(String s){
         
         //user parsePrice to parse the price if an item is found
-        //if sentence is informative, make an Interest and add it to User u.
+        
+        return null;
     }
     
     /**
