@@ -33,7 +33,7 @@ public class Bot implements IrcListener{
         
         //handle each sentence individually
         for(String s : m.getMessage().split("\\.(?![0-9])")){
-            Interest i = parser.parseSentence(s);
+            Interest i = parser.parseSentences(s);
             if(i!=null){
                 user.addInterest(i);
             }

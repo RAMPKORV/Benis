@@ -52,7 +52,7 @@ public class SentenceParserTest {
     }
     
     private void checkFromTo(String from, String to) {
-        assertEquals(to, parser.parseSentence(from).toString());
+        assertEquals(to, parser.parseSentences(from).toString());
     }
 
 }
