@@ -28,7 +28,7 @@ public class ThingInfo implements Comparable {
         return thing;
     }
 
-    ThingInfo(Interest i) {
+    public ThingInfo(Interest i) {
         thing = i.getThing();
         try {
             addInterest(i);
