@@ -11,13 +11,22 @@ public class Message {
         this.message = message;
         this.to = to;
     }
+    
+    /**
+     * Used when the receiver is unknown or the message is in the global chat
+     * @param from
+     * @param message
+     */
+    public Message(String from, String message) {
+        this(from, message, null);
+    }
 
     /**
      * Convenience constructor for quick testing
      * @param message
      */
     public Message(String message) {
-        this.message = message;
+        this(null, message, null);
     }
 
     public String getFrom() {

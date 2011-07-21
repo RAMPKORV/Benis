@@ -1,37 +1,81 @@
 package benchmarks;
 
+import dreamhackbotpro.Message;
+import java.util.List;
+
 /**
  * Benchmarking for which way is faster to filter messages that already has been said
  * @author wasd
  */
 public class BenchmarkPreviousMessageChecker {
     
+    private static List<Message> log;
+    
     public static void main(String[] args) {
         
-        //BUG the list who runs first is mostly slower. Swap the order when testing
-        //UserMapWithMessageSet seems faster
-        
-
         float totalTime = 0f;
         
-        totalTime = 0f;
-        for (int i = 0; i < 10; i++) {
-            totalTime+=benchmarkV2(new UserWithTreeSet());
+        try {
+            log = ChatLog4000.getLog();
+        } catch (Exception e) {
+            //file probably not found
+            System.out.println("Error: "+e.getMessage());
+            return;
         }
-        System.out.println("UserWithTreeSet V2 total: "+totalTime);
+        
+        System.out.println(" - Please note: The benchmark that runs first is extra slow - ");
         
         totalTime = 0f;
         for (int i = 0; i < 10; i++) {
-            totalTime+=benchmarkV2(new UserMapWithMessageSet());
+            totalTime+=benchmarkV3(new UserPlusMessageHash());
         }
-        System.out.println("UserMapWithMessageSet V2 total: "+totalTime);
+        System.out.println("UserPlusMessageHash V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserPlusMessageHash());
+        }
+        System.out.println("UserPlusMessageHash V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserPlusMessageHash());
+        }
+        System.out.println("UserPlusMessageHash V3 total: "+totalTime);
+        
+        
         
         totalTime = 0f;
         for (int i = 0; i < 10; i++) {
-            totalTime+=benchmarkV2(new UserPlusMessageHash());
+            totalTime+=benchmarkV3(new UserWithTreeSet());
         }
-        System.out.println("UserPlusMessageHash V2 total: "+totalTime);
-
+        System.out.println("UserWithTreeSet V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserWithTreeSet());
+        }
+        System.out.println("UserWithTreeSet V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserWithTreeSet());
+        }
+        System.out.println("UserWithTreeSet V3 total: "+totalTime);
+        
+        
+        
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserMapWithMessageSet());
+        }
+        System.out.println("UserMapWithMessageSet V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserMapWithMessageSet());
+        }
+        System.out.println("UserMapWithMessageSet V3 total: "+totalTime);
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV3(new UserMapWithMessageSet());
+        }
+        System.out.println("UserMapWithMessageSet V3 total: "+totalTime);
         
     }
     
@@ -101,11 +145,15 @@ public class BenchmarkPreviousMessageChecker {
         return time;
     }
     
+    /**
+     * Run through ChatLog4000. Most realistic scenario.
+     */
     private static float benchmarkV3(PreviousMessageChecker list){
         long start = System.nanoTime();
         
-        //TODO run through a version of dhtradelog without timestamp and server messages
-        //use gotMessage
+        for(Message m : log){
+            gotMessage(m.getFrom(), m.getMessage(), list);
+        }
         
         long end = System.nanoTime();
         end = end-start;
