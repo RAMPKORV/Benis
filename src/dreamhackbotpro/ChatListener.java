@@ -4,7 +4,7 @@ package dreamhackbotpro;
  *
  * @author patrik
  */
-public interface IrcListener {
+public interface ChatListener {
 
     public void onMessage(Message m);
     public void onNameChange(String oldName, String newName);

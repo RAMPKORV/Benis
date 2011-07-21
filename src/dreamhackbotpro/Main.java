@@ -13,9 +13,9 @@ public class Main {
         IrcHandler irc = new IrcHandler("Monsquaz","irc.quakenet.org","#dreamhack.trade");
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
-        irc.addIrcListener(bot);
+        irc.addChatListener(bot);
         GUI gui = new GUI();
-        irc.addIrcListener(gui);
+        irc.addChatListener(gui);
         Conversation.addConversationsListener(gui);
         SeatReader seatReader = new SeatReader();
         Conversation.addConversationsListener(seatReader);

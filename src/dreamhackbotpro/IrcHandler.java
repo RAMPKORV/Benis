@@ -15,14 +15,14 @@ import org.jibble.pircbot.PircBot;
  *
  * @author patrik
  */
-public class IrcHandler extends PircBot implements ConversationsListener {
+public class IrcHandler extends PircBot implements ChatObservable, ConversationsListener {
 
     private String ircNick;
     private String ircServer;
     private String ircChannel;
 
     private Set<String> opUsers = new HashSet<String>();
-    private Set<IrcListener> listeners = new HashSet<IrcListener>();
+    private Set<ChatListener> listeners = new HashSet<ChatListener>();
     
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
@@ -78,7 +78,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
 
 
     private void error(String msg) {
-        for(IrcListener l : listeners) {
+        for(ChatListener l : listeners) {
             l.onError(msg);
         }
     }
@@ -106,11 +106,13 @@ public class IrcHandler extends PircBot implements ConversationsListener {
         joinChannel(ircChannel);
     }
 
-    public void addIrcListener(IrcListener l) {
+    @Override
+    public void addChatListener(ChatListener l) {
         listeners.add(l);
     }
 
-    public void removeIrcListener(IrcListener l) {
+    @Override
+    public void removeChatListener(ChatListener l) {
         listeners.remove(l);
     }
 
@@ -121,7 +123,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
         
         //TODO see BenchmarkPreviousMessageChecker and implement one of the lists
         
-        for(IrcListener l : listeners) {
+        for(ChatListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
         }
     }
@@ -130,7 +132,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
         if(opUsers.contains(sender))
             return;
-        for(IrcListener l : listeners) {
+        for(ChatListener l : listeners) {
             l.onPrivateMessage(new Message(sender, message, null));
         }
     }
@@ -141,7 +143,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
             opUsers.remove(oldNick);
             opUsers.add(newNick);
         } else {
-            for(IrcListener l : listeners) {
+            for(ChatListener l : listeners) {
                 l.onNameChange(oldNick,newNick);
             }
         }
@@ -151,7 +153,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
         if(opUsers.contains(nick)) {
             opUsers.remove(nick);
         } else {
-            for(IrcListener l : listeners) {
+            for(ChatListener l : listeners) {
                 l.onQuit(nick);
             }
         }

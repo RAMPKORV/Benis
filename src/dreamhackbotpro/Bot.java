@@ -9,7 +9,7 @@ import java.util.Map;
  * A class that finds out what users are interested in based on messages and connects users together
  * @author wasd
  */
-public class Bot implements IrcListener{
+public class Bot implements ChatListener{
     
     private Map<String, User> users = new HashMap<String, User>();
     private User orphanUser = null;
