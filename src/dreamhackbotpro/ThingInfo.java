@@ -17,8 +17,8 @@ public class ThingInfo implements Comparable {
     private String thing = null;
     private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
-    private int minPrice = Integer.MAX_VALUE;
-    private int maxPrice = Integer.MIN_VALUE;
+    private int minPrice = -1;
+    private int maxPrice = -1;
     private int buyers = 0;
     private int sellers = 0;
     private boolean medianCalculated = false;
@@ -85,9 +85,11 @@ public class ThingInfo implements Comparable {
             buyers++;
         else
             sellers++;
-        if(i.getPrice()>maxPrice)
+        
+        //FIXME: some stuff get -1 as minPrice and a normal number such as 50 as maxPrice
+        if(i.getPrice()>maxPrice || maxPrice==-1)
             maxPrice=i.getPrice();
-        if(i.getPrice()<minPrice && i.getPrice()!=-1)
+        if(i.getPrice()<minPrice || minPrice==-1)
             minPrice=i.getPrice();
         medianCalculated = false;
         stdDevCalculated = false;
