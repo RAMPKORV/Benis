@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class UserWithTreeList implements PreviousMessageChecker {
+public class UserWithTreeSet implements PreviousMessageChecker {
     Map<String,SortedSet<Integer>> map = new HashMap<String,SortedSet<Integer>>();
 
     public void add(String name, String message) {
