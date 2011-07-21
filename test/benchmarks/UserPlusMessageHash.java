@@ -15,13 +15,13 @@ public class UserPlusMessageHash implements PreviousMessageChecker{
     }
     
     @Override
-    public boolean contains(String name, String message){
-        return hashes.contains(name.concat(message).hashCode());
+    public boolean contains(String user, String message){
+        return hashes.contains(user.concat(message).hashCode());
     }
 
     @Override
-    public void add(String name, String message) {
-        int hash = name.concat(message).hashCode();
+    public void add(String user, String message) {
+        int hash = user.concat(message).hashCode();
         hashes.add(hash);
     }
     

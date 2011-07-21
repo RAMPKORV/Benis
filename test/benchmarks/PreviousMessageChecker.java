@@ -10,8 +10,8 @@ package benchmarks;
  */
 public interface PreviousMessageChecker {
     
-    public void add(String name, String message);
+    public void add(String user, String message);
     
-    public boolean contains(String name, String message);
+    public boolean contains(String user, String message);
     
 }
