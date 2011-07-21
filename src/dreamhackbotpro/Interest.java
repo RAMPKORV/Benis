@@ -1,6 +1,9 @@
 package dreamhackbotpro;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,13 +19,13 @@ public class Interest {
     private boolean wtb;
 
     private static Map<String,ThingInfo> interestsMap = new HashMap<String,ThingInfo>();
-    private static volatile SortedSet<ThingInfo> interestsSorted = new TreeSet<ThingInfo>();
+    private static volatile List<ThingInfo> interestsSorted = new ArrayList<ThingInfo>();
 
     public static Map<String, ThingInfo> getInterestsMap() {
         return interestsMap;
     }
 
-    public static SortedSet<ThingInfo> getInterestsSorted() {
+    public static List<ThingInfo> getInterestsSorted() {
         return interestsSorted;
     }
     
@@ -43,6 +46,7 @@ public class Interest {
                 ti = new ThingInfo(this);
                 interestsMap.put(thing.toLowerCase(), ti);
                 interestsSorted.add(ti);
+                Collections.sort(interestsSorted);
             }
         } catch(Exception ex) {
                 // Do nothing, for now

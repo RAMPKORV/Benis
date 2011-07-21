@@ -2,6 +2,7 @@ package dreamhackbotpro.gui;
 
 import dreamhackbotpro.Interest;
 import dreamhackbotpro.ThingInfo;
+import java.util.List;
 import java.util.SortedSet;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -27,7 +28,7 @@ public class ThingTable extends JTable{
     
     
     public void updateData(){
-        SortedSet<ThingInfo> stuff = Interest.getInterestsSorted();
+        List<ThingInfo> stuff = Interest.getInterestsSorted();
         
         Object[][] data = new Object[stuff.size()][headers.length];
         
