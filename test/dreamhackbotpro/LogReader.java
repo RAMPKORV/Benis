@@ -19,7 +19,7 @@ public class LogReader implements ChatObservable {
     
     private PreviousMessageChecker pMC = new UserWithTreeSet();
     
-    private static final long MILLIS_BETWEEN_MESSAGES = 500;
+    private static final long MILLIS_BETWEEN_MESSAGES = 0;
 
     public LogReader() {
     }

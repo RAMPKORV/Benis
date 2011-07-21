@@ -87,7 +87,7 @@ public class ThingInfo implements Comparable {
             sellers++;
         if(i.getPrice()>maxPrice)
             maxPrice=i.getPrice();
-        if(i.getPrice()<minPrice)
+        if(i.getPrice()<minPrice && i.getPrice()!=-1)
             minPrice=i.getPrice();
         medianCalculated = false;
         stdDevCalculated = false;
