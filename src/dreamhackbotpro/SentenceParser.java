@@ -108,6 +108,14 @@ public class SentenceParser {
                     return thing;
         }
         
+        //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
+        for(ThingInfo ti : Interest.getInterestsSorted()){
+            String thing = ti.getThing();
+            for(String word : words)
+                if(word.length() > 3 && (word.contains(thing) || thing.contains(word)))
+                    return thing;
+        }
+        
         // If nothing found:
         // For now, simply return the first word.
         return words[0];
