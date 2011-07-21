@@ -3,9 +3,7 @@ package dreamhackbotpro;
 import benchmarks.PreviousMessageChecker;
 import benchmarks.UserWithTreeSet;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
@@ -21,7 +19,7 @@ public class LogReader implements ChatObservable {
     
     private PreviousMessageChecker pMC = new UserWithTreeSet();
     
-    private static final long MILLIS_BETWEEN_MESSAGES = 1000;
+    private static final long MILLIS_BETWEEN_MESSAGES = 500;
 
     public LogReader() {
     }
@@ -48,6 +46,12 @@ public class LogReader implements ChatObservable {
                             );
                     String line = reader.readLine();
                     while (line != null) {
+                        
+                        if(line.length()<12){
+                            //some lines are apparently empty
+                            line = reader.readLine();
+                            continue;
+                        }
 
                         //presume that the format of the log is like log4000.txt
                         
@@ -69,7 +73,7 @@ public class LogReader implements ChatObservable {
                         }
                         String user = line.substring(0, colonIndex);
                         String msg = line.substring(colonIndex + 2);
-                        System.out.println(line);
+                        
                         Message m = new Message(user, msg);
                         
                         if(message(user, msg)){
@@ -80,10 +84,13 @@ public class LogReader implements ChatObservable {
                         line = reader.readLine();
                         
                     }
+                    System.out.println("Chat log parsed successfully");
                 } catch (InterruptedException e) {
                     error("Interrupted");
                 } catch (IOException e) {
                     error("File not found");
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         }).start();

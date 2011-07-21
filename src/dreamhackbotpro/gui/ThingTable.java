@@ -23,16 +23,6 @@ public class ThingTable extends JTable{
         
         setModel(model);
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        boolean debug=true;
-        if(debug){
-            new Interest("snus", 50, true);
-            new Interest("snus", 60, false);
-            new Interest("snus", 65, true);
-            new Interest("cigg", 40, true);
-            new Interest("cigg", 50, false);
-        }
-        
     }
     
     
@@ -55,6 +45,8 @@ public class ThingTable extends JTable{
         }
         
         model.setDataVector(data, headers);
+        
+        //TODO make the first colum more wide than the other
         
     }
     

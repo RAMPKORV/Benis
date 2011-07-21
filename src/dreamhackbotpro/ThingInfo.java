@@ -18,7 +18,7 @@ public class ThingInfo implements Comparable {
     private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
     private int minPrice = Integer.MAX_VALUE;
-    private int maxPrice = 0;
+    private int maxPrice = Integer.MIN_VALUE;
     private int buyers = 0;
     private int sellers = 0;
     private boolean medianCalculated = false;
