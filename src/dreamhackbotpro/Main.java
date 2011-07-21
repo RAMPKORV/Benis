@@ -1,5 +1,7 @@
 package dreamhackbotpro;
 
+import dreamhackbotpro.gui.GUI;
+
 /**
  *
  * @author patrik

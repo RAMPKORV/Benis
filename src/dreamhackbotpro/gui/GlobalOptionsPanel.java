@@ -1,5 +1,6 @@
-package dreamhackbotpro;
+package dreamhackbotpro.gui;
 
+import dreamhackbotpro.Options;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

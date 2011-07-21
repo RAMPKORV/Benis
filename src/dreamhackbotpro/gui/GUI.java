@@ -1,5 +1,8 @@
-package dreamhackbotpro;
+package dreamhackbotpro.gui;
 
+import dreamhackbotpro.ChatListener;
+import dreamhackbotpro.ConversationsListener;
+import dreamhackbotpro.Message;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,8 +26,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private JList conversationList;
     private JTextArea channel;
     private GlobalOptionsPanel options;
+    private ThingTable thingTable;
     private JScrollPane textAreaScroll;
     private Map<String, JTextArea> chats = new HashMap<String, JTextArea>();
+    private ChatOptionsPanel chatOptions;
     
     public static void main(String[] args) {
         //testing
@@ -49,6 +54,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         
         conversationData.addElement("Main channel");
         conversationData.addElement("Options");
+        conversationData.addElement("Thing table");
         for (int i = 0; i < 30; i+=2) {
             //test stuff. TODO remove
             String s = "user"+i+" - user"+(i+1);
@@ -66,17 +72,18 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         add(listScroll, BorderLayout.WEST);
         JPanel mainMenu = new JPanel(new BorderLayout());
         
-        channel = new JTextArea("Text from #channelname");
+        channel = new JTextArea(" - Main channel - ");
         channel.setLineWrap(true);
         channel.setEditable(false);
         
         options = new GlobalOptionsPanel();
+        thingTable = new ThingTable();
         
         textAreaScroll = new JScrollPane(channel);
         mainMenu.add(textAreaScroll, BorderLayout.CENTER);
         
-        ChatOptionsPanel optionGui = new ChatOptionsPanel();
-        mainMenu.add(optionGui, BorderLayout.SOUTH);
+        chatOptions = new ChatOptionsPanel();
+        mainMenu.add(chatOptions, BorderLayout.SOUTH);
         
         add(mainMenu, BorderLayout.CENTER);
         
@@ -89,6 +96,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
     
     private void appendToChannel(String s){
+        //TODO implement AutoScroll check from chatOptions
         channel.append('\n'+timeStamp()+s);
     }
 
@@ -122,6 +130,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onConversationMessage(Message m) {
         
+        //TODO implement AutoScroll check from chatOptions
+        
         JTextArea chat = chats.get(m.getFrom()+" - "+m.getTo());
         if(chat==null){
             chat = new JTextArea(m.getFrom()+" - "+m.getTo());
@@ -144,29 +154,13 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             textAreaScroll.setViewportView(options);
             return;
         }
+        if(index==2){
+            textAreaScroll.setViewportView(thingTable);
+            return;
+        }
         JTextArea chat = chats.get(conversationList.getSelectedValue().toString());
         //presume chat is not null
         textAreaScroll.setViewportView(chat);
-    }
-    
-    /**
-     * Minor options.
-     */
-    private class ChatOptionsPanel extends JPanel{
-        
-        private JCheckBox autoscroll;
-
-        public ChatOptionsPanel() {
-            super(new FlowLayout(FlowLayout.LEFT, 5, 5));
-            
-            autoscroll = new JCheckBox("Autoscroll");
-            add(autoscroll);            
-        }
-        
-        public boolean isAutoScroll(){
-            return autoscroll.isSelected();
-        }
-        
     }
 
 }
