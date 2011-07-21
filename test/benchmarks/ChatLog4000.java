@@ -3,8 +3,10 @@ package benchmarks;
 import dreamhackbotpro.Message;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +36,10 @@ public class ChatLog4000 {
         if (messages != null) {
             return messages;
         }
-        File f = new File("log4000.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(f));
+        BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                            new FileInputStream("log4000.txt"), "ISO-8859-1")
+                            );
         messages = new ArrayList<Message>(4000);
         
         String line = reader.readLine();

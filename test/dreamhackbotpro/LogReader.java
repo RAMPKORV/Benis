@@ -4,8 +4,10 @@ import benchmarks.PreviousMessageChecker;
 import benchmarks.UserWithTreeSet;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,8 +42,10 @@ public class LogReader implements ChatObservable {
             @Override
             public void run() {
                 try {
-                    File f = new File(textfile);
-                    BufferedReader reader = new BufferedReader(new FileReader(f));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                            new FileInputStream(textfile), "ISO-8859-1")
+                            );
                     String line = reader.readLine();
                     while (line != null) {
 
@@ -65,7 +69,7 @@ public class LogReader implements ChatObservable {
                         }
                         String user = line.substring(0, colonIndex);
                         String msg = line.substring(colonIndex + 2);
-                        
+                        System.out.println(line);
                         Message m = new Message(user, msg);
                         
                         if(message(user, msg)){
