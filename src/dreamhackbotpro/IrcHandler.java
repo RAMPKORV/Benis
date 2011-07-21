@@ -119,7 +119,7 @@ public class IrcHandler extends PircBot implements ConversationsListener {
         if(opUsers.contains(sender))
             return;
         
-        //TODO see BenchmarkPreviousMessageChecker
+        //TODO see BenchmarkPreviousMessageChecker and implement one of the lists
         
         for(IrcListener l : listeners) {
             l.onMessage(new Message(sender, message, null));

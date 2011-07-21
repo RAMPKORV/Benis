@@ -101,6 +101,18 @@ public class BenchmarkPreviousMessageChecker {
         return time;
     }
     
+    private static float benchmarkV3(PreviousMessageChecker list){
+        long start = System.nanoTime();
+        
+        //TODO run through a version of dhtradelog without timestamp and server messages
+        //use gotMessage
+        
+        long end = System.nanoTime();
+        end = end-start;
+        float time = (end/1000000f);
+        return time;
+    }
+    
     /**
      * This is what it will look like when we use it
      */
