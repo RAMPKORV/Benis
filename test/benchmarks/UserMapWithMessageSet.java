@@ -13,18 +13,18 @@ public class UserMapWithMessageSet implements PreviousMessageChecker{
     private Map<Integer, TreeSet<Integer>> hashes = new HashMap<Integer, TreeSet<Integer>>();
 
     @Override
-    public void add(String name, String message) {
-        TreeSet<Integer> t = hashes.get(name.hashCode());
+    public void add(String user, String message) {
+        TreeSet<Integer> t = hashes.get(user.hashCode());
         if(t==null){
             t = new TreeSet<Integer>();
-            hashes.put(name.hashCode(), t);
+            hashes.put(user.hashCode(), t);
         }
         t.add(message.hashCode());
     }
 
     @Override
-    public boolean contains(String name, String message) {
-        TreeSet<Integer> t = hashes.get(name.hashCode());
+    public boolean contains(String user, String message) {
+        TreeSet<Integer> t = hashes.get(user.hashCode());
         if(t==null)
             return false;
         return t.contains(message.hashCode());

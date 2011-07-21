@@ -8,42 +8,106 @@ public class BenchmarkPreviousMessageChecker {
     
     public static void main(String[] args) {
         
-        benchmarkV1(new UserPlusMessageHash());
+        //BUG the list who runs first is mostly slower. Swap the order when testing
+        //UserMapWithMessageSet seems faster
         
-        benchmarkV1(new UserMapWithMessageSet());
 
-        benchmarkV1(new UserWithTreeList());
+        float totalTime = 0f;
+        
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV2(new UserMapWithMessageSet());
+        }
+        System.out.println("UserMapWithMessageSet V2 total: "+totalTime);
+        
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV2(new UserPlusMessageHash());
+        }
+        System.out.println("UserPlusMessageHash V2 total: "+totalTime);
+
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV2(new UserWithTreeList());
+        }
+        System.out.println("UserWithTreeList V2 total: "+totalTime);
+
         
     }
     
-    private static void benchmarkV1(PreviousMessageChecker item){
+    private static float benchmarkV1(PreviousMessageChecker list){
         long start = System.nanoTime();
         
-        int numUsers = 1000; //how many users to test
-        int numSay = 50; //how many sentences they say each
+        int numUsers = 200; //how many users to test
+        int numSay = 20; //how many sentences they say each
         
         //add numUsers users
         for (int i = 0; i < numUsers; i++) {
-            item.add("user"+i, "hello");
+            list.add("user"+i, "hello");
         }
         
-        //make them say 20 things each. 0, 2, 4, 6 ...
+        //make them say numUsers things each. 0, 2, 4, 6 ...
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < numSay; j++) {
-                item.add("user"+i, "I said "+(j*2));
+                list.add("user"+i, "I said "+(j*2));
             }
         }
         
         //check what they have said. 0, 1, 2, 3 ...
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < numSay*2; j++) {
-                item.contains("user"+i, "I said "+j);
+                list.contains("user"+i, "I said "+j);
             }
         }
         
         long end = System.nanoTime();
         end = end-start;
-        System.out.println(item.getClass().getSimpleName()+": benchmarkV1 time: "+(end/1000000f)+"ms");
+        float time = (end/1000000f);
+//        System.out.println(item.getClass().getSimpleName()+": benchmarkV1 time: "+time+"ms");
+        return time;
+    }
+    
+    private static float benchmarkV2(PreviousMessageChecker list){
+        long start = System.nanoTime();
+        
+        int numUsers = 200; //how many users to test
+        int numSay = 20; //how many sentences they say each
+        
+        //some random loops
+        for (int i = 0; i < numUsers; i++) {
+            for (int j = 0; j < numSay; j++) {
+                list.contains("user"+i, "I said "+j);
+            }
+        }
+        for (int i = 0; i < numUsers/2; i++) {
+            for (int j = numSay/2; j < numSay; j++) {
+                list.contains("user"+i, "I said "+j);
+            }
+        }
+        for (int i = numUsers/2; i < numUsers; i++) {
+            for (int j = 0; j < numSay/2; j++) {
+                list.contains("user"+i, "I said "+j);
+            }
+        }
+        for (int i = 0; i < numUsers; i++) {
+            for (int j = numSay/2; j < numSay+numSay/2; j++) {
+                list.contains("user"+i, "I said "+j);
+            }
+        }
+        
+        long end = System.nanoTime();
+        end = end-start;
+        float time = (end/1000000f);
+        return time;
+    }
+    
+    /**
+     * This is what it will look like when we use it
+     */
+    private static void gotMessage(String user, String message, PreviousMessageChecker list){
+        if(list.contains(user, message))
+            return;
+        list.add(user, message);
     }
     
     
