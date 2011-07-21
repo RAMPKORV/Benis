@@ -15,8 +15,10 @@ import java.util.List;
  */
 public class ThingInfo implements Comparable {
     private String thing = null;
-    private long counter = 0;
+    private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
+    private int minPrice = Integer.MAX_VALUE;
+    private int maxPrice = 0;
     private int buyers = 0;
     private int sellers = 0;
     private boolean medianCalculated = false;
@@ -39,7 +41,7 @@ public class ThingInfo implements Comparable {
         return buyers;
     }
 
-    public long getCounter() {
+    public int getCounter() {
         return counter;
     }
 
@@ -52,7 +54,7 @@ public class ThingInfo implements Comparable {
             return median;
         Collections.sort(prices);
         median = med(prices);
-        medianCalculated = false;
+        medianCalculated = true;
         return median;
     }
 
@@ -83,6 +85,10 @@ public class ThingInfo implements Comparable {
             buyers++;
         else
             sellers++;
+        if(i.getPrice()>maxPrice)
+            maxPrice=i.getPrice();
+        if(i.getPrice()<minPrice)
+            minPrice=i.getPrice();
         medianCalculated = false;
         stdDevCalculated = false;
     }
@@ -109,6 +115,14 @@ public class ThingInfo implements Comparable {
             return 0;
         else
             return -1;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
     }
 
 
