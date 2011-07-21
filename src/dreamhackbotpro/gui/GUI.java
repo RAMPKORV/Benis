@@ -155,6 +155,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             return;
         }
         if(index==2){
+            thingTable.updateData();
             textAreaScroll.setViewportView(thingTable);
             return;
         }

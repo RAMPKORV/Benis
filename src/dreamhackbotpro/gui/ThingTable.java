@@ -33,7 +33,6 @@ public class ThingTable extends JTable{
             new Interest("cigg", 50, false);
         }
         
-        updateData();
     }
     
     
