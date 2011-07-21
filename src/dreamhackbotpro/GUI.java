@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class GUI extends JFrame implements IrcListener, ConversationsListener, ListSelectionListener{
+public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener{
     
     private DefaultListModel conversationData;
     private JList conversationList;
