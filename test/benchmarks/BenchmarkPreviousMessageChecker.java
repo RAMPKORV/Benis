@@ -16,6 +16,12 @@ public class BenchmarkPreviousMessageChecker {
         
         totalTime = 0f;
         for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV2(new UserWithTreeSet());
+        }
+        System.out.println("UserWithTreeSet V2 total: "+totalTime);
+        
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
             totalTime+=benchmarkV2(new UserMapWithMessageSet());
         }
         System.out.println("UserMapWithMessageSet V2 total: "+totalTime);
@@ -25,12 +31,6 @@ public class BenchmarkPreviousMessageChecker {
             totalTime+=benchmarkV2(new UserPlusMessageHash());
         }
         System.out.println("UserPlusMessageHash V2 total: "+totalTime);
-
-        totalTime = 0f;
-        for (int i = 0; i < 10; i++) {
-            totalTime+=benchmarkV2(new UserWithTreeSet());
-        }
-        System.out.println("UserWithTreeSet V2 total: "+totalTime);
 
         
     }
