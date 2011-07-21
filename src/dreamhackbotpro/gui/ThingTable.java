@@ -50,7 +50,7 @@ public class ThingTable extends JTable{
             data[n][4] = ti.getMedian();
             data[n][5] = ti.getMinPrice();
             data[n][6] = ti.getMaxPrice();
-            data[n][5] = ti.getStdDev();
+            data[n][7] = ti.getStdDev();
             n++;
         }
         
