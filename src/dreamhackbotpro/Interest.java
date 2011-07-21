@@ -2,10 +2,8 @@ package dreamhackbotpro;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.WeakHashMap;
 
 /**
  *
@@ -41,7 +39,7 @@ public class Interest {
             if(ti!=null){
                 ti.addInterest(this);
             }
-            else{                
+            else{
                 ti = new ThingInfo(this);
                 interestsMap.put(thing, ti);
                 interestsSorted.add(ti);
