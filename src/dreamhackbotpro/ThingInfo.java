@@ -112,7 +112,7 @@ public class ThingInfo implements Comparable {
         if(this.counter < ti.getCounter())
             return 1;
         if(this.counter == ti.getCounter())
-            return 0;
+            return thing.compareTo(ti.getThing());
         else
             return -1;
     }
