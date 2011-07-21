@@ -1,5 +1,6 @@
 package dreamhackbotpro;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -16,8 +17,8 @@ public class Interest {
     private int price;
     private boolean wtb;
 
-    private static Map<String,ThingInfo> interestsMap = new WeakHashMap<String,ThingInfo>();
-    private static SortedSet<ThingInfo> interestsSorted = new TreeSet<ThingInfo>();
+    private static Map<String,ThingInfo> interestsMap = new HashMap<String,ThingInfo>();
+    private static volatile SortedSet<ThingInfo> interestsSorted = new TreeSet<ThingInfo>();
 
     public static Map<String, ThingInfo> getInterestsMap() {
         return interestsMap;
@@ -40,7 +41,7 @@ public class Interest {
             if(ti!=null){
                 ti.addInterest(this);
             }
-            else{
+            else{                
                 ti = new ThingInfo(this);
                 interestsMap.put(thing, ti);
                 interestsSorted.add(ti);
