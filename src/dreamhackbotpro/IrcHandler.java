@@ -2,7 +2,9 @@ package dreamhackbotpro;
 
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
@@ -116,6 +118,9 @@ public class IrcHandler extends PircBot implements ConversationsListener {
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
         if(opUsers.contains(sender))
             return;
+        
+        //TODO see BenchmarkPreviousMessageChecker
+        
         for(IrcListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
         }
