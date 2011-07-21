@@ -72,7 +72,7 @@ public class LogReader implements ChatObservable {
                 } catch (InterruptedException e) {
                     //sleep interupted
                 } catch (IOException e) {
-                    //file probably doesnt exist
+                    throw new Error("File not found");
                 }
             }
         }).start();
