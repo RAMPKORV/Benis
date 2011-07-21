@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ThingTable extends JTable{
     
-    private final String[] headers = {"Name","Counter","Buyers","Sellers","Median","Min","Max","STD"};
+    private final String[] headers = {"Name","Counter","Buyers","Sellers","Median","Range","STD"};
     private DefaultTableModel model = new DefaultTableModel();
 
     public ThingTable() {
@@ -32,15 +32,15 @@ public class ThingTable extends JTable{
         Object[][] data = new Object[stuff.size()][headers.length];
         
         int n=0;
+        //ConcurrentModificationException may occur here
         for(ThingInfo ti : stuff){
             data[n][0] = ti.getThing();
             data[n][1] = ti.getCounter();
             data[n][2] = ti.getBuyers();
             data[n][3] = ti.getSellers();
             data[n][4] = ti.getMedian();
-            data[n][5] = ti.getMinPrice();
-            data[n][6] = ti.getMaxPrice();
-            data[n][7] = ti.getStdDev();
+            data[n][5] = String.format("%d-%d", ti.getMinPrice(), ti.getMaxPrice());
+            data[n][6] = ti.getStdDev();
             n++;
         }
         
