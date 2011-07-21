@@ -11,6 +11,7 @@ public class BenchmarkPreviousMessageChecker {
         //BUG the list who runs first is mostly slower. Swap the order when testing
         //UserMapWithMessageSet seems faster
         
+
         float totalTime = 0f;
         
         totalTime = 0f;
@@ -24,6 +25,13 @@ public class BenchmarkPreviousMessageChecker {
             totalTime+=benchmarkV2(new UserPlusMessageHash());
         }
         System.out.println("UserPlusMessageHash V2 total: "+totalTime);
+
+        totalTime = 0f;
+        for (int i = 0; i < 10; i++) {
+            totalTime+=benchmarkV2(new UserWithTreeList());
+        }
+        System.out.println("UserWithTreeList V2 total: "+totalTime);
+
         
     }
     
