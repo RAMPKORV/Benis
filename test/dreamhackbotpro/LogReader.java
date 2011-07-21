@@ -77,9 +77,9 @@ public class LogReader implements ChatObservable {
                         
                     }
                 } catch (InterruptedException e) {
-                    //sleep interupted
+                    error("Interrupted");
                 } catch (IOException e) {
-                    throw new Error("File not found");
+                    error("File not found");
                 }
             }
         }).start();
@@ -99,5 +99,11 @@ public class LogReader implements ChatObservable {
             l.onMessage(m);
         }
         return true;
+    }
+
+    private void error(String msg) {
+        for(ChatListener l: listeners) {
+            l.onError(msg);
+        }
     }
 }
