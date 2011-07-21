@@ -35,13 +35,13 @@ public class Interest {
         this.price = price;
         this.wtb = wtb;
         try {
-            ThingInfo ti = interestsMap.get(thing);
+            ThingInfo ti = interestsMap.get(thing.toLowerCase());
             if(ti!=null){
                 ti.addInterest(this);
             }
             else{
                 ti = new ThingInfo(this);
-                interestsMap.put(thing, ti);
+                interestsMap.put(thing.toLowerCase(), ti);
                 interestsSorted.add(ti);
             }
         } catch(Exception ex) {
