@@ -68,22 +68,22 @@ public class BenchmarkPreviousMessageChecker {
         //some random loops
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < numSay; j++) {
-                list.contains("user"+i, "I said "+j);
+                gotMessage("user"+i, "I said "+j, list);
             }
         }
         for (int i = 0; i < numUsers/2; i++) {
             for (int j = numSay/2; j < numSay; j++) {
-                list.contains("user"+i, "I said "+j);
+                gotMessage("user"+i, "I said "+j, list);
             }
         }
         for (int i = numUsers/2; i < numUsers; i++) {
             for (int j = 0; j < numSay/2; j++) {
-                list.contains("user"+i, "I said "+j);
+                gotMessage("user"+i, "I said "+j, list);
             }
         }
         for (int i = 0; i < numUsers; i++) {
             for (int j = numSay/2; j < numSay+numSay/2; j++) {
-                list.contains("user"+i, "I said "+j);
+                gotMessage("user"+i, "I said "+j, list);
             }
         }
         
