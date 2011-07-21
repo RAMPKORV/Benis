@@ -11,6 +11,8 @@ public class BenchmarkPreviousMessageChecker {
         benchmarkV1(new UserPlusMessageHash());
         
         benchmarkV1(new UserMapWithMessageSet());
+
+        benchmarkV1(new UserWithTreeList());
         
     }
     
