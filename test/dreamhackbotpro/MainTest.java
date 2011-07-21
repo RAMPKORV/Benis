@@ -9,7 +9,7 @@ package dreamhackbotpro;
  *
  * @author patrik
  */
-public class main {
+public class MainTest {
     public static void main(String[] args) {
         LogReader logReader = new LogReader();
         Bot bot = new Bot();

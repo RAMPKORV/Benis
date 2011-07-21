@@ -94,8 +94,22 @@ public class SentenceParser {
         return -1;
     }
 
-    public String parseThing(String thing) {
+    public String parseThing(String sentence) {
+        String[] words = sentence.split(" ");
+        if(words.length==1){
+            return words[0];
+        }
+        
+        //check if the sentence contains any word from other known items. Needs testing.
+        for(ThingInfo ti : Interest.getInterestsSorted()){
+            String thing = ti.getThing();
+            for(String word : words)
+                if(thing.equals(word))
+                    return thing;
+        }
+        
+        // If nothing found:
         // For now, simply return the first word.
-        return thing.split(" ")[0];
+        return words[0];
     }
 }
