@@ -1,5 +1,7 @@
 package dreamhackbotpro;
 
+import benchmarks.PreviousMessageChecker;
+import benchmarks.UserWithTreeSet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +15,9 @@ import java.util.Set;
  */
 public class LogReader implements ChatObservable {
 
-    Set<ChatListener> listeners = new HashSet<ChatListener>();
+    private Set<ChatListener> listeners = new HashSet<ChatListener>();
+    
+    private PreviousMessageChecker pMC = new UserWithTreeSet();
     
     private static final long MILLIS_BETWEEN_MESSAGES = 1000;
 
@@ -59,15 +63,18 @@ public class LogReader implements ChatObservable {
                             line = reader.readLine();
                             continue;
                         }
-                        String name = line.substring(0, colonIndex);
+                        String user = line.substring(0, colonIndex);
                         String msg = line.substring(colonIndex + 2);
                         
-                        Message m = new Message(name, msg);
+                        Message m = new Message(user, msg);
                         
-                        message(m);
+                        if(message(user, msg)){
+                            //sleep if the message sent successfuly
+                            Thread.sleep(MILLIS_BETWEEN_MESSAGES);
+                        }
                         
                         line = reader.readLine();
-                        Thread.sleep(MILLIS_BETWEEN_MESSAGES);
+                        
                     }
                 } catch (InterruptedException e) {
                     //sleep interupted
@@ -78,9 +85,19 @@ public class LogReader implements ChatObservable {
         }).start();
     }
     
-    private void message(Message m){
+    /**
+     * Notifies the listeners that a message has been sent
+     * @return true if the message was unique and sent
+     */
+    private boolean message(String user, String msg){
+        if(pMC.contains(user, msg))
+            return false;
+        
+        pMC.add(user, msg);
+        Message m = new Message(user, msg);
         for(ChatListener l : listeners){
             l.onMessage(m);
         }
+        return true;
     }
 }
