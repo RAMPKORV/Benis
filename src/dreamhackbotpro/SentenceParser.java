@@ -67,7 +67,7 @@ public class SentenceParser {
                 thing = parseThing(matcher.group(2));
             }
             // We return the first result, but create the others anyway.
-            found = new Interest(matcher.group(2), matcher.group(1).equals("WTB"));
+            found = new Interest(thing, matcher.group(1).equals("WTB"));
             if (result == null) {
                 result = found;
             }
