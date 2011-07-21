@@ -5,6 +5,7 @@
 
 package dreamhackbotpro;
 
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,8 +48,9 @@ public class InterestTest {
         new Interest("snus", 65, true);
         new Interest("cigg", 40, true);
         new Interest("cigg", 50, false);
-        ThingInfo first = Interest.getInterestsSorted().first();
-        ThingInfo last = Interest.getInterestsSorted().last();
+        List<ThingInfo> interestsSorted = Interest.getInterestsSorted();
+        ThingInfo first = interestsSorted.get(0);
+        ThingInfo last = interestsSorted.get(interestsSorted.size()-1);
         assertEquals(first.getThing(), "snus");
         assertEquals(last.getThing(), "cigg");
         assertEquals(Interest.getInterestsSorted().size(), 2);
