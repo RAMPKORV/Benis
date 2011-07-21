@@ -6,7 +6,7 @@
 package dreamhackbotpro;
 
 /**
- *
+ * Generates chat messages and forwards them to its listeners
  * @author patrik
  */
 interface ChatObservable {

@@ -1,7 +1,7 @@
 package dreamhackbotpro;
 
 /**
- *
+ * Listens to chats through ChatObservable
  * @author patrik
  */
 public interface ChatListener {
