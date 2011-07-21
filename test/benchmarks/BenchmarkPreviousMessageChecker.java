@@ -28,9 +28,9 @@ public class BenchmarkPreviousMessageChecker {
 
         totalTime = 0f;
         for (int i = 0; i < 10; i++) {
-            totalTime+=benchmarkV2(new UserWithTreeList());
+            totalTime+=benchmarkV2(new UserWithTreeSet());
         }
-        System.out.println("UserWithTreeList V2 total: "+totalTime);
+        System.out.println("UserWithTreeSet V2 total: "+totalTime);
 
         
     }
