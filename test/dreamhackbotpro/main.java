@@ -11,7 +11,7 @@ package dreamhackbotpro;
  */
 public class main {
     public static void main(String[] args) {
-        ChatObservable logReader = new LogReader();
+        LogReader logReader = new LogReader();
         Bot bot = new Bot();
         logReader.addChatListener(bot);
         GUI gui = new GUI();
@@ -19,5 +19,6 @@ public class main {
         Conversation.addConversationsListener(gui);
         SeatReader seatReader = new SeatReader();
         Conversation.addConversationsListener(seatReader);
+        logReader.read("log4000.txt");
     }
 }
