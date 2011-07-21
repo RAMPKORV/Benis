@@ -67,4 +67,23 @@ public class SentenceParserTest {
         assertEquals(to, parser.parseSentences(from).toString());
     }
 
+    private void checkThingFromTo(String from, String to) {
+        assertEquals(to, parser.parseThing(from));
+    }
+
+    @Test
+    public void testParseThing() {
+        checkThingFromTo("stor snus","snus");
+        checkThingFromTo("snus billigt","snus");
+        checkThingFromTo("fnatic musmatta","musmatta");
+        checkThingFromTo("en razer goliath musmatta","musmatta");
+        checkThingFromTo("min mus Microsoft Intellimouse 3.0","mus");
+        checkThingFromTo("cigg paket","cigg");
+        checkThingFromTo("cigg pm","cigg");
+        checkThingFromTo("steelseries siberia neckband headset","headset");
+        checkThingFromTo("Fifa11 till Xbox360","Fifall");
+        checkThingFromTo("en burg ansjovis","ansjovis");
+        checkThingFromTo("sprit/tusch pennor eller något liknande","pennor");
+    }
+
 }
