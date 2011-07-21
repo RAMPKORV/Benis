@@ -1,10 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dreamhackbotpro;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,27 +14,73 @@ import java.util.Set;
 public class LogReader implements ChatObservable {
 
     Set<ChatListener> listeners = new HashSet<ChatListener>();
+    
+    private static final long MILLIS_BETWEEN_MESSAGES = 1000;
 
     public LogReader() {
-        
     }
 
+    @Override
     public void addChatListener(ChatListener l) {
         listeners.add(l);
     }
 
+    @Override
     public void removeChatListener(ChatListener l) {
         listeners.remove(l);
     }
-
-    public void read(String textfile) {
+    
+    public void read(final String textfile) {
         new Thread(new Runnable() {
 
+            @Override
             public void run() {
-                //TODO: Read textfile line by line with delay
+                try {
+                    File f = new File(textfile);
+                    BufferedReader reader = new BufferedReader(new FileReader(f));
+                    String line = reader.readLine();
+                    while (line != null) {
+
+                        //presume that the format of the log is like log4000.txt
+                        
+                        line = line.substring(11); //remove timestamp
+
+                        //FIXME: Some people announce trades with /me. In this chat log the format for /me is "***WASD wts snus" and it gets filtered when parsing here
+                        //We should make sure that IrcHandler can handle that as a normal message.
+                        int colonIndex = line.indexOf(':');
+                        if (colonIndex == -1) {
+                            //system message
+                            line = reader.readLine();
+                            continue;
+                        }
+                        int spaceIndex = line.indexOf(' ');
+                        if (colonIndex > spaceIndex) {
+                            //system message
+                            line = reader.readLine();
+                            continue;
+                        }
+                        String name = line.substring(0, colonIndex);
+                        String msg = line.substring(colonIndex + 2);
+                        
+                        Message m = new Message(name, msg);
+                        
+                        message(m);
+                        
+                        line = reader.readLine();
+                        Thread.sleep(MILLIS_BETWEEN_MESSAGES);
+                    }
+                } catch (InterruptedException e) {
+                    //sleep interupted
+                } catch (IOException e) {
+                    //file probably doesnt exist
+                }
             }
-
-        });
+        }).start();
     }
-
+    
+    private void message(Message m){
+        for(ChatListener l : listeners){
+            l.onMessage(m);
+        }
+    }
 }
