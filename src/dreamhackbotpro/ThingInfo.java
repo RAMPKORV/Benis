@@ -52,6 +52,8 @@ public class ThingInfo implements Comparable {
     public float getMedian() {
         if(medianCalculated)
             return median;
+        if(prices.size() == 0)
+            return -1;
         Collections.sort(prices);
         median = med(prices);
         medianCalculated = true;
@@ -79,7 +81,8 @@ public class ThingInfo implements Comparable {
         if(thing != null && !i.getThing().equals(thing)) {
             throw new Exception("Wrong interest");
         }
-        prices.add(i.getPrice());
+        if(i.getPrice() != -1)
+           prices.add(i.getPrice());
         counter++;
         if(i.isBuying())
             buyers++;

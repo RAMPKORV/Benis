@@ -34,17 +34,18 @@ public class Interest {
     }
 
     public Interest(String thing, int price, boolean wtb) {
+        thing = thing.toLowerCase();
         this.thing = thing;
         this.price = price;
         this.wtb = wtb;
         try {
-            ThingInfo ti = interestsMap.get(thing.toLowerCase());
+            ThingInfo ti = interestsMap.get(thing);
             if(ti!=null){
                 ti.addInterest(this);
             }
             else{
                 ti = new ThingInfo(this);
-                interestsMap.put(thing.toLowerCase(), ti);
+                interestsMap.put(thing, ti);
                 interestsSorted.add(ti);
                 Collections.sort(interestsSorted);
             }
