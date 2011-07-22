@@ -153,7 +153,11 @@ public class SentenceParser {
         }
         
         // If the longest is less than 4, return whole sentence
-        if(longest.length() < 4) {
+        int length = longest.length();
+        if(length < 4) {
+            if(length == 1) {
+                return sentence.replaceAll(" ", "");
+            }
             return sentence;
         }
 
