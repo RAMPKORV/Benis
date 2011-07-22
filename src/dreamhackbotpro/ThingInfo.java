@@ -70,6 +70,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
         float med = getMedian();
         float result = 0;
         for(Integer i : prices) {
+            if(i == -1)
+                continue;
             result += (i - med)*(i - med);
         }
         result = (float) Math.sqrt(result / counter);
