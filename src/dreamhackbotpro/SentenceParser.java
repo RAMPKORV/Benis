@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
  */
 public class SentenceParser {
 
-    private Pattern withoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)");
-    private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+?) ([1-9][0-9]*)kr");
+    private Pattern withoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]{3,})");
+    private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]{3,}?) ([1-9][0-9]*)kr", Pattern.CASE_INSENSITIVE);
     private static SentenceParser instance;
 
     private SentenceParser() {
@@ -43,10 +43,11 @@ public class SentenceParser {
 
         Matcher matcher = withPrice.matcher(s);
         while (matcher.find()) {
-            thing = matcher.group(2);
+            thing = matcher.group(2).trim();
             words = thing.split(" ");
             if (words.length > 1) {
                 thing = parseThing(matcher.group(2));
+                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
@@ -63,10 +64,11 @@ public class SentenceParser {
 
         matcher = withoutPrice.matcher(s);
         while (matcher.find()) {
-            thing = matcher.group(2);
+            thing = matcher.group(2).trim();
             words = thing.split(" ");
             if (words.length > 1) {
                 thing = parseThing(matcher.group(2));
+                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
@@ -107,21 +109,35 @@ public class SentenceParser {
         for(ThingInfo ti : Interest.getInterestsSorted()){
             String thing = ti.getThing();
             for(String word : words)
-                if(thing.equals(word))
+                if(thing.equals(word)) 
                     return thing;
         }
         
         //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
         
-        for(ThingInfo ti : Interest.getInterestsSorted()){
+        for(ThingInfo ti : Interest.getInterestsSorted()) {
             String thing = ti.getThing();
             for(String word : words)
                 if(word.length() > 3 && (word.contains(thing) || thing.contains(word)))
                     return thing;
         }
+
+        // Pick the longest word
+        String longest = "";
+        for(String word: words) {
+            if(word.length() > longest.length())
+                longest = word;
+        }
         
+        // If the longest is less than 4, return whole sentence
+        if(longest.length() < 4)
+            return sentence;
+
+        return longest;
+
         // If nothing found:
         // For now, simply return the first word.
-        return words[0];
+        //System.out.println("THING3\n"+words[0]);
+        //return words[0];
     }
 }
