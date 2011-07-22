@@ -10,9 +10,8 @@ import java.util.regex.Pattern;
  */
 public class UselessWordFilter implements MessageFilter{
     
-
     private Pattern buying = Pattern.compile("([^a-zåäöÅÄÖ]| |^)(billigt|sprillans|billigt|liknande|också|lol|nytt|ny|usb)([^a-zåäöÅÄÖ]| |$)", Pattern.CASE_INSENSITIVE);
-    
+   
     public UselessWordFilter(){
     }
 
