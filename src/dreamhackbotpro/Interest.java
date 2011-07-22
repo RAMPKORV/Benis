@@ -20,6 +20,10 @@ public class Interest {
     private static Map<String,ThingInfo> interestsMap = new HashMap<String,ThingInfo>();
     private static volatile List<ThingInfo> interestsSorted = new ArrayList<ThingInfo>();
 
+    static{
+        loadPredefineInterests();
+    }
+
     public static Map<String, ThingInfo> getInterestsMap() {
         return interestsMap;
     }
@@ -82,6 +86,18 @@ public class Interest {
             this.price=theInterest.price;
             //TODO also update ThingInfo with the new price
         }
+    }
+
+    private static void loadPredefineInterests(){
+        newPredefineInterest("snus", 50);
+        newPredefineInterest("cigg", 60);
+    }
+
+    private static void newPredefineInterest(String thing, int price){
+        Interest i = new Interest(thing, price, true, 1f);
+        ThingInfo ti = new ThingInfo(i, true);
+        interestsMap.put(thing, ti);
+        interestsSorted.add(ti);
     }
     
     

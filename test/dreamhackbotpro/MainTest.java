@@ -17,6 +17,6 @@ public class MainTest {
         SeatReader seatReader = new SeatReader();
         logReader.addChatListener(seatReader);
         Conversation.addConversationsListener(seatReader);
-        logReader.read("log4000.txt");
+//        logReader.read("log4000.txt");
     }
 }

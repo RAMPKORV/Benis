@@ -40,6 +40,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
         } catch(Exception ex) {}
         if(preDefined){
             counter=1000;
+            buyers=0;
+            sellers=0;
         }
     }
 
