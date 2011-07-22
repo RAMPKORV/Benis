@@ -101,6 +101,8 @@ public class SentenceParserTest {
         assertEquals(100, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 100 kr så är den din."));
         assertEquals(200, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 200 så är den din."));
         assertEquals(-1, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med en hundring så är den din."));
+        assertEquals(100, p.parsePrice("Säljer min mus (orginalpris 200kr) för 100kr"));
+        assertEquals(100, p.parsePrice("WTS mus nypris 200 säljes för 100"));
     }
 
 }
