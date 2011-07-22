@@ -52,7 +52,7 @@ public class ThingInfo implements Comparable {
     public float getMedian() {
         if(medianCalculated)
             return median;
-        if(prices.size() == 0)
+        if(prices.isEmpty())
             return -1;
         Collections.sort(prices);
         median = med(prices);

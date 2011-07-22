@@ -133,8 +133,15 @@ public class User {
         this.name=name;
     }
     
-    public void addInterest(Interest i){
-        interests.add(i);
+    public void addInterest(Interest theInterest){
+        for(Interest i : interests){
+            if(theInterest.isBuying()==i.isBuying() && i.getThing().equals(theInterest.getThing())){
+                i.update(theInterest);
+                return;
+            }
+        }
+        interests.add(theInterest);
+        theInterest.addToInterestsMap();
     }
 
 }
