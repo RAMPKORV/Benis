@@ -31,10 +31,16 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     public ThingInfo(Interest i) {
+        this(i, false);
+    }
+    public ThingInfo(Interest i, boolean preDefined) {
         thing = i.getThing();
         try {
             addInterest(i);
         } catch(Exception ex) {}
+        if(preDefined){
+            counter=1000;
+        }
     }
 
     public int getBuyers() {
@@ -131,6 +137,5 @@ public class ThingInfo implements Comparable<ThingInfo> {
     public int getMinPrice() {
         return minPrice;
     }
-
 
 }
