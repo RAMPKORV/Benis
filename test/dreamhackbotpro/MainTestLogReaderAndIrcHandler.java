@@ -9,7 +9,7 @@ import dreamhackbotpro.gui.GUI;
 public class MainTestLogReaderAndIrcHandler {
     public static void main(String[] args) {
         LogReader logReader = new LogReader();
-        IrcHandler irc = new IrcHandler("Monsquaz","irc.esper.net","#trade_test");
+        IrcHandler irc = new IrcHandler("Monsquaz"+System.getProperty("user.name"),"irc.esper.net","#trade_test");
         Bot bot = new Bot();
         irc.addChatListener(bot);
         logReader.addChatListener(bot);
