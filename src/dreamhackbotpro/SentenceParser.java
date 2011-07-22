@@ -215,6 +215,8 @@ public class SentenceParser {
      * Checks for familiar words. "cigggggg" would return "cigg" since cigg is a known word.
      */
     private String familiarWord(String word){
+        if(word.length()<=3)
+            return null;
         word = word.toLowerCase();
         for(ThingInfo ti : Interest.getInterestsSorted()) {
             String thing = ti.getThing();
