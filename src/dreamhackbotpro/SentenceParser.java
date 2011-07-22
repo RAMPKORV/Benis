@@ -100,6 +100,7 @@ public class SentenceParser {
     }
 
     public String parseThing(String sentence) {
+        sentence = sentence.toLowerCase();
         String[] words = sentence.split(" ");
         if(words.length==1){
             return words[0];
@@ -109,17 +110,28 @@ public class SentenceParser {
         for(ThingInfo ti : Interest.getInterestsSorted()){
             String thing = ti.getThing();
             for(String word : words)
-                if(thing.equals(word)) 
+                if(thing.equals(word)) {
                     return thing;
+                }
+        }
+
+        //check if the sentence contains any word with low levenstein distance from known items.
+        for(ThingInfo ti : Interest.getInterestsSorted()){
+            String thing = ti.getThing();
+            for(String word : words) {
+                if(getLevenshteinDistance(thing, word) < word.length()/4) {
+                    return thing;
+                }
+            }
         }
         
-        //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
-        
+        //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item      
         for(ThingInfo ti : Interest.getInterestsSorted()) {
             String thing = ti.getThing();
             for(String word : words)
-                if(word.length() > 3 && (word.contains(thing) || thing.contains(word)))
+                if(word.length() > 3 && (word.contains(thing) || thing.contains(word))) {
                     return thing;
+                }
         }
 
         // Pick the longest word
@@ -130,8 +142,9 @@ public class SentenceParser {
         }
         
         // If the longest is less than 4, return whole sentence
-        if(longest.length() < 4)
+        if(longest.length() < 4) {
             return sentence;
+        }
 
         return longest;
 
@@ -140,4 +153,51 @@ public class SentenceParser {
         //System.out.println("THING3\n"+words[0]);
         //return words[0];
     }
+
+    /**
+     * Calculates the number of changes needed to turn one string into another string.
+     * @param s
+     * @param t
+     * @return
+     */
+    private static int getLevenshteinDistance (String s, String t) {
+        if (s == null || t == null) {
+            throw new IllegalArgumentException("Strings must not be null");
+        }
+
+        int n = s.length();
+        int m = t.length();
+
+        if (n == 0) {
+            return m;
+        } else if (m == 0) {
+            return n;
+        }
+
+        int p[] = new int[n+1];
+        int d[] = new int[n+1];
+        int _d[];
+        int i;
+        int j;
+        char t_j;
+        int cost;
+
+        for (i = 0; i<=n; i++) {
+            p[i] = i;
+        }
+
+        for (j = 1; j<=m; j++) {
+            t_j = t.charAt(j-1);
+            d[0] = j;
+            for (i=1; i<=n; i++) {
+                cost = s.charAt(i-1)==t_j ? 0 : 1;
+                d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);
+            }
+            _d = p;
+            p = d;
+            d = _d;
+        }
+        return p[n];
+    }
+
 }
