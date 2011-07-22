@@ -4,7 +4,6 @@ import dreamhackbotpro.Interest;
 import dreamhackbotpro.ThingInfo;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.SortedSet;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
