@@ -49,6 +49,11 @@ public class SentenceParser {
                 thing = parseThing(matcher.group(2));
 //                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
             }
+            else{
+                String familiar = familiarWord(thing);
+                if(familiar!=null)
+                    thing=familiar;
+            }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
             found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"), certainty);
@@ -69,6 +74,11 @@ public class SentenceParser {
             if (words.length > 1) {
                 thing = parseThing(matcher.group(2));
 //                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
+            }
+            else{
+                String familiar = familiarWord(thing);
+                if(familiar!=null)
+                    thing=familiar;
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
@@ -126,7 +136,7 @@ public class SentenceParser {
         }
         
         //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
-        //FIXME doesnt seem to work "cigggggggaratter" gets on the list
+        //same alrogitm as familiarWord but for the entire sentence
         for(ThingInfo ti : Interest.getInterestsSorted()) {
             String thing = ti.getThing();
             for(String word : words)
@@ -199,6 +209,20 @@ public class SentenceParser {
             d = _d;
         }
         return p[n];
+    }
+    
+    /**
+     * Checks for familiar words. "cigggggg" would return "cigg" since cigg is a known word.
+     */
+    private String familiarWord(String word){
+        word = word.toLowerCase();
+        for(ThingInfo ti : Interest.getInterestsSorted()) {
+            String thing = ti.getThing();
+            if(word.length() > 3 && (word.contains(thing) || thing.contains(word))) {
+                return thing;
+            }
+        }
+        return null;
     }
 
 }
