@@ -26,6 +26,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private float median = 0;
     private float stdDev = 0;
 
+    static{
+        loadPredefineInterests();
+    }
+
     public String getThing() {
         return thing;
     }
@@ -33,7 +37,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
     public ThingInfo(Interest i) {
         this(i, false);
     }
-    public ThingInfo(Interest i, boolean preDefined) {
+    
+    private ThingInfo(Interest i, boolean preDefined) {
         thing = i.getThing();
         try {
             addInterest(i);
@@ -138,6 +143,18 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     public int getMinPrice() {
         return minPrice;
+    }
+
+    private static void loadPredefineInterests(){
+        newPredefineInterest("snus", 50);
+        newPredefineInterest("cigg", 60);
+    }
+
+    private static void newPredefineInterest(String thing, int price){
+        Interest i = new Interest(thing, price, true, 1f);
+        ThingInfo ti = new ThingInfo(i, true);
+        Interest.getInterestsMap().put(thing, ti);
+        Interest.getInterestsSorted().add(ti);
     }
 
 }
