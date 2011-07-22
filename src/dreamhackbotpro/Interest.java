@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  *
@@ -35,25 +33,11 @@ public class Interest {
     }
 
     public Interest(String thing, int price, boolean wtb, float certainty) {
-        thing = thing.toLowerCase();
-        this.thing = thing;
+        this.thing = thing.toLowerCase();
         this.price = price;
         this.wtb = wtb;
         this.certainty = certainty;
-        try {
-            ThingInfo ti = interestsMap.get(thing);
-            if(ti!=null){
-                ti.addInterest(this);
-            }
-            else{
-                ti = new ThingInfo(this);
-                interestsMap.put(thing, ti);
-                interestsSorted.add(ti);
-                Collections.sort(interestsSorted);
-            }
-        } catch(Exception ex) {
-                // Do nothing, for now
-        }
+//        addToInterestsMap();
     }
 
     public boolean isBuying() {
@@ -71,6 +55,32 @@ public class Interest {
     @Override
     public String toString() {
         return thing+'-'+price+'-'+wtb;
+    }
+    
+    public void addToInterestsMap(){
+        try {
+            ThingInfo ti = interestsMap.get(thing);
+            if(ti!=null){
+                ti.addInterest(this);
+            }
+            else{
+                ti = new ThingInfo(this);
+                interestsMap.put(thing, ti);
+                interestsSorted.add(ti);
+                Collections.sort(interestsSorted);
+            }
+        } catch(Exception ex) {
+                // Do nothing, for now
+        }
+    }
+
+    /**
+     * Used when a User says he wants to buy or sell the same thing twice
+     */
+    public void update(Interest theInterest) {
+        if(theInterest.price>this.price){
+            this.price=theInterest.price;
+        }
     }
     
     
