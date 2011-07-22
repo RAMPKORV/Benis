@@ -34,21 +34,24 @@ public class ThingTable extends JTable{
         Object[][] data = new Object[stuff.size()][headers.length];
         
         int n=0;
-        try {
-            for(ThingInfo ti : stuff){
-                data[n][0] = ti.getThing();
-                data[n][1] = ti.getCounter();
-                data[n][2] = ti.getBuyers();
-                data[n][3] = ti.getSellers();
-                data[n][4] = ti.getMedian();
-                data[n][5] = String.format("%d-%d", ti.getMinPrice(), ti.getMaxPrice());
-                data[n][6] = ti.getStdDev();
-                n++;
+        boolean error = false;
+        do {
+            try {
+                for(ThingInfo ti : stuff){
+                    data[n][0] = ti.getThing();
+                    data[n][1] = ti.getCounter();
+                    data[n][2] = ti.getBuyers();
+                    data[n][3] = ti.getSellers();
+                    data[n][4] = ti.getMedian();
+                    data[n][5] = String.format("%d-%d", ti.getMinPrice(), ti.getMaxPrice());
+                    data[n][6] = ti.getStdDev();
+                    n++;
+                }
+            } catch(ConcurrentModificationException ex) {
+                data = new Object[stuff.size()][headers.length];
+                n = 0;
             }
-        } catch(ConcurrentModificationException ex) {
-            data = new Object[stuff.size()][headers.length];
-            n = 0;
-        }
+        } while(error);
         
         model.setDataVector(data, headers);
         
