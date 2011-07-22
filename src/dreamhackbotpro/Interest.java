@@ -17,6 +17,7 @@ public class Interest {
     private String thing;
     private int price;
     private boolean wtb;
+    private float certainty;
 
     private static Map<String,ThingInfo> interestsMap = new HashMap<String,ThingInfo>();
     private static volatile List<ThingInfo> interestsSorted = new ArrayList<ThingInfo>();
@@ -29,15 +30,16 @@ public class Interest {
         return interestsSorted;
     }
     
-    public Interest(String thing, boolean wtb){
-        this(thing, -1, wtb);
+    public Interest(String thing, boolean wtb, float certainty){
+        this(thing, -1, wtb, certainty);
     }
 
-    public Interest(String thing, int price, boolean wtb) {
+    public Interest(String thing, int price, boolean wtb, float certainty) {
         thing = thing.toLowerCase();
         this.thing = thing;
         this.price = price;
         this.wtb = wtb;
+        this.certainty = certainty;
         try {
             ThingInfo ti = interestsMap.get(thing);
             if(ti!=null){

@@ -43,11 +43,11 @@ public class InterestTest {
      */
     @Test
     public void testThingInfo() {
-        new Interest("snus", 50, true);
-        new Interest("snus", 60, false);
-        new Interest("snus", 65, true);
-        new Interest("cigg", 40, true);
-        new Interest("cigg", 50, false);
+        new Interest("snus", 50, true, 1);
+        new Interest("snus", 60, false, 1);
+        new Interest("snus", 65, true, 1);
+        new Interest("cigg", 40, true, 1);
+        new Interest("cigg", 50, false, 1);
         List<ThingInfo> interestsSorted = Interest.getInterestsSorted();
         ThingInfo first = interestsSorted.get(0);
         ThingInfo last = interestsSorted.get(interestsSorted.size()-1);

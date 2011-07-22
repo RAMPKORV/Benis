@@ -39,6 +39,7 @@ public class SentenceParser {
         Interest found = null;
         String thing = null;
         String[] words = null;
+        float certainty = 0;
 
         Matcher matcher = withPrice.matcher(s);
         while (matcher.find()) {
@@ -48,7 +49,8 @@ public class SentenceParser {
                 thing = parseThing(matcher.group(2));
             }
             // We return the first result, but create the others anyway.
-            found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"));
+            certainty = 1 / words.length;
+            found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"), certainty);
             if (result == null) {
                 result = found;
             }
@@ -67,7 +69,8 @@ public class SentenceParser {
                 thing = parseThing(matcher.group(2));
             }
             // We return the first result, but create the others anyway.
-            found = new Interest(thing, matcher.group(1).equals("WTB"));
+            certainty = 1 / words.length;
+            found = new Interest(thing, matcher.group(1).equals("WTB"), certainty);
             if (result == null) {
                 result = found;
             }
@@ -109,6 +112,7 @@ public class SentenceParser {
         }
         
         //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
+        
         for(ThingInfo ti : Interest.getInterestsSorted()){
             String thing = ti.getThing();
             for(String word : words)

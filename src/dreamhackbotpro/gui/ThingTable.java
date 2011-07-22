@@ -2,6 +2,7 @@ package dreamhackbotpro.gui;
 
 import dreamhackbotpro.Interest;
 import dreamhackbotpro.ThingInfo;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.SortedSet;
 import javax.swing.JTable;
@@ -33,16 +34,20 @@ public class ThingTable extends JTable{
         Object[][] data = new Object[stuff.size()][headers.length];
         
         int n=0;
-        //ConcurrentModificationException may occur here
-        for(ThingInfo ti : stuff){
-            data[n][0] = ti.getThing();
-            data[n][1] = ti.getCounter();
-            data[n][2] = ti.getBuyers();
-            data[n][3] = ti.getSellers();
-            data[n][4] = ti.getMedian();
-            data[n][5] = String.format("%d-%d", ti.getMinPrice(), ti.getMaxPrice());
-            data[n][6] = ti.getStdDev();
-            n++;
+        try {
+            for(ThingInfo ti : stuff){
+                data[n][0] = ti.getThing();
+                data[n][1] = ti.getCounter();
+                data[n][2] = ti.getBuyers();
+                data[n][3] = ti.getSellers();
+                data[n][4] = ti.getMedian();
+                data[n][5] = String.format("%d-%d", ti.getMinPrice(), ti.getMaxPrice());
+                data[n][6] = ti.getStdDev();
+                n++;
+            }
+        } catch(ConcurrentModificationException ex) {
+            data = new Object[stuff.size()][headers.length];
+            n = 0;
         }
         
         model.setDataVector(data, headers);
