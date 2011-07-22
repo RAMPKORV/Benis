@@ -80,6 +80,7 @@ public class Interest {
     public void update(Interest theInterest) {
         if(theInterest.price>this.price){
             this.price=theInterest.price;
+            //TODO also update ThingInfo with the new price
         }
     }
     

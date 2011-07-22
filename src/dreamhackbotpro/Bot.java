@@ -37,6 +37,10 @@ public class Bot implements ChatListener{
             if(i!=null){
                 user.addInterest(i);
             }
+            else{
+                //uncomment when running InterestParsingTest4000
+//                System.out.println("failed to parse: "+s);
+            }
         }
     }
 
