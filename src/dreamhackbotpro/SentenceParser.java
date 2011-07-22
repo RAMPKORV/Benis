@@ -93,6 +93,12 @@ public class SentenceParser {
         return result;
     }
 
+
+    Pattern priceSimple = Pattern.compile("([1-9][0-9])+kr");
+    Pattern seat = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
+    Pattern otherValues1 = Pattern.compile("(orginalpris|orginal pris|nypris|ny pris|model|modell|modellnummer)[ ]+[a-zA-ZåäöÅÄÖ]?[1-9][0-9]+", Pattern.CASE_INSENSITIVE);
+    Pattern otherValues2 = Pattern.compile("[0-9]+\\.[0-9]+");
+    Pattern eventualPrice = Pattern.compile("[1-9][0-9]0");
     /**
      * Parses the price from a sentence
      * @param s The sentence
@@ -105,6 +111,29 @@ public class SentenceParser {
         //weak solution: Only interpret separate numbers that ends with 0 as prices.
 
         //problem: if "orginalpris 100kr" found, it will think that that's the price that the item is being sold for
+
+        //Try parsing simple
+        Matcher matcher = priceSimple.matcher(s);
+        if(matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
+        }
+        
+        //Remove all seats
+        matcher = seat.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        //Remove other stuff
+        matcher = otherValues1.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        matcher = otherValues2.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+
+        matcher = eventualPrice.matcher(s);
+        if(matcher.find()) {
+            return Integer.parseInt(matcher.group(0));
+        }
 
         return -1;
     }

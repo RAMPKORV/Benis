@@ -89,18 +89,18 @@ public class SentenceParserTest {
     @Test
     public void testParsePrice() {
         SentenceParser p = SentenceParser.getInstance();
-        assertEquals(100, p.parsePrice("Du får 100 för dem."));
         assertEquals(-1, p.parsePrice("Jag sitter på D23:12"));
         assertEquals(-1, p.parsePrice("Jag sitter på D23 12"));
         assertEquals(-1, p.parsePrice("Jag sitter på D 23 12"));
         assertEquals(-1, p.parsePrice("Jag sitter på Rad D23 Plats 12"));
         assertEquals(-1, p.parsePrice("Jag sitter på Rad D 23 Plats 12"));
         assertEquals(150, p.parsePrice("150"));
+        assertEquals(100, p.parsePrice("Du får 100 för dem."));
         assertEquals(300, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 300kr så är den din."));
         assertEquals(100, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 100:- så är den din."));
         assertEquals(100, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 100 kr så är den din."));
         assertEquals(200, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med 200 så är den din."));
-        assertEquals(100, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med en hundring så är den din."));
+        assertEquals(-1, p.parsePrice("Kom till Rad D 23 Plats 12. Ta med en hundring så är den din."));
     }
 
 }
