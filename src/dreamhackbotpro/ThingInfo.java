@@ -72,12 +72,12 @@ public class ThingInfo implements Comparable<ThingInfo> {
         for(Integer i : prices) {
             if(i == -1)
                 continue;
-            result += (i - med)*(i - med);
+            result += ((float)i - med)*((float)i - med);
         }
         result = (float) Math.sqrt(result / counter);
         stdDevCalculated = true;
-        stdDev = result;
-        return result;
+        stdDev = (float)result;
+        return (float)result;
     }
 
     public void addInterest(Interest i) throws Exception {

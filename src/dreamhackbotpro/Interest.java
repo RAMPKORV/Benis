@@ -37,7 +37,7 @@ public class Interest {
         this.price = price;
         this.wtb = wtb;
         this.certainty = certainty;
-//        addToInterestsMap();
+        addToInterestsMap();
     }
 
     public boolean isBuying() {
