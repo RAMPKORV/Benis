@@ -74,6 +74,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         }
         result = (float) Math.sqrt(result / counter);
         stdDevCalculated = true;
+        stdDev = result;
         return result;
     }
 
