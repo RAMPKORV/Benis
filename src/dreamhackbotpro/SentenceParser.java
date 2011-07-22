@@ -125,7 +125,8 @@ public class SentenceParser {
             }
         }
         
-        //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item      
+        //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
+        //FIXME doesnt seem to work "cigggggggaratter" gets on the list
         for(ThingInfo ti : Interest.getInterestsSorted()) {
             String thing = ti.getThing();
             for(String word : words)

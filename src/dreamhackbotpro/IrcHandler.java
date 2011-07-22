@@ -2,9 +2,7 @@ package dreamhackbotpro;
 
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
