@@ -14,20 +14,28 @@ import java.util.regex.Pattern;
  */
 public class SeatReader implements ConversationsListener {
 
-    Pattern pattern = null;
+    private static Pattern pattern = null;
 
     public SeatReader() {
-        pattern = Pattern.compile("[a-d][0-9]+\\:[0-9]+", Pattern.CASE_INSENSITIVE);
+        pattern = Pattern.compile("([a-d][0-9]{1,2})(\\:| )(Plats)?[: ]*([0-9]{1,2})", Pattern.CASE_INSENSITIVE);
     }
 
     public void onConversationMessage(Message m) {
-        Matcher matcher = pattern.matcher(m.getMessage());
-        while(matcher.find()) {
-            alarm(matcher.group());
+        String seat = getSeat(m.getMessage());
+        if(seat != null) {
+            alarm(seat);
         }
     }
 
     public void alarm(String seat) {
         System.out.println("RED ALERT! " + seat);
+    }
+
+    public static String getSeat(String message) {
+        Matcher matcher = pattern.matcher(message);
+        if(matcher.find()) {
+            return matcher.group(1)+':'+matcher.group(4);
+        }
+        return null;
     }
 }
