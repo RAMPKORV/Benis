@@ -6,6 +6,7 @@
 package dreamhackbotpro;
 
 import java.util.List;
+import java.util.UUID;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,16 +39,21 @@ public class InterestTest {
     public void tearDown() {
     }
 
+    private static int counter = 0;
+    private void addInterest(String thing, int price, boolean wtb, float certainty) {
+        new User(""+(counter++)).addInterest(new Interest(thing, price, wtb, certainty));
+    }
+
     /**
      * Test of isBuying method, of class Interest.
      */
     @Test
     public void testThingInfo() {
-        new Interest("snus", 50, true, 1);
-        new Interest("snus", 60, false, 1);
-        new Interest("snus", 65, true, 1);
-        new Interest("cigg", 40, true, 1);
-        new Interest("cigg", 50, false, 1);
+        addInterest("snus", 50, true, 1);
+        addInterest("snus", 60, false, 1);
+        addInterest("snus", 65, true, 1);
+        addInterest("cigg", 40, true, 1);
+        addInterest("cigg", 50, false, 1);
         List<ThingInfo> interestsSorted = Interest.getInterestsSorted();
         ThingInfo first = interestsSorted.get(0);
         ThingInfo last = interestsSorted.get(interestsSorted.size()-1);
