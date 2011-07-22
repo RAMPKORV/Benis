@@ -22,8 +22,8 @@ public class SeatReader implements ConversationsListener, ChatListener {
 
     
 
-    public void alarm(String seat) {
-        System.out.println("RED ALERT! " + seat);
+    public void alarm(Message m) {
+        System.out.println("RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage());
     }
 
     public static String getSeat(String message) {
@@ -39,7 +39,7 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void scanSeats(Message m) {
         String seat = getSeat(m.getMessage());
         if(seat != null) {
-            alarm(m.getMessage());
+            alarm(m);
         }
     }
 
