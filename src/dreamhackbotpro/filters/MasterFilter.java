@@ -8,6 +8,8 @@ public class MasterFilter extends CompositeMessageFilter {
     public MasterFilter() {
         addMessageFilter(new SpecialCharacterFilter());
         
+        addMessageFilter(new UselessWordFilter());
+        
         addMessageFilter(new WhiteSpaceCleanerFilter());
         
         addMessageFilter(new PriceSynonymFilter());
