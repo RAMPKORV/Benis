@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author patrik
  */
-public class ThingInfo implements Comparable {
+public class ThingInfo implements Comparable<ThingInfo> {
     private String thing = null;
     private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
@@ -112,10 +112,7 @@ public class ThingInfo implements Comparable {
         return result;
     }
 
-    public int compareTo(Object t) {
-        if(!(t instanceof ThingInfo))
-            throw new ClassCastException();
-        ThingInfo ti = (ThingInfo)t;
+    public int compareTo(ThingInfo ti) {
         if(this.counter < ti.getCounter())
             return 1;
         if(this.counter == ti.getCounter())
