@@ -47,7 +47,7 @@ public class SentenceParser {
             words = thing.split(" ");
             if (words.length > 1) {
                 thing = parseThing(matcher.group(2));
-                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
+//                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
@@ -68,7 +68,7 @@ public class SentenceParser {
             words = thing.split(" ");
             if (words.length > 1) {
                 thing = parseThing(matcher.group(2));
-                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
+//                System.out.println("\n\nSENTENCE\n"+matcher.group(2)+"\nPARSED\n"+thing);
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
@@ -120,7 +120,7 @@ public class SentenceParser {
             String thing = ti.getThing();
             for(String word : words) {
                 if(getLevenshteinDistance(thing, word) < word.length()/4) {
-                    return thing;
+                    return word;
                 }
             }
         }
