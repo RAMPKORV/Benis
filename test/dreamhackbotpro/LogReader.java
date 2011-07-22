@@ -101,8 +101,8 @@ public class LogReader implements ChatObservable {
     private boolean message(String user, String msg){
         if(pMC.contains(user, msg))
             return false;
-        
         pMC.add(user, msg);
+        
         Message m = new Message(user, msg);
         for(ChatListener l : listeners){
             l.onMessage(m);

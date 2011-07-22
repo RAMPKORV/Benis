@@ -28,6 +28,12 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
+        try {
+            setEncoding("ISO-8859-1");
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            //happens when encoding not found
+        }
     }
 
     @Override
@@ -120,6 +126,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(pMC.contains(sender, message))
             return;
         pMC.add(sender, message);
+
+        try {
+            String recoded = new String(message.getBytes("ISO-8859-1"));
+            if(recoded.length()!=message.length()){
+                message=recoded;
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            //happens when ISO is not found
+        }
         
         for(ChatListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
