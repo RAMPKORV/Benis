@@ -74,8 +74,6 @@ public class LogReader implements ChatObservable {
                         String user = line.substring(0, colonIndex);
                         String msg = line.substring(colonIndex + 2);
                         
-                        Message m = new Message(user, msg);
-                        
                         if(message(user, msg)){
                             //sleep if the message sent successfuly
                             Thread.sleep(MILLIS_BETWEEN_MESSAGES);
