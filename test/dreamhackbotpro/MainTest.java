@@ -15,6 +15,7 @@ public class MainTest {
         logReader.addChatListener(gui);
         Conversation.addConversationsListener(gui);
         SeatReader seatReader = new SeatReader();
+        logReader.addChatListener(seatReader);
         Conversation.addConversationsListener(seatReader);
         logReader.read("log4000.txt");
     }

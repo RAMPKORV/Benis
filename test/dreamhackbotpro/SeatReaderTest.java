@@ -43,6 +43,12 @@ public class SeatReaderTest {
         System.out.println("getSeat");
         assertEquals("D12:34", SeatReader.getSeat("Jag sitter på D12:34. Kom hit!"));
         assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad D12 Plats 34 Kom hit!"));
+        assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad D 12 Plats 34 Kom hit!"));
+        assertEquals("D12:34", SeatReader.getSeat("Jag sitter på D 12 Plats 34 Kom hit!"));
+        assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad D 12, Plats 34 Kom hit!"));
+        assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad: D12, Plats: 34 Kom hit!"));
+        assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad: D 12 Plats: 34 Kom hit!"));
+        assertEquals("D43:44", SeatReader.getSeat("Jag sitter på D43 44"));
     }
 
 }
