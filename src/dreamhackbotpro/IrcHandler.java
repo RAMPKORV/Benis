@@ -18,6 +18,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private String ircNick;
     private String ircServer;
     private String ircChannel;
+    private PreviousMessageChecker pMC = new PreviousMessageChecker();
 
     private Set<String> opUsers = new HashSet<String>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
@@ -72,9 +73,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.ircNick = ircNick;
     }
 
-
-
-
     private void error(String msg) {
         for(ChatListener l : listeners) {
             l.onError(msg);
@@ -118,8 +116,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
         if(opUsers.contains(sender))
             return;
-        
-        //TODO see BenchmarkPreviousMessageChecker and implement one of the lists
+
+        if(pMC.contains(sender, message))
+            return;
+        pMC.add(sender, message);
         
         for(ChatListener l : listeners) {
             l.onMessage(new Message(sender, message, null));
