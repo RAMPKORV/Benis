@@ -153,6 +153,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private static void loadPredefineInterests(){
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
+        newPredefineInterest("tangentbord", 250);
     }
 
     private static void newPredefineInterest(String thing, int price){

@@ -157,7 +157,7 @@ public class SentenceParser {
             String thing = ti.getThing();
             for(String word : words) {
                 if(getLevenshteinDistance(thing, word) < word.length()/4) {
-                    return word;
+                    return thing;
                 }
             }
         }
