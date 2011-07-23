@@ -23,24 +23,29 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         // TODO: Fetch botNick from somewhere else
         String botNick = "Monsquaz";
         String msg = m.getMessage();
+        String buyer = c.getBuyer().getName();
+        String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();
         String sellerThing = c.getSellerThing();
         String[] words = msg.split(" ");
         if(m.getFrom().equals(c.getBuyer().getName())) {
-            m.setMessage(msg.replaceAll("(?i)"+Pattern.quote(c.getBuyer().getName()), botNick));
-            m.setMessage(msg.replaceAll("(?i)"+Pattern.quote(botNick), c.getSeller().getName()));
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) < s.length()/4) {
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer) < s.length()/4)
+                    msg = msg.replace(s, botNick);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) < s.length()/4)
+                    msg = msg.replace(s, seller);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) < s.length()/4) 
                     msg = msg.replace(s, sellerThing);
-                }
             }
         } else {
-            m.setMessage(msg.replaceAll("(?i)"+Pattern.quote(c.getSeller().getName()), botNick));
-            m.setMessage(msg.replaceAll("(?i)"+Pattern.quote(botNick), c.getBuyer().getName()));
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) < s.length()/4) {
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller) < s.length()/4)
+                    msg = msg.replace(s, botNick);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) < s.length()/4)
+                    msg = msg.replace(s, buyer);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) < s.length()/4) 
                     msg = msg.replace(s, buyerThing);
-                }
+                
             }
         }
         m.setMessage(msg);
