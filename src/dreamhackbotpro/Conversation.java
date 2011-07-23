@@ -13,16 +13,20 @@ public class Conversation {
     private User seller;
     private String buyerThing;
     private String sellerThing;
+    private int buyerPrice;
+    private int sellerPrice;
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
-    public Conversation(User buyer, User seller, String buyerThing, String sellerThing) {
+    public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
         this.buyer = buyer;
         this.seller = seller;
         this.buyerThing = buyerThing;
         this.sellerThing = sellerThing;
+        this.buyerPrice = buyerPrice;
+        this.sellerPrice = sellerPrice;
         buyer.setConversation(this);
         seller.setConversation(this);
         
@@ -32,9 +36,10 @@ public class Conversation {
     }
 
     public Conversation(User buyer, User seller) {
-        this(buyer, seller, null, null);
+        this(buyer, seller, null, null, -1, -1);
         //TODO Generate buyerThing and sellerThing based on buyer and seller interest
     }
+    
 
     public User getBuyer() {
         return buyer;
