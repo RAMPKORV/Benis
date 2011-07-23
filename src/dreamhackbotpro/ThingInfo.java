@@ -46,6 +46,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         } catch(Exception ex) {}
         if(preDefined){
             predefined=true;
+            counter = 1;
             buyers=0;
             sellers=0;
         }
@@ -154,6 +155,9 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
         newPredefineInterest("tangentbord", 250);
+        newPredefineInterest("deathadder", 300);
+        newPredefineInterest("jolt", 10);
+        newPredefineInterest("keps", 50);
     }
 
     private static void newPredefineInterest(String thing, int price){
