@@ -30,7 +30,7 @@ public class Greeting {
         "Du får köpa %thing% för %price%%currency%",
     };
     private static String[] currencies = {
-        "kr","kronor","spänn",":-",""," kr"," kronor"
+        "kr"," kronor"," spänn",":-",""," kr";
     };
     private static Random random = new Random();
     public static String getGreeting(String thing, int price, boolean wtb) {
