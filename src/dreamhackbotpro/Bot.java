@@ -120,6 +120,7 @@ public class Bot implements ChatListener{
      * If true, calculates who is seller and buyer based on u1 and u2 Interest
      * @return The Conversation
      */
+    @Deprecated
     private Conversation createConversation(User u1, User u2, boolean calculateBuyerAndSeller){
         if(!calculateBuyerAndSeller){
             Conversation con = new Conversation(u1, u2);
