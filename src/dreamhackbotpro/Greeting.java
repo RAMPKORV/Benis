@@ -19,18 +19,18 @@ public class Greeting {
         "hej","hejsan","tjo","tja","hallå","yo","tjena","tjenare"
     };
     private static String[] buyingProposals = {
-        "Köper %thing% för %price%%space%%currency%",
-        "Säljer du %thing% för %price%%space%%currency%?",
-        "Får jag köpa %thing% för %price%%space%%currency%?",
+        "Köper %thing% för %price%%currency%",
+        "Säljer du %thing% för %price%%currency%?",
+        "Får jag köpa %thing% för %price%%currency%?",
     };
     private static String[] sellingProposals = {
-        "Säljer %thing% för %price%%space%%currency%",
-        "Köper du %thing% för %price%%space%%currency%?",
-        "Vill du köpa %thing% för %price%%space%%currency%?",
-        "Du får köpa %thing% för %price%%space%%currency%",
+        "Säljer %thing% för %price%%currency%",
+        "Köper du %thing% för %price%%currency%?",
+        "Vill du köpa %thing% för %price%%currency%?",
+        "Du får köpa %thing% för %price%%currency%",
     };
     private static String[] currencies = {
-        "kr","kronor","spänn",":-",""
+        "kr","kronor","spänn",":-",""," kr"," kronor"
     };
     private static Random random = new Random();
     public static String getGreeting(String thing, int price, boolean wtb) {
@@ -42,7 +42,6 @@ public class Greeting {
         proposal = proposal.replace("%thing%",thing);
         proposal = proposal.replace("%price%",""+price);
         proposal = proposal.replace("%currency%",pickRandom(currencies));
-        proposal = proposal.replace("%space%", random.nextInt(100) > 50 ? " " : "");
         if(random.nextInt(100) > 80) {
             proposal += " " + getSmiley();
         }
