@@ -64,7 +64,7 @@ public class SentenceParserTest {
     }
     
     private void checkFromTo(String from, String to) {
-        assertEquals(to, parser.parseSentences(from).toString());
+        assertEquals(to, parser.parseInterest(from).toString());
     }
 
     private void checkThingFromTo(String from, String to) {

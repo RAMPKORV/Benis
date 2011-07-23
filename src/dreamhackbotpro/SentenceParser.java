@@ -29,7 +29,7 @@ public class SentenceParser {
      * @param s The sentence to parse
      * @return The the Interest parsed. null if no Interest found
      */
-    public Interest parseSentences(String s) {
+    public Interest parseInterest(String s) {
         //Problem:
         //A user may send "WTB snus. 50kr" in two sentences. In that case the two sentences would be parsed separatly
         //Possible solution: Send in the entire message the user sent. Then return an array of Interests that Bot then adds to the User.
@@ -82,13 +82,11 @@ public class SentenceParser {
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
-            found = new Interest(thing, matcher.group(1).equals("WTB"), certainty);
+            found = new Interest(thing, parsePrice(s), matcher.group(1).equals("WTB"), certainty);
             if (result == null) {
                 result = found;
             }
         }
-
-        //user parsePrice to parse the price if an item is found
 
         return result;
     }
@@ -258,6 +256,10 @@ public class SentenceParser {
             }
         }
         return null;
+    }
+
+    public void parseAttributes(Interest i) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }
