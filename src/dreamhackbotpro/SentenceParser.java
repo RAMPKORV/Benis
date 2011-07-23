@@ -202,7 +202,7 @@ public class SentenceParser {
      * @param t
      * @return
      */
-    private static int getLevenshteinDistance (String s, String t) {
+    public static int getLevenshteinDistance (String s, String t) {
         if (s == null || t == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
