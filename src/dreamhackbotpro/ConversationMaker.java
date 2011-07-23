@@ -21,6 +21,7 @@ public class ConversationMaker {
         User bestBuyer = null;
         User bestSeller = null;
 
+        //TODO perhaps getPrioritizedInterest should be used?
         for(User u : users){
             Interest bestInterest = u.getMostCertainInterest();
             if(bestInterest==null){
@@ -46,7 +47,8 @@ public class ConversationMaker {
         }
 
         if(bestBuyer!=null && bestSeller!=null){
-            //TODO new Conversation
+            Conversation con = new Conversation(bestBuyer, bestSeller);
+            //TODO send greeting
         }
     }
 

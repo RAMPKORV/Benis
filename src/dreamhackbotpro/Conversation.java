@@ -37,7 +37,13 @@ public class Conversation {
 
     public Conversation(User buyer, User seller) {
         this(buyer, seller, null, null, -1, -1);
-        //TODO Generate buyerThing and sellerThing based on buyer and seller interest
+        //TODO perhaps getPrioritizedInterest should be used?
+        Interest buyerInterest = buyer.getMostCertainInterest();
+        Interest sellerInterest = seller.getMostCertainInterest();
+        buyerThing = buyerInterest.getThing();
+        buyerPrice = buyerInterest.getPrice();
+        sellerThing = sellerInterest.getThing();
+        sellerPrice = sellerInterest.getPrice();
     }
     
 
