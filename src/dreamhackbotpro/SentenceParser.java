@@ -259,7 +259,7 @@ public class SentenceParser {
     }
 
     public void parseAttributes(Interest i) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        // Empty for now
     }
 
 }

@@ -25,6 +25,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private boolean stdDevCalculated = false;
     private float median = 0;
     private float stdDev = 0;
+    private boolean predefined;
 
     static{
         loadPredefineInterests();
@@ -44,7 +45,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
             addInterest(i);
         } catch(Exception ex) {}
         if(preDefined){
-            counter=1000;
+            predefined=true;
             buyers=0;
             sellers=0;
         }
@@ -129,6 +130,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     public int compareTo(ThingInfo ti) {
+        if(predefined && !ti.isPredefined())
+            return -1;
+        if(!predefined && ti.isPredefined())
+            return 1;
         if(this.counter < ti.getCounter())
             return 1;
         if(this.counter == ti.getCounter())
@@ -155,6 +160,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
         ThingInfo ti = new ThingInfo(i, true);
         Interest.getInterestsMap().put(thing, ti);
         Interest.getInterestsSorted().add(ti);
+    }
+
+    public boolean isPredefined() {
+        return predefined;
     }
 
 }
