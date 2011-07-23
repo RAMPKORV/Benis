@@ -144,4 +144,19 @@ public class User {
         theInterest.addToInterestsMap();
     }
 
+    public Interest getMostCertainInterest(){
+        //MAYBE TODO make a variable for mostCertainInterest and a boolean for "mostCertainInterestCalculated" since this method will perhaps be used often.
+        Interest best = null;
+        for(Interest i : interests){
+            if(best==null){
+                best = i;
+                continue;
+            }
+            if(i.getCertainty()>best.getCertainty()){
+                best = i;
+            }
+        }
+        return best;
+    }
+
 }

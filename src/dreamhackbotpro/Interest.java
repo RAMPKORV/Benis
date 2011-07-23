@@ -84,4 +84,8 @@ public class Interest {
         }
     }
 
+    public float getCertainty() {
+        return certainty;
+    }
+
 }
