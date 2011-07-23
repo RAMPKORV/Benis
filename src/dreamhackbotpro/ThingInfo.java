@@ -5,9 +5,13 @@
 
 package dreamhackbotpro;
 
+import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -17,6 +21,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private String thing = null;
     private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
+    private Map<String,WordInfo> buzzWordsMap = new HashMap<String,WordInfo>();
+    private volatile List<WordInfo> buzzWordsSorted = new ArrayList<WordInfo>();
     private int minPrice = 0;
     private int maxPrice = 0;
     private int buyers = 0;
@@ -169,6 +175,28 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     public boolean isPredefined() {
         return predefined;
+    }
+
+    public void mention(String word) {
+        word = word.toLowerCase();
+        if(word.length() < 4)
+            return;
+        WordInfo wi = buzzWordsMap.get(word);
+        int occurances;
+        if(wi == null) {
+            occurances = 1;
+            wi = new WordInfo(word, occurances);
+            buzzWordsSorted.add(wi);
+        } else {
+            occurances = wi.getMentions()+1;
+        }
+        wi.setMentions(occurances);
+        buzzWordsMap.put(word, wi);
+    }
+
+    public List<WordInfo> getMentionedWordsSorted() {
+        Collections.sort(buzzWordsSorted);
+        return buzzWordsSorted;
     }
 
 }

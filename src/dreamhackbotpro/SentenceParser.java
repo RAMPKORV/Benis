@@ -1,5 +1,7 @@
 package dreamhackbotpro;
 
+import dreamhackbotpro.filters.MasterFilter;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -258,8 +260,31 @@ public class SentenceParser {
         return null;
     }
 
-    public void parseAttributes(Interest i) {
-        // Empty for now
+    public void parseAttributes(Interest i, String s) {
+        s = s.replace(i.getThing(), "");
+        s = s.replace(""+i.getPrice(), "");
+        s = s.replace("WTB", "");
+        s = s.replace("WTS", "");
+        s = s.replaceAll("(?i)"+Pattern.quote(i.getThing()),"");
+        String[] words = s.split(" ");
+        for(String word : words) {
+            ThingInfo ti = Interest.getInterestsMap().get(i.getThing());
+            if(ti != null) {
+                ti.mention(word);
+            }
+        }
+        printMentionsFor(i.getThing()); // For debugging purposes
+    }
+
+    private void printMentionsFor(String thing) {
+        ThingInfo ti = Interest.getInterestsMap().get(thing);
+        if(ti != null) {
+            System.out.println("\nMentions for: " + thing);
+            List<WordInfo> ws = ti.getMentionedWordsSorted();
+            for(WordInfo w : ws) {
+                System.out.println(w.getWord());
+            }
+        }
     }
 
 }

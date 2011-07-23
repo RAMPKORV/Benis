@@ -83,5 +83,5 @@ public class Interest {
             //TODO also update ThingInfo with the new price
         }
     }
-    
+
 }
