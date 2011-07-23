@@ -24,8 +24,8 @@ public class Greeting {
         "Får jag köpa %thing% för %price%%space%%currency%?",
     };
     private static String[] sellingProposals = {
-        "Säljer %thing% för %price%%currency%",
-        "Köper du %thing% för %price%%currency%?",
+        "Säljer %thing% för %price%%space%%currency%",
+        "Köper du %thing% för %price%%space%%currency%?",
         "Vill du köpa %thing% för %price%%space%%currency%?",
         "Du får köpa %thing% för %price%%space%%currency%",
     };
