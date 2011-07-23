@@ -14,8 +14,23 @@ import java.util.regex.Pattern;
  * @author patrik
  */
 public class Greeting {
+    private Greeting() {}
     private static String[] iceBreakers = {
         "hej","hejsan","tjo","tja","hallå","yo","tjena","tjenare"
+    };
+    private static String[] buyingProposals = {
+        "Köper %thing% för %price%%space%%currency%",
+        "Säljer du %thing% för %price%%space%%currency%?",
+        "Får jag köpa %thing% för %price%%space%%currency%?",
+    };
+    private static String[] sellingProposals = {
+        "Säljer %thing% för %price%%currency%",
+        "Köper du %thing% för %price%%currency%?",
+        "Vill du köpa %thing% för %price%%space%%currency%?",
+        "Du får köpa %thing% för %price%%space%%currency%",
+    };
+    private static String[] currencies = {
+        "kr","kronor","spänn",":-"
     };
     private static Random random = new Random();
     public static String getGreeting(String thing, int price, boolean wtb) {
@@ -23,9 +38,24 @@ public class Greeting {
         if(random.nextInt(100) > 40) { // Capitalize most times.
             iceBreaker = Character.toUpperCase(iceBreaker.charAt(0))+iceBreaker.substring(1);
         }
-        return iceBreaker + "."; // Placeholder
+        String proposal = wtb ? pickRandom(buyingProposals) : pickRandom(sellingProposals);
+        proposal = proposal.replace("%thing%",thing);
+        proposal = proposal.replace("%price%",""+price);
+        proposal = proposal.replace("%currency%",pickRandom(currencies));
+        proposal = proposal.replace("%space%", random.nextInt(100) > 50 ? " " : "");
+        if(random.nextInt(100) > 80) {
+            proposal += " " + getSmiley();
+        }
+        return iceBreaker + ". " + proposal;
     }
-    
+
+    private static String getSmiley() {
+        String ret = "";
+        ret += pickRandom(new String[]{":",";"});
+        ret += pickRandom(new String[]{")",")",")","D","d","P","p"});
+        return ret;
+    }
+
     private static String pickRandom(String[] s) {
         return s[random.nextInt(s.length)];
     }
