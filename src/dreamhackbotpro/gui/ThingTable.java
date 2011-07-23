@@ -2,8 +2,11 @@ package dreamhackbotpro.gui;
 
 import dreamhackbotpro.Interest;
 import dreamhackbotpro.ThingInfo;
+import java.awt.Graphics;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +29,6 @@ public class ThingTable extends JTable{
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     
-    
     public void updateData(){
         List<ThingInfo> stuff = Interest.getInterestsSorted();
         
@@ -46,9 +48,11 @@ public class ThingTable extends JTable{
                     data[n][6] = ti.getStdDev();
                     n++;
                 }
+                error = false;
             } catch(ConcurrentModificationException ex) {
                 data = new Object[stuff.size()][headers.length];
                 n = 0;
+                error = true;
             }
         } while(error);
         
