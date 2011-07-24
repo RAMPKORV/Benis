@@ -19,10 +19,10 @@ public class ConversationMaker {
      */
     public void check(Collection<User> users){
 
-        if(lastConversationMade>System.currentTimeMillis()-waitTime()){
-            return;
-        }
-        lastConversationMade = System.currentTimeMillis();
+        //if(lastConversationMade>System.currentTimeMillis()-waitTime()){
+        //    return;
+        //}
+        //lastConversationMade = System.currentTimeMillis();
 
         //TODO make the calculation of Certainty more advanced for Interests for better result. preDefined items should have more certainty
 

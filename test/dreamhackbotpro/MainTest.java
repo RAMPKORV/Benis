@@ -17,6 +17,11 @@ public class MainTest {
         SeatReader seatReader = new SeatReader();
         logReader.addChatListener(seatReader);
         Conversation.addConversationsListener(seatReader);
+        Conversation.addConversationsListener(new ConversationsListener(){
+            public void onConversationMessage(Message m) {
+                System.out.println("KUK:" + m);
+            }
+        });
         logReader.read("log4000.txt");
     }
 }

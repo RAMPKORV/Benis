@@ -2,6 +2,7 @@ package dreamhackbotpro;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -54,10 +55,20 @@ public class Conversation {
         //TODO perhaps getPrioritizedInterest should be used?
         Interest buyerInterest = buyer.getMostCertainInterest();
         Interest sellerInterest = seller.getMostCertainInterest();
-        buyerThing = buyerInterest.getThing();
-        buyerPrice = buyerInterest.getPrice();
+        buyerThing = buyerInterest.getThing();    
         sellerThing = sellerInterest.getThing();
+        Map<String, ThingInfo> iMap = Interest.getInterestsMap();
         sellerPrice = sellerInterest.getPrice();
+        if(sellerPrice == -1) {
+            ThingInfo sInfo = iMap.get(sellerThing);
+            sellerPrice = (int) (sInfo.getMedian() - sInfo.getStdDev()*0.5);
+        }
+        buyerPrice = buyerInterest.getPrice();
+        if(buyerPrice == -1) {
+            ThingInfo sInfo = iMap.get(buyerThing);
+            buyerPrice = (int) (sInfo.getMedian() + sInfo.getStdDev()*0.5);
+        }
+        
     }
     
 
