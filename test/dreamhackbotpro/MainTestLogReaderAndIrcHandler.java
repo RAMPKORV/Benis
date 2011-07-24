@@ -12,6 +12,7 @@ public class MainTestLogReaderAndIrcHandler {
         IrcHandler irc = new IrcHandler("Bot_"+System.getProperty("user.name"),"irc.esper.net","#trade_test");
         Bot bot = new Bot();
         irc.addChatListener(bot);
+        Conversation.addConversationsListener(irc);
         logReader.addChatListener(bot);
         GUI gui = new GUI();
         irc.addChatListener(gui);
