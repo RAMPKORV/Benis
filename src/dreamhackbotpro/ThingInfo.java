@@ -210,7 +210,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
             return word;
         boolean contained = false;
         for(WordInfo fromWord : fromWords) {
-            if(fromWord.getWord().equals(word)) {
+            if(SentenceParser.getLevenshteinDistance(fromWord.getWord(), word) < word.length()/4) {
+                word = fromWord.getWord();
                 contained = true;
                 break;
             }
