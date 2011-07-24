@@ -20,7 +20,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener{
     
-    private DefaultListModel conversationData;
+    private DefaultListModel listData;
     private JList conversationList;
     private JTextArea channel;
     private GlobalOptionsPanel options;
@@ -48,20 +48,20 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(5, 5));
         
-        conversationData = new DefaultListModel();
+        listData = new DefaultListModel();
         
-        conversationData.addElement("Main channel");
-        conversationData.addElement("Options");
-        conversationData.addElement("Thing table");
+        listData.addElement("Main channel");
+        listData.addElement("Options");
+        listData.addElement("Thing table");
         for (int i = 0; i < 30; i+=2) {
             //test stuff. TODO remove
             String s = "user"+i+" - user"+(i+1);
             JTextArea chat = new JTextArea("Chat: "+s);
             chats.put(s, chat);
-            conversationData.addElement(s);
+            listData.addElement(s);
         }
         
-        conversationList = new JList(conversationData);
+        conversationList = new JList(listData);
         conversationList.setSelectedIndex(0);
         conversationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         conversationList.addListSelectionListener(this);
@@ -129,10 +129,12 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     public void onConversationMessage(Message m) {
         
         //TODO implement AutoScroll check from chatOptions
-        
-        JTextArea chat = chats.get(m.getFrom()+" - "+m.getTo());
+        String chatName = m.getFrom()+" - "+m.getTo();
+
+        JTextArea chat = chats.get(chatName);
         if(chat==null){
-            chat = new JTextArea(m.getFrom()+" - "+m.getTo());
+            chat = new JTextArea(chatName);
+            listData.addElement(chatName);
         }
         chat.append('\n'+timeStamp()+m.toString());
     }

@@ -70,6 +70,10 @@ public class ConversationMaker {
             con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName()));
             con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName()));
         }
+        else{
+            //reset timer to try on next message recieved instead of waiting 30 seconds
+            lastConversationMade = 0;
+        }
     }
 
     private long waitTime(){
