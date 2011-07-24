@@ -36,6 +36,10 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replace(s, seller);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) < s.length()/4) 
                     msg = msg.replace(s, sellerThing);
+                String translated = ThingInfo.translateBuzzWord(buyerThing, sellerThing, s);
+                if(!translated.equals(s)) {
+                    msg = msg.replace(s, translated);
+                }
             }
         } else {
             for(String s : words) {
@@ -45,7 +49,10 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replace(s, buyer);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) < s.length()/4) 
                     msg = msg.replace(s, buyerThing);
-                
+                String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);
+                if(!translated.equals(s)) {
+                    msg = msg.replace(s, translated);
+                }
             }
         }
         m.setMessage(msg);

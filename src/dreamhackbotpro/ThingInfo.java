@@ -194,6 +194,36 @@ public class ThingInfo implements Comparable<ThingInfo> {
         buzzWordsMap.put(word, wi);
     }
 
+    public static String translateBuzzWord(String fromThing, String toThing, String word) {
+        try {
+        ThingInfo from = Interest.getInterestsMap().get(fromThing);
+        ThingInfo to = Interest.getInterestsMap().get(toThing);
+        if(from == null || to == null)
+            return word;
+        List<WordInfo> fromWords = from.getMentionedWordsSorted();
+        List<WordInfo> toWords = to.getMentionedWordsSorted();
+        if(fromWords == null || toWords == null)
+            return word;
+        boolean contained = false;
+        for(WordInfo fromWord : fromWords) {
+            if(fromWord.getWord().equals(word)) {
+                contained = true;
+                break;
+            }
+        }
+        if(!contained)
+            return word;
+        int fromSize = fromWords.size();
+        int toSize = fromWords.size();
+        if(fromSize == 0 || toSize == 0)
+            return word;
+        return(toWords.get(fromWords.indexOf(word) % toWords.size()).getWord());
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            return word;
+        }
+    }
+
     public List<WordInfo> getMentionedWordsSorted() {
         Collections.sort(buzzWordsSorted);
         return buzzWordsSorted;
