@@ -4,7 +4,6 @@ import dreamhackbotpro.filters.MasterFilter;
 import dreamhackbotpro.filters.MessageFilter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * A class that finds out what users are interested in based on messages and connects users together
@@ -17,8 +16,6 @@ public class Bot implements ChatListener{
     private MessageFilter messageFilter = new MasterFilter();
     private SentenceParser parser = SentenceParser.getInstance();
     private ConversationMaker conversationMaker = new ConversationMaker();
-
-    public static final Random random = new Random();
 
     public Bot(){
     }

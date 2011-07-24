@@ -34,7 +34,7 @@ public class ConversationMaker {
                 continue;
             Interest bestInterest;
             // Use random strategy to determine best interest
-            if(Bot.random.nextBoolean()) {
+            if(Utils.random.nextBoolean()) {
                 bestInterest = u.getMostCertainInterest();
                 if(bestInterest==null)
                     bestInterest = u.getPrioritizedInterest();

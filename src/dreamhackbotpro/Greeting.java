@@ -44,7 +44,7 @@ public class Greeting {
     private static String[] currencies = {
         "kr"," kronor"," spänn",":-",""," kr"
     };
-    private static Random random = Bot.random;
+    private static Random random = Utils.random;
     public static String getGreeting(String thing, int price, boolean wtb) {
         String iceBreaker = pickRandom(iceBreakers);
         if(random.nextInt(100) > 40) { // Capitalize most times.
