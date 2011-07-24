@@ -58,6 +58,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 } else {
                     System.out.println("buyerDiff");
                     int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
+                    newPrice = Utils.roundPrice(newPrice);
                     msg = msg.replace(priceString, newPrice + "");
                 }
             }
@@ -86,6 +87,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 } else {
                     System.out.println("sellerDiff");
                     int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
+                    newPrice = Utils.roundPrice(newPrice);
                     msg = msg.replace(priceString, newPrice+"");
                 }
             }
