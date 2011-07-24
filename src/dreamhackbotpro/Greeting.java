@@ -22,6 +22,7 @@ public class Greeting {
         "Köper %thing% för %price%%currency%",
         "Säljer du %thing% för %price%%currency%?",
         "Får jag köpa %thing% för %price%%currency%?",
+        "Jag köper %thing%",
     };
     private static String[] buyingProposalsNoPrice = {
         "Jag är intresserad av %thing%",
@@ -33,6 +34,7 @@ public class Greeting {
         "Köper du %thing% för %price%%currency%?",
         "Vill du köpa %thing% för %price%%currency%?",
         "Du får köpa %thing% för %price%%currency%",
+        "Jag säljer %thing%"
     };
     private static String[] sellingProposalsNoPrice = {
         "Är du intresserad av %thing%",

@@ -46,7 +46,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String sellerThing = c.getSellerThing();
         int buyerPrice = c.getBuyerPrice();
         int sellerPrice = c.getSellerPrice();
-        String[] words = msg.split(" ");
+        String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
             String priceString = p.parsePriceString(msg);
             if(priceString != null) {
