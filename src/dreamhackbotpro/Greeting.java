@@ -23,11 +23,21 @@ public class Greeting {
         "Säljer du %thing% för %price%%currency%?",
         "Får jag köpa %thing% för %price%%currency%?",
     };
+    private static String[] buyingProposalsNoPrice = {
+        "Jag är intresserad av %thing%",
+        "Köper %thing%",
+        "Jag vill köpa %thing%"
+    };
     private static String[] sellingProposals = {
         "Säljer %thing% för %price%%currency%",
         "Köper du %thing% för %price%%currency%?",
         "Vill du köpa %thing% för %price%%currency%?",
         "Du får köpa %thing% för %price%%currency%",
+    };
+    private static String[] sellingProposalsNoPrice = {
+        "Är du intresserad av %thing%",
+        "Säljer %thing%",
+        "Jag vill sälja %thing%"
     };
     private static String[] currencies = {
         "kr"," kronor"," spänn",":-",""," kr"
@@ -38,10 +48,15 @@ public class Greeting {
         if(random.nextInt(100) > 40) { // Capitalize most times.
             iceBreaker = Character.toUpperCase(iceBreaker.charAt(0))+iceBreaker.substring(1);
         }
-        String proposal = wtb ? pickRandom(buyingProposals) : pickRandom(sellingProposals);
+        String proposal;
+        if(price != -1) {
+            proposal = wtb ? pickRandom(buyingProposals) : pickRandom(sellingProposals);
+            proposal = proposal.replace("%price%",""+price);
+            proposal = proposal.replace("%currency%",pickRandom(currencies));
+        } else {
+            proposal = wtb ? pickRandom(buyingProposalsNoPrice) : pickRandom(sellingProposalsNoPrice);
+        }
         proposal = proposal.replace("%thing%",thing);
-        proposal = proposal.replace("%price%",""+price);
-        proposal = proposal.replace("%currency%",pickRandom(currencies));
         if(random.nextInt(100) > 80) {
             proposal += " " + getSmiley();
         }
