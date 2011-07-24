@@ -28,15 +28,14 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         }
 
         // Delete greetings after the first two messages of the conversation
-        if(c.getNumMessages() > 2) {
-            String greeting;
-            do {
-                greeting = Greeting.hasGreeting(msg);
-                if(greeting != null) {
-                    msg = msg.replaceAll("(?i)"+Pattern.quote(greeting), "");
-                }
-            } while(greeting != null);
-        }
+        String greeting;
+        do {
+            greeting = Greeting.hasGreeting(msg);
+            if(greeting != null) {
+                msg = msg.replaceAll("(?i)"+Pattern.quote(greeting), "");
+            }
+        } while(greeting != null);
+        
 
         // TODO: Fetch botNick from somewhere else
         String botNick = "Monsquaz";      
@@ -48,20 +47,30 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         int sellerPrice = c.getSellerPrice();
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
-            String priceString = p.parsePriceString(msg);
-            if(priceString != null) {
-                System.out.println("BuyerPriceString " + priceString);
-                int price = p.parsePrice(msg);
-                if(price == buyerPrice) {
-                    System.out.println("buyerEqual");
-                    msg = msg.replace(priceString, sellerPrice + "");
+            int index = 0;
+            int j = 0;
+            while(index < msg.length()-1 && j++ < 10) {
+                System.out.println("J: "+j);
+                String priceString = p.parsePriceString(msg.substring(index));
+                if(priceString != null) {
+                    System.out.println("BuyerPriceString " + priceString);
+                    int price = p.parsePrice(msg.substring(index));
+                    if(price == buyerPrice) {
+                        System.out.println("buyerEqual");
+                        msg = msg.replace(priceString, sellerPrice + "");
+                    } else {
+                        System.out.println("buyerDiff");
+                        int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
+                        newPrice = Utils.roundPrice(newPrice);
+                        msg = msg.replace(priceString, newPrice + "");
+                    }
+                    index = msg.indexOf(priceString);
                 } else {
-                    System.out.println("buyerDiff");
-                    int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
-                    newPrice = Utils.roundPrice(newPrice);
-                    msg = msg.replace(priceString, newPrice + "");
+                    System.out.println("BREAK!");
+                    break;
                 }
             }
+            System.out.println("AFTER BUYERPRICE: "+msg);
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
@@ -77,20 +86,30 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         } else {
-            String priceString = p.parsePriceString(msg);
-            if(priceString != null) {
-                System.out.println("sellerPriceString " + priceString);
-                int price = p.parsePrice(msg);
-                if(price == sellerPrice) {
-                    System.out.println("sellerEqual");
-                    msg = msg.replace(priceString, buyerPrice+"");
+            int index = 0;
+            int j = 0;
+            while(index < msg.length()-1 && j++ < 10) {
+                System.out.println("J: "+j);
+                String priceString = p.parsePriceString(msg.substring(index));
+                if(priceString != null) {
+                    System.out.println("sellerPriceString " + priceString);
+                    int price = p.parsePrice(msg.substring(index));
+                    if(price == sellerPrice) {
+                        System.out.println("sellerEqual");
+                        msg = msg.replace(priceString, buyerPrice+"");
+                    } else {
+                        System.out.println("sellerDiff");
+                        int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
+                        newPrice = Utils.roundPrice(newPrice);
+                        msg = msg.replace(priceString, newPrice+"");
+                    }
+                    index = msg.indexOf(priceString);
                 } else {
-                    System.out.println("sellerDiff");
-                    int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
-                    newPrice = Utils.roundPrice(newPrice);
-                    msg = msg.replace(priceString, newPrice+"");
+                    System.out.println("BREAK!");
+                    break;
                 }
             }
+            System.out.println("AFTER SELLERPRICE: "+msg);
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
