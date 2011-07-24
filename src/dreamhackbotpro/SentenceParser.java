@@ -137,6 +137,40 @@ public class SentenceParser {
 
         return -1;
     }
+    
+        public String parsePriceString(String s) {
+
+        //if \d+kr not found, check for any separate number
+        //side effect: model numbers may be only numbers
+        //weak solution: Only interpret separate numbers that ends with 0 as prices.
+
+        //problem: if "orginalpris 100kr" found, it will think that that's the price that the item is being sold for
+
+        //Try parsing simple
+        Matcher matcher = priceSimple.matcher(s);
+        if(matcher.find()) {
+            return matcher.group(0);
+        }
+
+        //Remove all seats
+        matcher = seat.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        //Remove other stuff
+        matcher = otherValues1.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        matcher = otherValues2.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+
+        matcher = eventualPrice.matcher(s);
+        if(matcher.find()) {
+            return matcher.group(0);
+        }
+
+        return null;
+    }
 
     public String parseThing(String sentence) {
         sentence = sentence.toLowerCase();

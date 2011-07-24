@@ -91,7 +91,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         do {
             attemptedNick = ircNick + (connectionAttempts > 0 ? connectionAttempts : "");
             this.setName(attemptedNick);
-            try {
                 try {
                     connect(ircServer);
                 } catch (IOException ex) {
@@ -100,10 +99,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                     error("Användarnamnet \""+attemptedNick+"\" är upptaget");
                 } catch (IrcException ex) {
                     error("IRC Exception");
+                } finally {
+                    connectionAttempts++;
                 }
-            }  finally {
-                connectionAttempts++;
-            }
         } while (this.isConnected() == false);
         joinChannel(ircChannel);
     }

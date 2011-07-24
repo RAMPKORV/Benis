@@ -48,8 +48,17 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         int sellerPrice = c.getSellerPrice();
         String[] words = msg.split(" ");
         if(m.getFrom().equals(c.getBuyer().getName())) {
+            String priceString = p.parsePriceString(msg);
+            if(priceString != null) {
+                int price = p.parsePrice(msg);
+                if(price == buyerPrice) {
+                    msg = msg.replace(priceString, sellerPrice + "kr");
+                } else {
+                    int newPrice = sellerPrice * (1 - (Math.abs(price - buyerPrice)/buyerPrice));
+                    msg = msg.replace(priceString, newPrice + "kr");
+                }
+            }
             for(String s : words) {
-                msg = msg.replace(""+buyerPrice,""+sellerPrice);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
@@ -64,8 +73,20 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         } else {
+            String priceString = p.parsePriceString(msg);
+            if(priceString != null) {
+                System.out.println("KUKEN1: " + priceString);
+                int price = p.parsePrice(msg);
+                if(price == sellerPrice) {
+                    System.out.println("KUKEN2");
+                    msg = msg.replace(priceString, buyerPrice + "kr");
+                } else {
+                    System.out.println("KUKEN3");
+                    int newPrice = buyerPrice * (1 - (Math.abs(price - sellerPrice)/sellerPrice));
+                    msg = msg.replace(priceString, newPrice + "kr");
+                }
+            }
             for(String s : words) {
-                msg = msg.replace(""+sellerPrice,""+buyerPrice);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
