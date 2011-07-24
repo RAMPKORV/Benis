@@ -9,13 +9,20 @@ import java.util.Random;
  */
 public class ConversationMaker {
 
+    private long lastConversationMade = 0;
+
     public ConversationMaker() {
     }
 
     /**
      * @param users Should be users.values() from Bot
      */
-    public void makeConversation(Collection<User> users){
+    public void check(Collection<User> users){
+
+        if(lastConversationMade>System.currentTimeMillis()-waitTime()){
+            return;
+        }
+        lastConversationMade = System.currentTimeMillis();
 
         //TODO make the calculation of Certainty more advanced for Interests for better result. preDefined items should have more certainty
 
@@ -63,6 +70,10 @@ public class ConversationMaker {
             con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName()));
             con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName()));
         }
+    }
+
+    private long waitTime(){
+        return Options.getInstance().getSecondsBetweenNewConversation()*1000L;
     }
 
 }

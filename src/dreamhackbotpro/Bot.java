@@ -15,6 +15,7 @@ public class Bot implements ChatListener{
     private User orphanUser = null;
     private MessageFilter messageFilter = new MasterFilter();
     private SentenceParser parser = SentenceParser.getInstance();
+    private ConversationMaker conversationMaker = new ConversationMaker();
 
     public Bot(){
     }
@@ -43,6 +44,7 @@ public class Bot implements ChatListener{
 //                System.out.println("failed to parse: "+s);
             }
         }
+        conversationMaker.check(users.values());
     }
 
     @Override
