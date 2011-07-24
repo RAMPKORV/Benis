@@ -130,6 +130,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         
         //TODO implement AutoScroll check from chatOptions
         String chatName = m.getFrom()+" - "+m.getTo();
+        if(m.getFrom().compareTo(m.getTo())>0){
+            chatName = m.getTo()+" - "+m.getFrom();
+        }
 
         JTextArea chat = chats.get(chatName);
         if(chat==null){
