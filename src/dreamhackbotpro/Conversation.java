@@ -97,15 +97,20 @@ public class Conversation {
     }
 
     public void onMessage(User u, Message m) {
+        onMessage(u, m, true);
+    }
+
+    public void onMessage(User u, Message m, boolean transform){
         numMessages++;
         if(u==buyer)
             m.setTo(seller.getName());
         else
             m.setTo(buyer.getName());
-        
+
         //do all the logic. Replace buyerThing with sellerThing etc.
-        behavior.transformMessage(this, m);
-        
+        if(transform)
+            behavior.transformMessage(this, m);
+
         if(m.getMessage().length() > 0) {
             for(ConversationsListener l : listeners){
                 l.onConversationMessage(m);
