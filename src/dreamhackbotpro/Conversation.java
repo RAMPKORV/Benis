@@ -15,10 +15,16 @@ public class Conversation {
     private String sellerThing;
     private int buyerPrice;
     private int sellerPrice;
+    private int numMessages = 0;
+
+    public int getNumMessages() {
+        return numMessages;
+    }
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
+
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
         this.buyer = buyer;
@@ -80,6 +86,7 @@ public class Conversation {
     }
 
     public void onMessage(User u, Message m) {
+        numMessages++;
         if(u==buyer)
             m.setTo(seller.getName());
         else
@@ -88,8 +95,10 @@ public class Conversation {
         //do all the logic. Replace buyerThing with sellerThing etc.
         behavior.transformMessage(this, m);
         
-        for(ConversationsListener l : listeners){
-            l.onConversationMessage(m);
+        if(m.getMessage().length() > 0) {
+            for(ConversationsListener l : listeners){
+                l.onConversationMessage(m);
+            }
         }
     }
 

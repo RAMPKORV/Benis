@@ -20,9 +20,26 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public void transformMessage(Conversation c, Message m) {
+        String msg = m.getMessage();
+        if(Greeting.isSimpleGreeting(msg)) {
+            m.setMessage("");
+            return;
+        }
+
+        // Delete greetings after the first two messages of the conversation
+        if(c.getNumMessages() > 2) {
+            String greeting;
+            do {
+                greeting = Greeting.hasGreeting(msg);
+                if(greeting != null) {
+                    msg = msg.replaceAll("(?i)"+Pattern.quote(greeting), "");
+                }
+            } while(greeting != null);
+        }
+
         // TODO: Fetch botNick from somewhere else
         String botNick = "Monsquaz";
-        String msg = m.getMessage();
+        
         String buyer = c.getBuyer().getName();
         String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();
