@@ -30,6 +30,8 @@ public class ConversationMaker {
         User bestSeller = null;
 
         for(User u : users){
+            if(u.getConversation() != null)
+                continue;
             Random random = new Random();
             Interest bestInterest;
             // Use random strategy to determine best interest

@@ -13,6 +13,10 @@ public class User {
     private volatile List<Interest> interests = new ArrayList<Interest>();
     private Conversation conversation = null;
     private long lastMessage;
+
+    public Conversation getConversation() {
+        return conversation;
+    }
     private String name;
 
     public User(String name) {
