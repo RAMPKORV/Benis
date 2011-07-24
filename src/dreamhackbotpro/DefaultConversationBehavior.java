@@ -50,12 +50,15 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         if(m.getFrom().equals(c.getBuyer().getName())) {
             String priceString = p.parsePriceString(msg);
             if(priceString != null) {
+                System.out.println("BuyerPriceString " + priceString);
                 int price = p.parsePrice(msg);
                 if(price == buyerPrice) {
-                    msg = msg.replace(priceString, sellerPrice + "kr");
+                    System.out.println("buyerEqual");
+                    msg = msg.replace(priceString, sellerPrice + "");
                 } else {
-                    int newPrice = sellerPrice * (1 - (Math.abs(price - buyerPrice)/buyerPrice));
-                    msg = msg.replace(priceString, newPrice + "kr");
+                    System.out.println("buyerDiff");
+                    int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
+                    msg = msg.replace(priceString, newPrice + "");
                 }
             }
             for(String s : words) {
@@ -75,15 +78,15 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         } else {
             String priceString = p.parsePriceString(msg);
             if(priceString != null) {
-                System.out.println("KUKEN1: " + priceString);
+                System.out.println("sellerPriceString " + priceString);
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
-                    System.out.println("KUKEN2");
-                    msg = msg.replace(priceString, buyerPrice + "kr");
+                    System.out.println("sellerEqual");
+                    msg = msg.replace(priceString, buyerPrice+"");
                 } else {
-                    System.out.println("KUKEN3");
-                    int newPrice = buyerPrice * (1 - (Math.abs(price - sellerPrice)/sellerPrice));
-                    msg = msg.replace(priceString, newPrice + "kr");
+                    System.out.println("sellerDiff");
+                    int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
+                    msg = msg.replace(priceString, newPrice+"");
                 }
             }
             for(String s : words) {
