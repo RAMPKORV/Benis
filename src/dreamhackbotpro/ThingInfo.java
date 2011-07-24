@@ -217,10 +217,16 @@ public class ThingInfo implements Comparable<ThingInfo> {
         }
         if(!contained)
             return word;
+
+        // Only use the mostly mentioned third.
+        fromWords = fromWords.subList(0, fromWords.size()/3);
+        toWords = toWords.subList(0, toWords.size()/3);
+
         int fromSize = fromWords.size();
         int toSize = fromWords.size();
         if(fromSize == 0 || toSize == 0)
             return word;
+
         return(toWords.get(fromWords.indexOf(word) % toWords.size()).getWord());
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -243,8 +249,22 @@ public class ThingInfo implements Comparable<ThingInfo> {
             "till","skriv","aldrig","nästan",
             "använd","annat","kommer","levererar",
             "medföljer","sidan","spänn","halvt",
-            "använt","full","endast"
+            "använt","full","endast","från",
+            "alla","dugligt","fult","runt",
+            "spela","bara","bytes","halv",
+            "oöppnat","ursprungspris","något","gamla",
+            "grannes","legat","efter","fråga",
+            "gärna","mycket","priser","mindre",
+            "fungerar","klockrent","köpa","sälja",
+            "inom","samt","saknas","dock",
+            "about","price","minut","cheap",
+            "inte","biligt","innom","nacken",
+            "very","andra","ifall","iskall",
+            "sånt","uppskattat","nypris","installerat",
+            "cirka","bannat","under"
         };
+        if(word.matches("[1-9][0-9]*kr"))
+            return true;
         for(String w : uselessWords) {
             if(w.equals(word))
                 return true;
