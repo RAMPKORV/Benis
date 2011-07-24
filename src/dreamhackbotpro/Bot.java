@@ -64,7 +64,7 @@ public class Bot implements ChatListener{
 
     @Override
     public void onPrivateMessage(Message m) {
-        User user = users.get(m.toString());
+        User user = users.get(m.getFrom());
         if(user==null){
             user = new User(m.getFrom());
             users.put(m.getFrom(), user);
