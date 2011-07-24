@@ -53,7 +53,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replace(s, seller);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, sellerThing);
-                if(s.toLowerCase().contains(buyerThing));
+                if(s.toLowerCase().contains(buyerThing))
                     msg = msg.replace(s, sellerThing);
                 String translated = ThingInfo.translateBuzzWord(buyerThing, sellerThing, s);
                 if(!translated.equals(s)) {
@@ -69,7 +69,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, buyerThing);
                 String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);
-                if(s.toLowerCase().contains(sellerThing));
+                if(s.toLowerCase().contains(sellerThing))
                     msg = msg.replace(s, buyerThing);
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
