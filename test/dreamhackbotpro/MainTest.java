@@ -19,7 +19,7 @@ public class MainTest {
         Conversation.addConversationsListener(seatReader);
         Conversation.addConversationsListener(new ConversationsListener(){
             public void onConversationMessage(Message m) {
-                System.out.println("KUK:" + m);
+                System.out.println("Message sent:" + m);
             }
         });
         logReader.read("log4000.txt");
