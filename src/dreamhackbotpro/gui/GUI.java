@@ -135,6 +135,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         if(chat==null){
             chat = new JTextArea(chatName);
             listData.addElement(chatName);
+            chats.put(chatName, chat);
         }
         chat.append('\n'+timeStamp()+m.toString());
     }
