@@ -35,6 +35,14 @@ public class Conversation {
         //Possible solution: add a public sendGreeting method called after Conversation has been constructed
     }
 
+    public int getBuyerPrice() {
+        return buyerPrice;
+    }
+
+    public int getSellerPrice() {
+        return sellerPrice;
+    }
+
     public Conversation(User buyer, User seller) {
         this(buyer, seller, null, null, -1, -1);
         //TODO perhaps getPrioritizedInterest should be used?

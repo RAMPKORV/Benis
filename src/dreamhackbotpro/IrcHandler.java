@@ -133,8 +133,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                 message=recoded;
             }
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
             //happens when ISO is not found
+            error(ex.getMessage());
         }
         
         for(ChatListener l : listeners) {

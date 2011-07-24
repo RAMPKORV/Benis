@@ -1,6 +1,7 @@
 package dreamhackbotpro;
 
 import java.util.Collection;
+import java.util.Random;
 
 /**
  *
@@ -21,9 +22,19 @@ public class ConversationMaker {
         User bestBuyer = null;
         User bestSeller = null;
 
-        //TODO perhaps getPrioritizedInterest should be used?
         for(User u : users){
-            Interest bestInterest = u.getMostCertainInterest();
+            Random random = new Random();
+            Interest bestInterest;
+            // Use random strategy to determine best interest
+            if(random.nextBoolean()) {
+                bestInterest = u.getMostCertainInterest();
+                if(bestInterest==null)
+                    bestInterest = u.getPrioritizedInterest();
+            } else {
+                bestInterest = u.getPrioritizedInterest();
+                if(bestInterest==null)
+                    bestInterest = u.getMostCertainInterest();
+            }
             if(bestInterest==null){
                 continue;
             }
@@ -48,7 +59,9 @@ public class ConversationMaker {
 
         if(bestBuyer!=null && bestSeller!=null){
             Conversation con = new Conversation(bestBuyer, bestSeller);
-            //TODO send greeting
+            //Send greeting
+            con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName()));
+            con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName()));
         }
     }
 
