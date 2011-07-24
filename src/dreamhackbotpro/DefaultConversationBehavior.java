@@ -54,11 +54,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 int price = p.parsePrice(msg);
                 if(price == buyerPrice) {
                     System.out.println("buyerEqual");
-                    msg = msg.replace(priceString, sellerPrice + "kr");
+                    msg = msg.replace(priceString, sellerPrice + "");
                 } else {
                     System.out.println("buyerDiff");
-                    int newPrice = (int) ((float)sellerPrice * (1.0f - (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
-                    msg = msg.replace(priceString, newPrice + "kr");
+                    int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
+                    msg = msg.replace(priceString, newPrice + "");
                 }
             }
             for(String s : words) {
@@ -82,11 +82,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
                     System.out.println("sellerEqual");
-                    msg = msg.replace(priceString, buyerPrice + "kr");
+                    msg = msg.replace(priceString, buyerPrice+"");
                 } else {
                     System.out.println("sellerDiff");
                     int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
-                    msg = msg.replace(priceString, newPrice + "kr");
+                    msg = msg.replace(priceString, newPrice+"");
                 }
             }
             for(String s : words) {
