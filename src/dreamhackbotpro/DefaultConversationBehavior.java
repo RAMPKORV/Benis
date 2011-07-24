@@ -20,6 +20,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public void transformMessage(Conversation c, Message m) {
+        SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
         if(Greeting.isSimpleGreeting(msg)) {
             m.setMessage("");
@@ -38,15 +39,17 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         }
 
         // TODO: Fetch botNick from somewhere else
-        String botNick = "Monsquaz";
-        
+        String botNick = "Monsquaz";      
         String buyer = c.getBuyer().getName();
         String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();
         String sellerThing = c.getSellerThing();
+        int buyerPrice = c.getBuyerPrice();
+        int sellerPrice = c.getSellerPrice();
         String[] words = msg.split(" ");
         if(m.getFrom().equals(c.getBuyer().getName())) {
             for(String s : words) {
+                msg = msg.replace(""+buyerPrice,""+sellerPrice);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
@@ -62,15 +65,16 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } else {
             for(String s : words) {
+                msg = msg.replace(""+sellerPrice,""+buyerPrice);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, buyer);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, buyerThing);
-                String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);
                 if(s.toLowerCase().contains(sellerThing))
                     msg = msg.replace(s, buyerThing);
+                String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);               
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
                 }
