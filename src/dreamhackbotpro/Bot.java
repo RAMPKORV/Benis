@@ -35,7 +35,7 @@ public class Bot implements ChatListener{
         for(String s : m.getMessage().split("\\.(?![0-9])")){
             Interest i = parser.parseInterest(s);
             if(i!=null){
-                parser.parseAttributes(i, s);
+                parser.parseBuzzWords(i, s);
                 user.addInterest(i);
             }
             else{

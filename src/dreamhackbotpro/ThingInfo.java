@@ -179,8 +179,12 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     public void mention(String word) {
         word = word.toLowerCase();
+        word = word.replaceAll("[^a-zA-ZåäöÅÄÖ0-9]", "");
         if(word.length() < 4)
             return;
+        if(useless(word)) {
+            return;
+        }
         WordInfo wi = buzzWordsMap.get(word);
         int occurances;
         if(wi == null) {
@@ -227,6 +231,25 @@ public class ThingInfo implements Comparable<ThingInfo> {
     public List<WordInfo> getMentionedWordsSorted() {
         Collections.sort(buzzWordsSorted);
         return buzzWordsSorted;
+    }
+
+    private boolean useless(String word) {
+        // Non-special words that should not be translated
+        String[] uselessWords = {
+            "ingen","någon","hallen","eller",
+            "helt","intresserad","båda","annan",
+            "vanligt","följer","med","sätter",
+            "kostade","kostar","text","olika",
+            "till","skriv","aldrig","nästan",
+            "använd","annat","kommer","levererar",
+            "medföljer","sidan","spänn","halvt",
+            "använt"
+        };
+        for(String w : uselessWords) {
+            if(w.equals(word))
+                return true;
+        }
+        return false;
     }
 
 }

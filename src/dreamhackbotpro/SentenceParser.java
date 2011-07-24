@@ -260,7 +260,7 @@ public class SentenceParser {
         return null;
     }
 
-    public void parseAttributes(Interest i, String s) {
+    public void parseBuzzWords(Interest i, String s) {
         s = s.replace(i.getThing(), "");
         s = s.replace(""+i.getPrice(), "");
         s = s.replace("WTB", "");
