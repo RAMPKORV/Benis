@@ -243,7 +243,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
             "till","skriv","aldrig","nästan",
             "använd","annat","kommer","levererar",
             "medföljer","sidan","spänn","halvt",
-            "använt"
+            "använt","full","endast"
         };
         for(String w : uselessWords) {
             if(w.equals(word))
