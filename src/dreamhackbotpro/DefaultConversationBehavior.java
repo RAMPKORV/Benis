@@ -1,5 +1,7 @@
 package dreamhackbotpro;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -27,7 +29,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             return;
         }
 
-        // Delete greetings after the first two messages of the conversation
+        // Delete greetings after the first two messages of the conversation        
         String greeting;
         do {
             greeting = Greeting.hasGreeting(msg);
@@ -48,29 +50,27 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
             int index = 0;
-            int j = 0;
-            while(index < msg.length()-1 && j++ < 10) {
-                System.out.println("J: "+j);
-                String priceString = p.parsePriceString(msg.substring(index));
+            List<String> priceStrings = new ArrayList<String>();
+            while(index < msg.length()-1) {
+                String priceString = p.parsePriceString(msg.substring(index, msg.length()-1));
                 if(priceString != null) {
-                    System.out.println("BuyerPriceString " + priceString);
-                    int price = p.parsePrice(msg.substring(index));
-                    if(price == buyerPrice) {
-                        System.out.println("buyerEqual");
-                        msg = msg.replace(priceString, sellerPrice + "");
-                    } else {
-                        System.out.println("buyerDiff");
-                        int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
-                        newPrice = Utils.roundPrice(newPrice);
-                        msg = msg.replace(priceString, newPrice + "");
-                    }
-                    index = msg.indexOf(priceString);
+                    System.out.println(priceString);
+                    priceStrings.add(priceString);
                 } else {
-                    System.out.println("BREAK!");
                     break;
                 }
+                index += msg.substring(index).indexOf(priceString);
             }
-            System.out.println("AFTER BUYERPRICE: "+msg);
+            for(String priceString : priceStrings) {
+                int price = p.parsePrice(priceString);
+                if(price == buyerPrice) {
+                    msg = msg.replace(priceString, sellerPrice + "");
+                } else {
+                    int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
+                    newPrice = Utils.roundPrice(newPrice);
+                    msg = msg.replace(priceString, newPrice + "");
+                }
+            }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
@@ -87,29 +87,27 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } else {
             int index = 0;
-            int j = 0;
-            while(index < msg.length()-1 && j++ < 10) {
-                System.out.println("J: "+j);
-                String priceString = p.parsePriceString(msg.substring(index));
+            List<String> priceStrings = new ArrayList<String>();
+            while(index < msg.length()-1) {
+                String priceString = p.parsePriceString(msg.substring(index, msg.length()-1));
                 if(priceString != null) {
-                    System.out.println("sellerPriceString " + priceString);
-                    int price = p.parsePrice(msg.substring(index));
-                    if(price == sellerPrice) {
-                        System.out.println("sellerEqual");
-                        msg = msg.replace(priceString, buyerPrice+"");
-                    } else {
-                        System.out.println("sellerDiff");
-                        int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
-                        newPrice = Utils.roundPrice(newPrice);
-                        msg = msg.replace(priceString, newPrice+"");
-                    }
-                    index = msg.indexOf(priceString);
+                    System.out.println(priceString);
+                    priceStrings.add(priceString);
                 } else {
-                    System.out.println("BREAK!");
                     break;
                 }
+                index += msg.substring(index).indexOf(priceString);
             }
-            System.out.println("AFTER SELLERPRICE: "+msg);
+            for(String priceString : priceStrings) {
+                int price = p.parsePrice(priceString);
+                if(price == sellerPrice) {
+                    msg = msg.replace(priceString, buyerPrice + "");
+                } else {
+                    int newPrice = (int) ((float)buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
+                    newPrice = Utils.roundPrice(newPrice);
+                    msg = msg.replace(priceString, newPrice + "");
+                }
+            }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, botNick);
