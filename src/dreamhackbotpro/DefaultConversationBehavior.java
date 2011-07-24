@@ -30,11 +30,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String[] words = msg.split(" ");
         if(m.getFrom().equals(c.getBuyer().getName())) {
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer) < s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer) <= s.length()/4)
                     msg = msg.replace(s, botNick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) < s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) <= s.length()/4)
                     msg = msg.replace(s, seller);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) < s.length()/4) 
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, sellerThing);
                 String translated = ThingInfo.translateBuzzWord(buyerThing, sellerThing, s);
                 if(!translated.equals(s)) {
@@ -43,11 +43,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } else {
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller) < s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller) <= s.length()/4)
                     msg = msg.replace(s, botNick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) < s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick) <= s.length()/4)
                     msg = msg.replace(s, buyer);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) < s.length()/4) 
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, buyerThing);
                 String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);
                 if(!translated.equals(s)) {
