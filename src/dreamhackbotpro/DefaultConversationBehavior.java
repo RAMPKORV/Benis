@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class DefaultConversationBehavior implements ConversationBehavior {
 
     private static DefaultConversationBehavior instance = null;
-
+    private static final String SEPARATOR = "*%¤#KUK#¤%*";
     private DefaultConversationBehavior() {}
 
     public static synchronized DefaultConversationBehavior getInstance() {
@@ -56,17 +56,17 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 if(price == buyerPrice) {
                     String newPriceString = priceString.replace(price+"", sellerPrice+"");
                     newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
+                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, true);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
                     newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
+                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 }
             }
             while(i > 0) {
                 i--;
-                msg = msg.replace("%%%%"+i+"%%%%", newPrices.get(i));
+                msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
@@ -93,17 +93,17 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 if(price == sellerPrice) {
                     String newPriceString = priceString.replace(price+"", buyerPrice+"");
                     newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
+                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, false);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
                     newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
+                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 }
             }
             while(i > 0) {
                 i--;
-                msg = msg.replace("%%%%"+i+"%%%%", newPrices.get(i));
+                msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)
