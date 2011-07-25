@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * @author patrik
  */
-public class Conversation {
+public class Conversation implements Comparable<Conversation> {
 
     private User buyer;
     private User seller;
@@ -116,6 +116,22 @@ public class Conversation {
                 l.onConversationMessage(m);
             }
         }
+    }
+
+    public int compareTo(Conversation t) {
+        if(numMessages > t.numMessages)
+            return 1;
+        if(numMessages < t.numMessages)
+            return -1;
+        if(buyerPrice > t.buyerPrice)
+            return 1;
+        if(buyerPrice < t.buyerPrice)
+            return -1;
+        if(sellerPrice > t.sellerPrice)
+            return 1;
+        if(sellerPrice < t.sellerPrice)
+            return -1;
+        return 0;
     }
 
 }
