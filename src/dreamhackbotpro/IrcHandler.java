@@ -28,6 +28,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
+        setLogin(System.getProperty("user.name"));
         try {
             setEncoding("ISO-8859-1");
         } catch (Exception ex) {
@@ -201,8 +202,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(m.getTo()))
             return;
         //Ignore messages that aren't for this handler
-        if(!m.getBotNick().equals(getName()))
+        if(!m.getBotNick().equals(getName())) {
+            System.out.println("Ignored: Botnick="+m.getBotNick()+", getName="+getName());
             return;
+        }
         this.sendMessage(m.getTo(), m.getMessage());
     }
 }

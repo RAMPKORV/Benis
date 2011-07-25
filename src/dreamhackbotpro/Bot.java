@@ -44,7 +44,7 @@ public class Bot implements ChatListener{
 //                System.out.println("failed to parse: "+s);
             }
         }
-        conversationMaker.check(users.values());
+        conversationMaker.check(users.values(), m.getBotNick());
     }
 
     @Override

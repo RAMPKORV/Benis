@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Basic buyer/seller and buyerthing/sellerthing replaces without any analysis.
+ * Conversation behavior which replaces buyerthing/sellerthing etc.
  * @author patrik
  */
 public class DefaultConversationBehavior implements ConversationBehavior {
@@ -37,8 +37,6 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } while(greeting != null);
         
-
-        // TODO: Fetch botNick from somewhere else
         String botNick = m.getBotNick();
 
         String buyer = c.getBuyer().getName();
