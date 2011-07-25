@@ -62,11 +62,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
                     msg = msg.replace(s, botNick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
                     msg = msg.replace(s, seller);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= s.length()/4) {
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= Math.max(s.length(),buyerThing.length())/4) {
                     msg = msg.replace(s, sellerThing);
                 } else {
                     if(s.toLowerCase().contains(buyerThing))
@@ -91,11 +91,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
             for(String s : words) {
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)
                     msg = msg.replace(s, botNick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
                     msg = msg.replace(s, buyer);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4) {
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= Math.max(s.length(),sellerThing.length())/4) {
                     msg = msg.replace(s, buyerThing);
                 } else {
                 if(s.toLowerCase().contains(sellerThing))

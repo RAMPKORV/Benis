@@ -208,7 +208,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
             return word;
         boolean contained = false;
         for(WordInfo fromWord : fromWords) {
-            if(SentenceParser.getLevenshteinDistance(fromWord.getWord(), word) < word.length()/4) {
+            if(SentenceParser.getLevenshteinDistance(fromWord.getWord(), word) < Math.max(word.length(),fromWord.getWord().length())/4) {
                 word = fromWord.getWord();
                 contained = true;
                 break;
@@ -265,7 +265,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         if(word.matches("[1-9][0-9]*kr"))
             return true;
         for(String w : uselessWords) {
-            if(SentenceParser.getLevenshteinDistance(w, word) <= word.length()/4)
+            if(SentenceParser.getLevenshteinDistance(w, word) <= Math.max(w.length(),word.length())/4)
                 return true;
         }
         return false;
