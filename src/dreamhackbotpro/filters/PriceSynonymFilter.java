@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  *
  * @author wasd
  */
-class PriceSynonymFilter implements MessageFilter {
+public class PriceSynonymFilter implements MessageFilter {
 
     private Pattern pattern = Pattern.compile("([1-9][0-9]*)[ ]*(lax|spänn|kr|hundring|hundralapp|hundralappar|kronor|riksdaler|sek|\\:-|tjuga|tjugor|tjugolapp|tjugolappar)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 

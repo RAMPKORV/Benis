@@ -94,8 +94,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
     
     private void appendToChannel(String s){
-        //TODO implement AutoScroll check from chatOptions
         channel.append('\n'+timeStamp()+s);
+        channel.setCaretPosition(channel.getDocument().getLength());
     }
 
     @Override
@@ -105,7 +105,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
 
     @Override
     public void onNameChange(String oldName, String newName) {
-        //TODO output "oldName changed name to newName" in channel tab
         //TODO check if the user is in any chat, append namechange in chat
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -117,7 +116,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
 
     @Override
     public void onQuit(String user) {
-        appendToChannel("User left: "+user);
     }
     
     @Override
@@ -141,6 +139,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             chats.put(chatName, chat);
         }
         chat.append('\n'+timeStamp()+m.toString());
+        chat.setCaretPosition(chat.getDocument().getLength());
     }
     
     @Override
