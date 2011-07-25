@@ -35,6 +35,7 @@ public class RelatedSentenceFilterTest extends MessageFilterTest{
     @Test
     public void testFilter() {
         checkFromTo("WTS snus. 50kr", "WTS snus 50kr");
+        checkFromTo("WTS snus. WTB cigg 20kr.", "WTS snus. WTB cigg 20kr.");
         //TODO more tests
     }
 
