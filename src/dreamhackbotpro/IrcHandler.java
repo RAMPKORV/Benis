@@ -28,6 +28,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
+        setLogin(System.getProperty("user.name"));
         try {
             setEncoding("ISO-8859-1");
         } catch (Exception ex) {
