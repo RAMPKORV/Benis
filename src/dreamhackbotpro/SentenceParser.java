@@ -221,7 +221,7 @@ public class SentenceParser {
         for(ThingInfo ti : Interest.getInterestsSorted()){
             String thing = ti.getThing();
             for(String word : words) {
-                if(getLevenshteinDistance(thing, word) <= word.length()/4) {
+                if(getLevenshteinDistance(thing, word) <= Math.max(word.length(),thing.length())/4) {
                     return thing;
                 }
             }
