@@ -51,9 +51,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         if(m.getFrom().equals(c.getBuyer().getName())) {
              List<String> priceStrings = p.parsePriceStrings(msg);
              for(String priceString : priceStrings) {
-                 System.out.println(priceString);
                 int price = p.parsePrice(priceString);
-                 System.out.println("Parsed price: "+price);
                 if(price == buyerPrice) {
                     msg = msg.replace(priceString, sellerPrice + "");
                 } else {
@@ -80,7 +78,6 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         } else {
              List<String> priceStrings = p.parsePriceStrings(msg);
              for(String priceString : priceStrings) {
-                 System.out.println(priceString);
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
                     msg = msg.replace(priceString, buyerPrice + "");
