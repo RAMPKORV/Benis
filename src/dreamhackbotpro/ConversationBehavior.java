@@ -6,6 +6,6 @@ package dreamhackbotpro;
  */
 public interface ConversationBehavior {
 
-    public void transformMessage(Conversation c, Message m);
+    public Message transformMessage(Conversation c, Message m);
 
 }

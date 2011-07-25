@@ -20,12 +20,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
     }
 
     @Override
-    public void transformMessage(Conversation c, Message m) {
+    public Message transformMessage(Conversation c, Message m) {
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
         if(Greeting.isSimpleGreeting(msg)) {
             m.setMessage("");
-            return;
+            return m;
         }
 
         // Delete greetings after the first two messages of the conversation        
@@ -104,6 +104,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         }
         m.setMessage(msg);
+        return m;
     }
 
     private int convertPrice(int price, int sellerPrice, int buyerPrice, boolean wtb) {
