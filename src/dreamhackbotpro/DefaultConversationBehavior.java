@@ -41,7 +41,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         
 
         // TODO: Fetch botNick from somewhere else
-        String botNick = "Monsquaz";      
+        String botNick = "Monsquaz";
+
         String buyer = c.getBuyer().getName();
         String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();

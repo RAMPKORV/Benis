@@ -105,4 +105,11 @@ public class SentenceParserTest {
         assertEquals(100, p.parsePrice("WTS mus nypris 200 säljes för 100"));
     }
 
+    @Test
+    public void testParsePriceString() {
+        SentenceParser p = SentenceParser.getInstance();
+        assertEquals("200kr", p.parsePriceString("200kr"));
+        assertEquals("200 kr", p.parsePriceString("200 kr"));
+    }
+
 }
