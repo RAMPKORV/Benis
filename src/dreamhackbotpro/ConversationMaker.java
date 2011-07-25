@@ -17,7 +17,7 @@ public class ConversationMaker {
     /**
      * @param users Should be users.values() from Bot
      */
-    public void check(Collection<User> users){
+    public void check(Collection<User> users, String botNick){
 
         //if(lastConversationMade>System.currentTimeMillis()-waitTime()){
         //    return;
@@ -68,8 +68,8 @@ public class ConversationMaker {
         if(bestBuyer!=null && bestSeller!=null){
             Conversation con = new Conversation(bestBuyer, bestSeller);
             //Send greeting
-            con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName()), false);
-            con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName()), false);
+            con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName(), botNick), false);
+            con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName(), botNick), false);
         }
         else{
             //reset timer to try on next message recieved instead of waiting 30 seconds
