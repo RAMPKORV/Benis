@@ -22,6 +22,7 @@ public class DefaultConversationBehaviorTest {
     private Conversation conversation;
     private String buyer;
     private String seller;
+    private String botNick;
 
     public DefaultConversationBehaviorTest() {
     }
@@ -36,6 +37,7 @@ public class DefaultConversationBehaviorTest {
 
     @Before
     public void setUp() {
+        botNick = "Monsquaz";
         buyer = "WASD";
         seller = "RAMPKORV";
         //WASD köper cigg för 50kr
@@ -50,8 +52,8 @@ public class DefaultConversationBehaviorTest {
 
     @Test
     public void testBuyerMessages() {
-        //assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
-        //assertTransformBuyer("Jag heter WASD","Jag heter Monsquaz");
+        assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
+        assertTransformBuyer("Jag heter WASD","Jag heter Monsquaz");
         assertTransformBuyer("Jag köper cigg", "Jag köper headset");
         assertTransformBuyer("Jag köper ciggen", "Jag köper headset");
         assertTransformBuyer("Jag köper cig", "Jag köper headset");
@@ -72,11 +74,11 @@ public class DefaultConversationBehaviorTest {
     }
 
     private void assertTransformBuyer(String input, String expected) {
-        assertEquals(expected, behavior.transformMessage(conversation, new Message(buyer, input, seller)).getMessage());
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(buyer, input, seller, botNick)).getMessage());
     }
 
     private void assertTransformSeller(String input, String expected) {
-        assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer)).getMessage());
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer, botNick)).getMessage());
     }
 
 }
