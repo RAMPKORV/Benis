@@ -60,6 +60,7 @@ public class MasterFilterTest extends MessageFilterTest {
     public void testWTSNormal() {
         checkFromTo("Säljer Snus! Original portion!", "WTS Snus. Original portion."); //Bot should later ignore "Original portion!"
         checkFromTo("WTB CIGG PAKET. OÖPPNAT!!!!! DU FÅR 60kr!!!", "WTB CIGG PAKET. OÖPPNAT. DU FÅR 60kr.");
+        checkFromTo("WTS snus. 50kr", "WTS snus 50kr");
     }
 
     @Test

@@ -18,6 +18,8 @@ public class MasterFilter extends CompositeMessageFilter {
 
         addMessageFilter(new TradingSynonymFilter());
 
+        //TODO add RelatedSentenceFilter
+
         addMessageFilter(new WhiteSpaceCleanerFilter());
     }
 }

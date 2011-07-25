@@ -25,7 +25,10 @@ public class RelatedSentenceFilter implements MessageFilter{
             String sentence = sentences[i];
             String nextSentence = sentences[i+1];
             if(isTradeNotPrice(sentence) && isPriceNotTrade(nextSentence)){
-                sentences[i] = sentence+nextSentence; //for some reason nextSentence has a space in the beginning. Probably has to do with the split
+                if(!nextSentence.startsWith(" ")){
+                    nextSentence+=" ";
+                }
+                sentences[i]+= nextSentence;
                 sentences[i+1] = "";
                 i++;
                 change=true;
