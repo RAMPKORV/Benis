@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -95,7 +96,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     
     private void appendToChannel(String s){
         channel.append('\n'+timeStamp()+s);
-        channel.setCaretPosition(channel.getDocument().getLength());
+        if(chatOptions.isAutoScroll())
+            channel.setCaretPosition(channel.getDocument().getLength());
     }
 
     @Override
@@ -125,8 +127,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
 
     @Override
     public void onConversationMessage(Message m) {
-        
-        //TODO implement AutoScroll check from chatOptions
+
         String chatName = m.getFrom()+" - "+m.getTo();
         if(m.getFrom().compareTo(m.getTo())>0){
             chatName = m.getTo()+" - "+m.getFrom();
@@ -135,11 +136,14 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         JTextArea chat = chats.get(chatName);
         if(chat==null){
             chat = new JTextArea(chatName);
+            chat.setLineWrap(true);
+            chat.setEditable(false);
             listData.addElement(chatName);
             chats.put(chatName, chat);
         }
         chat.append('\n'+timeStamp()+m.toString());
-        chat.setCaretPosition(chat.getDocument().getLength());
+        if(chatOptions.isAutoScroll())
+            chat.setCaretPosition(chat.getDocument().getLength());
     }
     
     @Override
