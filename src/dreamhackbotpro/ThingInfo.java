@@ -30,6 +30,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private float median = 0;
     private float stdDev = 0;
     private boolean predefined;
+    private String defaultBrand;
 
     static{
         loadPredefineInterests();
@@ -40,10 +41,11 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     public ThingInfo(Interest i) {
-        this(i, false);
+        this(i, false, null);
     }
     
-    private ThingInfo(Interest i, boolean preDefined) {
+    private ThingInfo(Interest i, boolean preDefined, String defaultBrand) {
+        this.defaultBrand=defaultBrand;
         thing = i.getThing();
         try {
             addInterest(i);
@@ -134,6 +136,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         return result;
     }
 
+    @Override
     public int compareTo(ThingInfo ti) {
         if(predefined && !ti.isPredefined())
             return -1;
@@ -156,17 +159,17 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
-        newPredefineInterest("snus", 50);
-        newPredefineInterest("cigg", 60);
-        newPredefineInterest("tangentbord", 250);
-        newPredefineInterest("deathadder", 300);
-        newPredefineInterest("jolt", 10);
-        newPredefineInterest("keps", 50);
+        newPredefineInterest("snus", 50, "rapé");
+        newPredefineInterest("cigg", 60, "john silver");
+        newPredefineInterest("tangentbord", 250, "saitek eclipse");
+        newPredefineInterest("deathadder", 300, null);
+        newPredefineInterest("jolt", 10, "jolt");
+        newPredefineInterest("keps", 50, null);
     }
 
-    private static void newPredefineInterest(String thing, int price){
+    private static void newPredefineInterest(String thing, int price, String defaultBrand){
         Interest i = new Interest(thing, price, true, 1f);
-        ThingInfo ti = new ThingInfo(i, true);
+        ThingInfo ti = new ThingInfo(i, true, defaultBrand);
         Interest.getInterestsMap().put(thing, ti);
         Interest.getInterestsSorted().add(ti);
     }
@@ -269,6 +272,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
                 return true;
         }
         return false;
+    }
+
+    public String getDefaultBrand() {
+        return defaultBrand;
     }
 
 }

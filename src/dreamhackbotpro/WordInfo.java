@@ -9,7 +9,7 @@ package dreamhackbotpro;
  *
  * @author patrik
  */
-class WordInfo implements Comparable<WordInfo> {
+public class WordInfo implements Comparable<WordInfo> {
     private String word;
     private int mentions;
 
