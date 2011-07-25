@@ -54,13 +54,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         listData.addElement("Main channel");
         listData.addElement("Options");
         listData.addElement("Thing table");
-        for (int i = 0; i < 30; i+=2) {
-            //test stuff. TODO remove
-            String s = "user"+i+" - user"+(i+1);
-            JTextArea chat = new JTextArea("Chat: "+s);
-            chats.put(s, chat);
-            listData.addElement(s);
-        }
+        listData.addElement(" ----- ");
         
         conversationList = new JList(listData);
         conversationList.setSelectedIndex(0);
@@ -81,7 +75,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         textAreaScroll = new JScrollPane(channel);
         mainMenu.add(textAreaScroll, BorderLayout.CENTER);
         
-        chatOptions = new ChatOptionsPanel();
+        chatOptions = new ChatOptionsPanel(this);
         mainMenu.add(chatOptions, BorderLayout.SOUTH);
         
         add(mainMenu, BorderLayout.CENTER);
@@ -170,9 +164,17 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             textAreaScroll.setViewportView(thingTable);
             return;
         }
-        JTextArea chat = chats.get(conversationList.getSelectedValue().toString());
+        String listValue = conversationList.getSelectedValue().toString();
+        if(listValue.equals(" ----- "))
+            return;
+        JTextArea chat = chats.get(listValue);
         //presume chat is not null
         textAreaScroll.setViewportView(chat);
+    }
+
+    public void updateListMark(){
+        listData.removeElement(" ----- ");
+        listData.addElement(" ----- ");
     }
 
 }
