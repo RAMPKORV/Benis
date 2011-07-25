@@ -51,7 +51,9 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         if(m.getFrom().equals(c.getBuyer().getName())) {
              List<String> priceStrings = p.parsePriceStrings(msg);
              for(String priceString : priceStrings) {
-                int price = p.parsePrice(msg);
+                 System.out.println(priceString);
+                int price = p.parsePrice(priceString);
+                 System.out.println("Parsed price: "+price);
                 if(price == buyerPrice) {
                     msg = msg.replace(priceString, sellerPrice + "");
                 } else {
@@ -64,10 +66,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, seller);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= s.length()/4) {
                     msg = msg.replace(s, sellerThing);
-                if(s.toLowerCase().contains(buyerThing))
-                    msg = msg.replace(s, sellerThing);
+                } else {
+                    if(s.toLowerCase().contains(buyerThing))
+                        msg = msg.replace(s, sellerThing);
+                }
                 String translated = ThingInfo.translateBuzzWord(buyerThing, sellerThing, s);
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
@@ -76,6 +80,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         } else {
              List<String> priceStrings = p.parsePriceStrings(msg);
              for(String priceString : priceStrings) {
+                 System.out.println(priceString);
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
                     msg = msg.replace(priceString, buyerPrice + "");
@@ -89,10 +94,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replace(s, botNick);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= s.length()/4)
                     msg = msg.replace(s, buyer);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4)
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= s.length()/4) {
                     msg = msg.replace(s, buyerThing);
+                } else {
                 if(s.toLowerCase().contains(sellerThing))
                     msg = msg.replace(s, buyerThing);
+                }
                 String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);               
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
