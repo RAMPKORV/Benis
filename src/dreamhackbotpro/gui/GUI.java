@@ -141,6 +141,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             listData.addElement(chatName);
             chats.put(chatName, chat);
         }
+        else{
+            listData.removeElement(chatName);
+            listData.addElement(chatName);
+        }
         chat.append('\n'+timeStamp()+m.toString());
         if(chatOptions.isAutoScroll())
             chat.setCaretPosition(chat.getDocument().getLength());
