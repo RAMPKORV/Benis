@@ -163,11 +163,11 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
-        newBrand("snus","rapé");
-        newBrand("cigg", "john silver");
-        newBrand("tangentbord", "saitek eclipse");
-        newBrand("mus",  "deathadder");
-        newBrand("jolt", "jolt");
+        newBrands("snus","rapé");
+        newBrands("cigg", "john silver");
+        newBrands("tangentbord", "saitek eclipse");
+        newBrands("mus",  "deathadder", "steelseries");
+        newBrands("jolt", "jolt");
 
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
@@ -177,9 +177,15 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newPredefineInterest("keps", 50);
     }
 
-    private static void newBrand(String item, String brand){
-        brandToItem.put(brand, item);
-        itemToBrand.put(item, brand);
+    /**
+     * @param item Name of the item
+     * @param brands Possible brands, the first brand will be used in itemToBrand
+     */
+    private static void newBrands(String item, String... brands){
+        itemToBrand.put(item, brands[0]);
+        for(String brand : brands){
+            brandToItem.put(item, brand);
+        }
     }
 
     private static void newPredefineInterest(String thing, int price){
