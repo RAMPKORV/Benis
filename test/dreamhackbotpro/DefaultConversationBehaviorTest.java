@@ -20,8 +20,8 @@ public class DefaultConversationBehaviorTest {
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
     private Conversation conversation;
-    private String from;
-    private String to;
+    private String buyer;
+    private String seller;
 
     public DefaultConversationBehaviorTest() {
     }
@@ -36,11 +36,11 @@ public class DefaultConversationBehaviorTest {
 
     @Before
     public void setUp() {
-        from = "WASD";
-        to = "RAMPKORV";
+        buyer = "WASD";
+        seller = "RAMPKORV";
         //WASD köper cigg för 50kr
         //RAMPKORV säljer headset för 200kr
-        conversation = new Conversation(new User(from), new User(to), "cigg", "headset", 50, 200);
+        conversation = new Conversation(new User(buyer), new User(seller), "cigg", "headset", 50, 200);
     }
 
     @After
@@ -49,14 +49,24 @@ public class DefaultConversationBehaviorTest {
     }
 
     @Test
-    public void testTransformMessage() {
-        assertTransform("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
-        assertTransform("Jag köper cigg", "Jag köper headset");
-        assertTransform("Du får 50 för den", "Du får 200 för den"); //"50kr" blir "200" utan kr
+    public void testBuyerMessages() {
+        assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
+        assertTransformBuyer("Jag köper cigg", "Jag köper headset");
+        assertTransformBuyer("Du får 50 för den", "Du får 200 för den"); //"50kr" blir "200" utan kr
     }
 
-    private void assertTransform(String input, String expected) {
-        assertEquals(expected, behavior.transformMessage(conversation, new Message(from, input, to)).getMessage());
+    @Test
+    public void testSellerMessages() {
+        assertTransformSeller("Jag säljer headset","Jag säljer cigg");
+        assertTransformSeller("Kom hit med 200", "Kom hit med 50"); //"200kr" blir "50" utan kr
+    }
+
+    private void assertTransformBuyer(String input, String expected) {
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(buyer, input, seller)).getMessage());
+    }
+
+    private void assertTransformSeller(String input, String expected) {
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer)).getMessage());
     }
 
 }
