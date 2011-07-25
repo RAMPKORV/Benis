@@ -136,7 +136,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }
         
         for(ChatListener l : listeners) {
-            l.onMessage(new Message(sender, message, null));
+            l.onMessage(new Message(sender, message, null, getName()));
         }
     }
 
@@ -145,7 +145,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(sender))
             return;
         for(ChatListener l : listeners) {
-            l.onPrivateMessage(new Message(sender, message, null));
+            l.onPrivateMessage(new Message(sender, message, null, getName()));
         }
     }
 

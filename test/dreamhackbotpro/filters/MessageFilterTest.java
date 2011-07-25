@@ -49,7 +49,7 @@ public abstract class MessageFilterTest {
     public abstract void tearDown();
 
     protected final void checkFromTo(String from, String to) {
-        Message m = new Message(from);
+        Message m = new Message(from, null);
         mf.filter(m);
         assertEquals(to, m.getMessage());
     }

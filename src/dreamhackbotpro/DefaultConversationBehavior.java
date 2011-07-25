@@ -39,7 +39,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         
 
         // TODO: Fetch botNick from somewhere else
-        String botNick = "Monsquaz";
+        String botNick = m.getBotNick();
 
         String buyer = c.getBuyer().getName();
         String seller = c.getSeller().getName();

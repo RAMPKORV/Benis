@@ -5,11 +5,13 @@ public class Message {
     private String from;
     private String message;
     private String to;
+    private String botNick;
 
-    public Message(String from, String message, String to) {
+    public Message(String from, String message, String to, String botNick) {
         this.from = from;
         this.message = message;
         this.to = to;
+        this.botNick = botNick;
     }
     
     /**
@@ -17,16 +19,16 @@ public class Message {
      * @param from
      * @param message
      */
-    public Message(String from, String message) {
-        this(from, message, null);
+    public Message(String from, String message, String botNick) {
+        this(from, message, null, botNick);
     }
 
     /**
      * Convenience constructor for quick testing
      * @param message
      */
-    public Message(String message) {
-        this(null, message, null);
+    public Message(String message, String botNick) {
+        this(null, message, null, botNick);
     }
 
     public String getFrom() {
@@ -39,6 +41,10 @@ public class Message {
 
     public String getTo() {
         return to;
+    }
+
+    public String getBotNick() {
+        return botNick;
     }
 
     @Override
