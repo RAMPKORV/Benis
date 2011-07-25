@@ -53,10 +53,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(priceString);
                 if(price == buyerPrice) {
-                    msg = msg.replace(priceString, sellerPrice + "");
+                    String newPriceString = priceString.replace(price+"", sellerPrice+"");
+                    msg = msg.replace(priceString, newPriceString);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, true);
-                    msg = msg.replace(priceString, newPrice + "");
+                    String newPriceString = priceString.replace(price+"", newPrice+"");
+                    msg = msg.replace(priceString, newPriceString);
                 }
             }
             for(String s : words) {
@@ -80,10 +82,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
-                    msg = msg.replace(priceString, buyerPrice + "");
+                    String newPriceString = priceString.replace(price+"", buyerPrice+"");
+                    msg = msg.replace(priceString, newPriceString);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, false);
-                    msg = msg.replace(priceString, newPrice + "");
+                    String newPriceString = priceString.replace(price+"", newPrice+"");
+                    msg = msg.replace(priceString, newPriceString);
                 }
             }
             for(String s : words) {
