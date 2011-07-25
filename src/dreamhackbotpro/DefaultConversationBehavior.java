@@ -1,5 +1,6 @@
 package dreamhackbotpro;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -48,16 +49,24 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
              List<String> priceStrings = p.parsePriceStrings(msg);
+             int i = 0;
+             List<String> newPrices = new ArrayList<String>();
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(priceString);
                 if(price == buyerPrice) {
                     String newPriceString = priceString.replace(price+"", sellerPrice+"");
-                    msg = msg.replace(priceString, newPriceString);
+                    newPrices.add(newPriceString);
+                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, true);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
-                    msg = msg.replace(priceString, newPriceString);
+                    newPrices.add(newPriceString);
+                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
                 }
+            }
+            while(i > 0) {
+                i--;
+                msg = msg.replace("%%%%"+i+"%%%%", newPrices.get(i));
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
@@ -77,16 +86,24 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } else {
              List<String> priceStrings = p.parsePriceStrings(msg);
+             int i = 0;
+             List<String> newPrices = new ArrayList<String>();
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
                     String newPriceString = priceString.replace(price+"", buyerPrice+"");
-                    msg = msg.replace(priceString, newPriceString);
+                    newPrices.add(newPriceString);
+                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, false);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
-                    msg = msg.replace(priceString, newPriceString);
+                    newPrices.add(newPriceString);
+                    msg = msg.replaceFirst(Pattern.quote(priceString), "%%%%"+(i++)+"%%%%");
                 }
+            }
+            while(i > 0) {
+                i--;
+                msg = msg.replace("%%%%"+i+"%%%%", newPrices.get(i));
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)

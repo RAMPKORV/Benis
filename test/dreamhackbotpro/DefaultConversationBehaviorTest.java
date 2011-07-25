@@ -50,8 +50,8 @@ public class DefaultConversationBehaviorTest {
 
     @Test
     public void testBuyerMessages() {
-        assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
-        assertTransformBuyer("Jag heter WASD","Jag heter Monsquaz");
+        //assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
+        //assertTransformBuyer("Jag heter WASD","Jag heter Monsquaz");
         assertTransformBuyer("Jag köper cigg", "Jag köper headset");
         assertTransformBuyer("Jag köper ciggen", "Jag köper headset");
         assertTransformBuyer("Jag köper cig", "Jag köper headset");
@@ -60,6 +60,8 @@ public class DefaultConversationBehaviorTest {
         assertTransformBuyer("Du får 50 kr för den", "Du får 200 kr för den");
         assertTransformBuyer("Du får 100 för den", "Du får 400 för den");
         assertTransformBuyer("Du får 25 för den", "Du får 100 för den");
+        conversation = new Conversation(new User(buyer), new User(seller), "cigg", "headset", 60, 400);
+        assertTransformBuyer("60kr låter som ett riktigt kap. 70kr skulle vara bra med.", "400kr låter som ett riktigt kap. 470kr skulle vara bra med.");
     }
 
     @Test
