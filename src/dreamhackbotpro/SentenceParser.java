@@ -115,7 +115,11 @@ public class SentenceParser {
         //Try parsing simple
         Matcher matcher = priceSimple.matcher(s);
         if(matcher.find()) {
-            return Integer.parseInt(matcher.group(1));
+            try {
+                return Integer.parseInt(matcher.group(1));
+            } catch(NumberFormatException ex) {
+                //Ignore and go on
+            }
         }
         
         //Remove all seats
@@ -132,7 +136,11 @@ public class SentenceParser {
 
         matcher = eventualPrice.matcher(s);
         if(matcher.find()) {
-            return Integer.parseInt(matcher.group(0));
+            try {
+                return Integer.parseInt(matcher.group(0));
+            } catch(NumberFormatException ex) {
+                //Ignore and go on
+            }
         }
 
         return -1;

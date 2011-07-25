@@ -65,6 +65,7 @@ public class DefaultConversationBehaviorTest {
     @Test
     public void testSellerMessages() {
         assertTransformSeller("Jag säljer headset","Jag säljer cigg");
+        assertTransformSeller("Bud på headsetet?","Bud på cigg?");
         assertTransformSeller("Kom hit med 200", "Kom hit med 50"); //"200kr" blir "50" utan kr
     }
 
