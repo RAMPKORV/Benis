@@ -30,7 +30,12 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private float median = 0;
     private float stdDev = 0;
     private boolean predefined;
-    private String defaultBrand;
+
+    //TODO
+    //brandToItem should be used when people announce brands in #trade to get which item they are talking about
+    //itemToBrand should be used when buyer asks "vilket märke?" or similar in private chat. If brand found, block the message and reply with brand
+    private static Map<String, String> brandToItem = new HashMap<String, String>();
+    private static Map<String, String> itemToBrand = new HashMap<String, String>();
 
     static{
         loadPredefineInterests();
@@ -41,11 +46,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     public ThingInfo(Interest i) {
-        this(i, false, null);
+        this(i, false);
     }
     
-    private ThingInfo(Interest i, boolean preDefined, String defaultBrand) {
-        this.defaultBrand=defaultBrand;
+    private ThingInfo(Interest i, boolean preDefined) {
         thing = i.getThing();
         try {
             addInterest(i);
@@ -159,17 +163,28 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
-        newPredefineInterest("snus", 50, "rapé");
-        newPredefineInterest("cigg", 60, "john silver");
-        newPredefineInterest("tangentbord", 250, "saitek eclipse");
-        newPredefineInterest("deathadder", 300, null);
-        newPredefineInterest("jolt", 10, "jolt");
-        newPredefineInterest("keps", 50, null);
+        newBrand("snus","rapé");
+        newBrand("cigg", "john silver");
+        newBrand("tangentbord", "saitek eclipse");
+        newBrand("mus",  "deathadder");
+        newBrand("jolt", "jolt");
+
+        newPredefineInterest("snus", 50);
+        newPredefineInterest("cigg", 60);
+        newPredefineInterest("tangentbord", 250);
+        newPredefineInterest("mus", 250);
+        newPredefineInterest("jolt", 10);
+        newPredefineInterest("keps", 50);
     }
 
-    private static void newPredefineInterest(String thing, int price, String defaultBrand){
+    private static void newBrand(String item, String brand){
+        brandToItem.put(brand, item);
+        itemToBrand.put(item, brand);
+    }
+
+    private static void newPredefineInterest(String thing, int price){
         Interest i = new Interest(thing, price, true, 1f);
-        ThingInfo ti = new ThingInfo(i, true, defaultBrand);
+        ThingInfo ti = new ThingInfo(i, true);
         Interest.getInterestsMap().put(thing, ti);
         Interest.getInterestsSorted().add(ti);
     }
@@ -275,7 +290,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     public String getDefaultBrand() {
-        return defaultBrand;
+        return itemToBrand.get(thing);
     }
 
 }
