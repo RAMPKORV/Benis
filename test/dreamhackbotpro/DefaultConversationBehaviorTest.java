@@ -51,8 +51,11 @@ public class DefaultConversationBehaviorTest {
     @Test
     public void testBuyerMessages() {
         assertTransformBuyer("Du heter Monsquaz","Du heter RAMPKORV"); //behaviour uses Monsquaz as the name of the bot
+        assertTransformBuyer("Jag heter WASD","Jag heter Monsquaz");
         assertTransformBuyer("Jag köper cigg", "Jag köper headset");
         assertTransformBuyer("Du får 50 för den", "Du får 200 för den"); //"50kr" blir "200" utan kr
+        assertTransformBuyer("Du får 100 för den", "Du får 400 för den");
+        assertTransformBuyer("Du får 25 för den", "Du får 100 för den");
     }
 
     @Test
