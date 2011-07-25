@@ -99,7 +99,7 @@ public class SentenceParser {
     Pattern seat = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
     Pattern otherValues1 = Pattern.compile("(orginalpris|orginal pris|nypris|ny pris|model|modell|modellnummer)[ ]+[a-zA-ZåäöÅÄÖ]?[1-9][0-9]+", Pattern.CASE_INSENSITIVE);
     Pattern otherValues2 = Pattern.compile("[0-9]+\\.[0-9]+");
-    Pattern eventualPrice = Pattern.compile("[1-9][0-9]0");
+    Pattern eventualPrice = Pattern.compile("[1-9][0-9]+");
     /**
      * Parses the price from a sentence
      * @param s The sentence
