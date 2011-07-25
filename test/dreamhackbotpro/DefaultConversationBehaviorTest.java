@@ -57,7 +57,6 @@ public class DefaultConversationBehaviorTest {
         assertTransformBuyer("Jag köper cigg", "Jag köper headset");
         assertTransformBuyer("Jag köper ciggen", "Jag köper headset");
         assertTransformBuyer("Jag köper cig", "Jag köper headset");
-        assertTransformBuyer("Du får 50 för den", "Du får 200 för den"); //"50kr" blir "200" utan kr
         assertTransformBuyer("Du får 50kr för den", "Du får 200kr för den");
         assertTransformBuyer("Du får 50 kr för den", "Du får 200 kr för den");
         assertTransformBuyer("Du får 100 för den", "Du får 400 för den");
@@ -70,7 +69,7 @@ public class DefaultConversationBehaviorTest {
     public void testSellerMessages() {
         assertTransformSeller("Jag säljer headset","Jag säljer cigg");
         assertTransformSeller("Bud på headsetet?","Bud på cigg?");
-        assertTransformSeller("Kom hit med 200", "Kom hit med 50"); //"200kr" blir "50" utan kr
+        assertTransformSeller("Kom hit med 200kr", "Kom hit med 50kr");
     }
 
     private void assertTransformBuyer(String input, String expected) {
