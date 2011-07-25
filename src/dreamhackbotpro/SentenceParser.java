@@ -105,7 +105,6 @@ public class SentenceParser {
      * @return The price. -1 if not found
      */
     public int parsePrice(String s) {
-
         //if \d+kr not found, check for any separate number
         //side effect: model numbers may be only numbers
         //weak solution: Only interpret separate numbers that ends with 0 as prices.
@@ -139,7 +138,6 @@ public class SentenceParser {
     }
     
         public String parsePriceString(String s) {
-
         //if \d+kr not found, check for any separate number
         //side effect: model numbers may be only numbers
         //weak solution: Only interpret separate numbers that ends with 0 as prices.
