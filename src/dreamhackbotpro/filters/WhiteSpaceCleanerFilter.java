@@ -7,7 +7,10 @@ import dreamhackbotpro.Message;
  * @author patrik
  */
 public class WhiteSpaceCleanerFilter implements MessageFilter {
-    public WhiteSpaceCleanerFilter() {}
+
+    public WhiteSpaceCleanerFilter(){
+    }
+    
     @Override
     public void filter(Message m) {
         m.setMessage(m.getMessage().replaceAll("\\s+", " "));

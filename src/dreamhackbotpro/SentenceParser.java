@@ -1,6 +1,5 @@
 package dreamhackbotpro;
 
-import dreamhackbotpro.filters.MasterFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

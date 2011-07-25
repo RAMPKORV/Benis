@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
  */
 class PriceSynonymFilter implements MessageFilter {
 
-    Pattern pattern = Pattern.compile("([1-9][0-9]*)[ ]*(lax|spänn|kr|hundring|hundralapp|hundralappar|kronor|riksdaler|sek|\\:-|tjuga|tjugor|tjugolapp|tjugolappar)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    private Pattern pattern = Pattern.compile("([1-9][0-9]*)[ ]*(lax|spänn|kr|hundring|hundralapp|hundralappar|kronor|riksdaler|sek|\\:-|tjuga|tjugor|tjugolapp|tjugolappar)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
     @Override
     public void filter(Message m) {
         Matcher matcher = pattern.matcher(m.getMessage());

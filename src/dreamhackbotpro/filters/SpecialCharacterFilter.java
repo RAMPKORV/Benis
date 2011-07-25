@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
  */
 public class SpecialCharacterFilter implements MessageFilter{
 
-    Pattern pattern = Pattern.compile("[\\&|\\!]{2,}");
+    private Pattern pattern = Pattern.compile("[\\&|\\!]{2,}");
+    
     @Override
     public void filter(Message m) {
         String s = m.getMessage();

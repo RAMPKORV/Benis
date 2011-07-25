@@ -2,11 +2,8 @@ package dreamhackbotpro.gui;
 
 import dreamhackbotpro.Interest;
 import dreamhackbotpro.ThingInfo;
-import java.awt.Graphics;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
