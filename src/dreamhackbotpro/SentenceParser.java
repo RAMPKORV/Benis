@@ -1,6 +1,7 @@
 package dreamhackbotpro;
 
 import dreamhackbotpro.filters.MasterFilter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,6 +169,31 @@ public class SentenceParser {
         }
 
         return null;
+    }
+
+    public List<String> parsePriceStrings(String s) {
+        List<String> ret = new ArrayList<String>();
+        Matcher matcher = priceSimple.matcher(s);
+        while(matcher.find()) {
+            ret.add(matcher.group(0));
+        }
+        //Remove all seats
+        matcher = seat.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        //Remove other stuff
+        matcher = otherValues1.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+        matcher = otherValues2.matcher(s);
+        while(matcher.find())
+            s = matcher.replaceAll("");
+
+        matcher = eventualPrice.matcher(s);
+        while(matcher.find()) {
+            ret.add(matcher.group(0));
+        }
+        return ret;
     }
 
     public String parseThing(String sentence) {

@@ -50,14 +50,13 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         int sellerPrice = c.getSellerPrice();
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
-             String priceString = p.parsePriceString(msg);
-             if(priceString != null) {
+             List<String> priceStrings = p.parsePriceStrings(msg);
+             for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
                 if(price == buyerPrice) {
                     msg = msg.replace(priceString, sellerPrice + "");
                 } else {
-                    int newPrice = (int) ((float)sellerPrice * (1.0f + (Math.abs((float) price - (float) buyerPrice) / (float) buyerPrice)));
-                    newPrice = Utils.roundPrice(newPrice);
+                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, true);
                     msg = msg.replace(priceString, newPrice + "");
                 }
             }
@@ -76,15 +75,14 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         } else {
-            String priceString = p.parsePriceString(msg);
-            if(priceString != null) {
+             List<String> priceStrings = p.parsePriceStrings(msg);
+             for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
-                    msg = msg.replace(priceString, buyerPrice+"");
+                    msg = msg.replace(priceString, buyerPrice + "");
                 } else {
-                    int newPrice = (int) ((float) buyerPrice * (1.0f - (Math.abs((float) price - (float) sellerPrice) / (float) sellerPrice)));
-                    newPrice = Utils.roundPrice(newPrice);
-                    msg = msg.replace(priceString, newPrice+"");
+                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, false);
+                    msg = msg.replace(priceString, newPrice + "");
                 }
             }
             for(String s : words) {
@@ -103,5 +101,21 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         }
         m.setMessage(msg);
+    }
+
+    private int convertPrice(int price, int sellerPrice, int buyerPrice, boolean wtb) {
+        float priceFloat = (float)price;
+        float sellerPriceFloat = (float)sellerPrice;
+        float buyerPriceFloat = (float)buyerPrice;
+        float percentageChange = 0;
+        float converted;
+        if(wtb) {
+            percentageChange = (priceFloat-buyerPrice)/buyerPrice;
+            converted = sellerPriceFloat + sellerPriceFloat * percentageChange;
+        } else {
+            percentageChange = (priceFloat-sellerPrice)/sellerPrice;
+            converted = buyerPriceFloat + buyerPriceFloat * percentageChange;
+        }
+        return Utils.roundPrice((int)converted);
     }
 }
