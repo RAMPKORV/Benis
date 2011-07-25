@@ -95,7 +95,7 @@ public class SentenceParser {
     }
 
 
-    Pattern priceSimple = Pattern.compile("([1-9][0-9]+)kr");
+    Pattern priceSimple = Pattern.compile("([1-9][0-9]+)[ ]?(\\:-|kronor|kr|spänn)");
     Pattern seat = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
     Pattern otherValues1 = Pattern.compile("(orginalpris|orginal pris|nypris|ny pris|model|modell|modellnummer)[ ]+[a-zA-ZåäöÅÄÖ]?[1-9][0-9]+", Pattern.CASE_INSENSITIVE);
     Pattern otherValues2 = Pattern.compile("[0-9]+\\.[0-9]+");
