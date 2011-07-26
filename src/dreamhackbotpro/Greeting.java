@@ -11,9 +11,12 @@ import java.util.regex.Pattern;
 public class Greeting {
     private Greeting() {}
     private static String[] iceBreakers = {
-        "hej","hejsan","tjo","tja","hallå","yo","tjena","tjenare"
+        "","hej. ", "hej! ","hejsan. ",
+        "tjo! ","tjo ","tja!","tja... ",
+        "hallå ","yo ","tjena! ","tjenare! "
     };
     private static String[] buyingProposals = {
+        "%price%%currency% för %thing%?",
         "Köper %thing% för %price%%currency%",
         "Säljer du %thing% för %price%%currency%?",
         "Får jag köpa %thing% för %price%%currency%?",
@@ -43,7 +46,8 @@ public class Greeting {
     public static String getGreeting(String thing, int price, boolean wtb) {
         String iceBreaker = pickRandom(iceBreakers);
         if(random.nextInt(100) > 40) { // Capitalize most times.
-            iceBreaker = Character.toUpperCase(iceBreaker.charAt(0))+iceBreaker.substring(1);
+            if(iceBreaker.length() > 0)
+                iceBreaker = Character.toUpperCase(iceBreaker.charAt(0))+iceBreaker.substring(1);
         }
         String proposal;
         if(price != -1) {
@@ -57,7 +61,7 @@ public class Greeting {
         if(random.nextInt(100) > 80) {
             proposal += " " + getSmiley();
         }
-        return iceBreaker + ". " + proposal;
+        return iceBreaker + proposal;
     }
 
     private static String getSmiley() {
