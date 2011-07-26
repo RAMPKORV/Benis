@@ -30,6 +30,8 @@ public class ListFilter implements MessageFilter {
         }
         if(msg.endsWith("."))
             sb.append(".");
-        m.setMessage(sb.toString().trim().substring(2));
+        String res = sb.toString().trim();
+        if(res.length() > 2)
+            m.setMessage(sb.toString().trim().substring(2));
     }
 }
