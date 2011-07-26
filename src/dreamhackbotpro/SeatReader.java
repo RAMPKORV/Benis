@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  */
 public class SeatReader implements ConversationsListener, ChatListener {
 
-    private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
+    private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])(\\:)?[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
 
     public SeatReader() {
     }
@@ -23,9 +23,9 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public static String getSeat(String message) {
         Matcher matcher = pattern.matcher(message);
         while(matcher.find()) {
-            if(matcher.group(4).length() < 1)
+            if(matcher.group(5).length() < 1)
                 continue;
-            return matcher.group(2)+matcher.group(3)+':'+matcher.group(7);
+            return matcher.group(2)+matcher.group(4)+':'+matcher.group(8);
         }
         return null;
     }

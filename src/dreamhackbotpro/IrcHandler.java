@@ -199,13 +199,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     public void onConversationMessage(Message m) {
-        if(opUsers.contains(m.getTo()))
-            return;
-        //Ignore messages that aren't for this handler
-        if(!m.getBotNick().equals(getName())) {
-            System.out.println("Ignored: Botnick="+m.getBotNick()+", getName="+getName());
-            return;
+        if(m.getBotNick().equals(getName())) {
+            if(opUsers.contains(m.getTo()))
+                return;
+            this.sendMessage(m.getTo(), m.getMessage());
         }
-        this.sendMessage(m.getTo(), m.getMessage());
     }
 }
