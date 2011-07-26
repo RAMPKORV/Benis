@@ -21,10 +21,6 @@ public class MainTestLogReaderAndIrcHandler {
         SeatReader seatReader = new SeatReader();
         Conversation.addConversationsListener(seatReader);
 //        logReader.read("log4000.txt");
-        try {
-            irc.connect();
-        } catch (InterruptedException ex) {
-            return;
-        }
+        irc.connect();
     }
 }

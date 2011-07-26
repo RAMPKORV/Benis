@@ -142,5 +142,25 @@ public class Conversation implements Comparable<Conversation> {
     public List<String> getGreetings() {
         return greetings;
     }
+
+    public float getBuyerSTD() {
+        Map<String, ThingInfo> iMap = Interest.getInterestsMap();
+        ThingInfo buyerInterest = iMap.get(buyerThing);
+        if(buyerInterest != null) {
+            return buyerInterest.getStdDev();
+        } else {
+            return 0;
+        }
+    }
+
+    public float getSellerSTD() {
+        Map<String, ThingInfo> iMap = Interest.getInterestsMap();
+        ThingInfo sellerInterest = iMap.get(sellerThing);
+        if(sellerInterest != null) {
+            return sellerInterest.getStdDev();
+        } else {
+            return 0;
+        }
+    }
     
 }
