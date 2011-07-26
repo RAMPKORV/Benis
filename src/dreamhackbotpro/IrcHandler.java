@@ -18,6 +18,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private String ircNick;
     private String ircServer;
     private String ircChannel;
+    private BotInfo info;
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
 
     private Set<String> opUsers = new HashSet<String>();
@@ -137,7 +138,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }
         
         for(ChatListener l : listeners) {
-            l.onMessage(new Message(sender, message, null, getName()));
+            l.onMessage(new Message(sender, message, null, info));
         }
     }
 
@@ -146,12 +147,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(sender))
             return;
         for(ChatListener l : listeners) {
-            l.onPrivateMessage(new Message(sender, message, null, getName()));
+            l.onPrivateMessage(new Message(sender, message, null, info));
         }
     }
 
     @Override
     protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
+        if(oldNick.equals(info.nick)) {
+            updateBotNick(newNick);
+            return;
+        }
         if(opUsers.contains(oldNick)) {
             opUsers.remove(oldNick);
             opUsers.add(newNick);
@@ -199,10 +204,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     public void onConversationMessage(Message m) {
-        if(m.getBotNick().equals(getName())) {
+        if(m.getBotInfo().nick.equals(info.nick)) {
             if(opUsers.contains(m.getTo()))
                 return;
             this.sendMessage(m.getTo(), m.getMessage());
+        } else {
+            System.out.println("NOPE");
         }
+    }
+
+    public void updateBotNick(String newNick) {
+        info = new BotInfo(newNick);
     }
 }

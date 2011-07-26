@@ -22,7 +22,7 @@ public class DefaultConversationBehaviorTest {
     private Conversation conversation;
     private String buyer;
     private String seller;
-    private String botNick;
+    private BotInfo bot;
 
     public DefaultConversationBehaviorTest() {
     }
@@ -37,7 +37,7 @@ public class DefaultConversationBehaviorTest {
 
     @Before
     public void setUp() {
-        botNick = "Monsquaz";
+        bot = new BotInfo("Monsquaz");
         buyer = "WASD";
         seller = "RAMPKORV";
         //WASD köper cigg för 50kr
@@ -73,11 +73,11 @@ public class DefaultConversationBehaviorTest {
     }
 
     private void assertTransformBuyer(String input, String expected) {
-        assertEquals(expected, behavior.transformMessage(conversation, new Message(buyer, input, seller, botNick)).getMessage());
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(buyer, input, seller, bot)).getMessage());
     }
 
     private void assertTransformSeller(String input, String expected) {
-        assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer, botNick)).getMessage());
+        assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer, bot)).getMessage());
     }
 
 }

@@ -76,12 +76,17 @@ public class Greeting {
     }
 
     public static boolean isSimpleGreeting(String s) {
-        return s.length() < 18 && hasGreeting(s) != null;
+        String greeting = hasGreeting(s);
+        if(greeting == null || greeting.length() < 2)
+            return false;
+        return s.length() < 18;
     }
 
     public static String hasGreeting(String s) {
         String filtered = s.replaceAll("[^a-zA-ZåäöÅÄÖ ]", "");
         for(String w : iceBreakers) {
+            if(w.length() < 2)
+                continue;
             Pattern p = Pattern.compile("^"+Pattern.quote(w), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
             Matcher m = p.matcher(s);
             if(m.find()) {

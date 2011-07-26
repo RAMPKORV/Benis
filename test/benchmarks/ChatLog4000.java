@@ -1,5 +1,6 @@
 package benchmarks;
 
+import dreamhackbotpro.BotInfo;
 import dreamhackbotpro.Message;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -62,7 +63,7 @@ public class ChatLog4000 {
             String name = line.substring(0, colonIndex);
             String msg = line.substring(colonIndex+2);
             
-            messages.add(new Message(name, msg));
+            messages.add(new Message(name, msg, new BotInfo("Benchmark")));
             
             line = reader.readLine();
         }
