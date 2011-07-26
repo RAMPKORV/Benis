@@ -7,7 +7,7 @@ public class Message {
     private String to;
     private BotInfo bot;
 
-    public Message(String from, String message, String to, BotInfo bot) {
+    public Message(String from, String message, String to, final BotInfo bot) {
         this.from = from;
         this.message = message;
         this.to = to;
@@ -19,7 +19,7 @@ public class Message {
      * @param from
      * @param message
      */
-    public Message(String from, String message, BotInfo bot) {
+    public Message(String from, String message, final BotInfo bot) {
         this(from, message, null, bot);
     }
 
@@ -27,7 +27,7 @@ public class Message {
      * Convenience constructor for quick testing
      * @param message
      */
-    public Message(String message, BotInfo bot) {
+    public Message(String message, final BotInfo bot) {
         this(null, message, null, bot);
     }
 

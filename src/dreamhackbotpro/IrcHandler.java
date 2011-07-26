@@ -205,20 +205,12 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     public void onConversationMessage(Message m) {
-        System.out.println("1");
         String botNick = m.getBotInfo().getNick();
-        System.out.println("1B");
         if(botNick.equals(info.getNick())) {
-            System.out.println("2");
             if(opUsers.contains(m.getTo())) {
-                System.out.println("3");
                 return;
             }
-            System.out.println("4");
             this.sendMessage(m.getTo(), m.getMessage());
-            System.out.println("5");
-        } else {
-            System.out.println("6");
         }
     }
 
