@@ -24,6 +24,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private DefaultListModel listData;
     private JList conversationList;
     private JTextArea channel;
+    private JTextArea errors;
     private GlobalOptionsPanel options;
     private ThingTable thingTable;
     private JScrollPane textAreaScroll;
@@ -54,6 +55,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         listData.addElement("Main channel");
         listData.addElement("Options");
         listData.addElement("Thing table");
+        listData.addElement("Errors");
         listData.addElement(" ----- ");
         
         conversationList = new JList(listData);
@@ -68,6 +70,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         channel = new JTextArea(" - Main channel - ");
         channel.setLineWrap(true);
         channel.setEditable(false);
+        errors = new JTextArea(" - Errors - ");
+        errors.setLineWrap(true);
+        errors.setEditable(false);
         
         options = new GlobalOptionsPanel();
         thingTable = new ThingTable();
@@ -88,15 +93,15 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         return String.format("(%02d:%02d:%02d) ", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
     }
     
-    private void appendToChannel(String s){
-        channel.append('\n'+timeStamp()+s);
+    private void appendTo(JTextArea area, String s){
+        area.append('\n'+timeStamp()+s);
         if(chatOptions.isAutoScroll())
-            channel.setCaretPosition(channel.getDocument().getLength());
+            area.setCaretPosition(area.getDocument().getLength());
     }
 
     @Override
     public void onMessage(Message m) {
-        appendToChannel(m.toString());
+        appendTo(channel, m.toString());
     }
 
     @Override
@@ -116,7 +121,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     
     @Override
     public void onError(String error) {
-        appendToChannel(error);
+        appendTo(errors, error);
     }
 
     @Override
@@ -162,6 +167,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         if(index==2){
             thingTable.updateData();
             textAreaScroll.setViewportView(thingTable);
+            return;
+        }
+        if(index==3){
+            textAreaScroll.setViewportView(errors);
             return;
         }
         String listValue = conversationList.getSelectedValue().toString();
