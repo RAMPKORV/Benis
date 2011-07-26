@@ -93,7 +93,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }
     }
 
-    public void connect() throws InterruptedException {
+    public void connect() {
         this.setName(ircNick);
         try {
             connect(ircServer);
@@ -102,6 +102,11 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         } catch(Exception ex) {
             error(ex.getMessage());
         }
+    }
+
+    @Override
+    protected void onDisconnect() {
+            connect();
     }
 
     @Override
