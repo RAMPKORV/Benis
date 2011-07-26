@@ -45,6 +45,7 @@ public class PriceSynonymFilterTest extends MessageFilterTest {
         checkFromTo("säljer snus 100 spänn!", "säljer snus 100kr!");
         checkFromTo("säljer 24 tum skärm för 2 lax", "säljer 24 tum skärm för 2000kr");
         checkFromTo("köper cigg 50:-", "köper cigg 50kr");
+        checkFromTo("köper cigg 50:- eller 60 spänn", "köper cigg 50kr eller 60kr");
         checkFromTo("säljer 3 burkar läsk för 1 tjuga", "säljer 3 burkar läsk för 20kr");
         checkFromTo("säljer 3 burkar läsk för 3 tjugor", "säljer 3 burkar läsk för 60kr");
         checkFromTo("50 kr", "50kr");

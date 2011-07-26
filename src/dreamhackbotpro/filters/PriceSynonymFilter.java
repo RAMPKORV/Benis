@@ -15,29 +15,35 @@ public class PriceSynonymFilter implements MessageFilter {
     @Override
     public void filter(Message m) {
         Matcher matcher = pattern.matcher(m.getMessage());
+        String msg = m.getMessage();
         while(matcher.find()) {
             String value = matcher.group(1);
             String unit = matcher.group(2);
+            try {
             if(unit.equals("lax")) {
-                m.setMessage(matcher.replaceAll(1000 * Integer.parseInt(value) + "kr"));
+                    msg = msg.replace(matcher.group(0), 1000 * Integer.parseInt(value) + "kr");
             } else if(unit.equals("sek") ||
                       unit.equals("kr") ||
                       unit.equals("spänn") ||
                       unit.equals("kronor") ||
                       unit.equals("riksdaler") ||
                       unit.equals(":-")) {
-                m.setMessage(matcher.replaceAll(value + "kr"));
+                msg = msg.replace(matcher.group(0), value + "kr");
             } else if(unit.equals("tjuga") ||
                       unit.equals("tjugor") ||
                       unit.equals("tjugolapp") || 
                       unit.equals("tjugolappar")) {
-                m.setMessage(matcher.replaceAll(20 * Integer.parseInt(value) + "kr"));
+                msg = msg.replace(matcher.group(0), 20 * Integer.parseInt(value) + "kr");
             } else if(unit.equals("hundring") ||
                       unit.equals("hundralapp") ||
                       unit.equals("hundralappar")) {
-                m.setMessage(matcher.replaceAll(100 * Integer.parseInt(value) + "kr"));
+                msg = msg.replace(matcher.group(0), 100 * Integer.parseInt(value) + "kr");
+            }
+            } catch(NumberFormatException ex) {
+                msg = msg.replace(matcher.group(0), "");
             }
         }
+        m.setMessage(msg);
     }
     
 }
