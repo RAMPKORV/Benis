@@ -6,13 +6,9 @@
 package dreamhackbotpro.filters;
 
 import dreamhackbotpro.Message;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- *
+ * Filters comma separated lists
  * @author patrik
  */
 public class ListFilter implements MessageFilter {
@@ -23,23 +19,17 @@ public class ListFilter implements MessageFilter {
         StringBuilder sb = new StringBuilder("");
         for(String sentence : sentences) {
             String[] parts = sentence.split(",");
-            String type = null;
+            String type = "";
             for(String part : parts) {
                 if(part.contains("WTB") && !part.contains("WTS"))
-                    type = "WTB";
+                    type = "WTB ";
                 if(part.contains("WTS") && !part.contains("WTB"))
-                    type = "WTS";
-                sb.append(type + " " + part.replace(type, " ").trim() + ". ");
+                    type = "WTS ";
+                sb.append(". " + type + part.replace(type, "").trim());
             }
         }
-        m.setMessage(sb.toString().trim());
+        if(msg.endsWith("."))
+            sb.append(".");
+        m.setMessage(sb.toString().trim().substring(2));
     }
-
-    public static void main(String[] args) {
-        String msg = "WTB A, WTS B, C";
-        Message m = new Message(msg, "Monsquaz");
-        new ListFilter().filter(m);
-        System.out.println(m.getMessage());
-    }
-
 }

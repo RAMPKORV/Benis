@@ -42,7 +42,10 @@ public class ListFilterTest extends MessageFilterTest {
      */
     @Test
     public void testFilter() {
-        checkFromTo("WTB A, B, C","WTB A. WTB B. WTB C.");
+        checkFromTo("WTB A, B, C","WTB A. WTB B. WTB C");
+        checkFromTo("Hej.","Hej.");
+        checkFromTo("Hej","Hej");
+        checkFromTo("WTB fint snus, musmattor, WTS cigg, liggunderlag","WTB fint snus. WTB musmattor. WTS cigg. WTS liggunderlag");
     }
 
 }
