@@ -24,7 +24,6 @@ public class DefaultConversationBehavior implements ConversationBehavior {
     public Message transformMessage(Conversation c, Message m) {
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
-        System.out.println("THE MESSAGE: " + msg);
         if(Greeting.isSimpleGreeting(msg)) {
             m.setMessage("");
             return m;
@@ -40,6 +39,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         } while(greeting != null);
 
         BotInfo bot = m.getBotInfo();
+        String botNick = bot.getNick();
         String buyer = c.getBuyer().getName();
         String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();
@@ -70,8 +70,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
-                    msg = msg.replace(s, bot.nick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
+                    msg = msg.replace(s, botNick);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
                     msg = msg.replace(s, seller);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= Math.max(s.length(),buyerThing.length())/4) {
                     msg = msg.replace(s, sellerThing);
@@ -107,8 +107,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
             for(String s : words) {
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)
-                    msg = msg.replace(s, bot.nick);
-                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
+                    msg = msg.replace(s, botNick);
+                if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
                     msg = msg.replace(s, buyer);
                 if(SentenceParser.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= Math.max(s.length(),sellerThing.length())/4) {
                     msg = msg.replace(s, buyerThing);

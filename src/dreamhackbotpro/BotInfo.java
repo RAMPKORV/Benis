@@ -10,7 +10,11 @@ package dreamhackbotpro;
  * @author patrik
  */
 public class BotInfo {
-    public final String nick;
+    private final String nick;
+
+    public String getNick() {
+        return nick;
+    }
     public BotInfo(String nick) {
         this.nick = nick;
     }
