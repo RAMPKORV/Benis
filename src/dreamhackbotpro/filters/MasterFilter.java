@@ -18,9 +18,9 @@ public class MasterFilter extends CompositeMessageFilter {
 
         addMessageFilter(new TradingSynonymFilter());
 
-        //TODO add RelatedSentenceFilter
-
         addMessageFilter(new ListFilter());
+
+        addMessageFilter(new RelatedSentenceFilter());
 
         addMessageFilter(new WhiteSpaceCleanerFilter());
     }
