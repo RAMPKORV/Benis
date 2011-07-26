@@ -24,6 +24,15 @@ public class DefaultConversationBehavior implements ConversationBehavior {
     public Message transformMessage(Conversation c, Message m) {
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
+
+        // Remove references to original greetings
+        List<String> greetings = c.getGreetings();
+        for(String greeting : greetings) {
+            if(msg.contains(greeting))
+                return m;
+        }
+
+        // Remove simple greetings
         if(Greeting.isSimpleGreeting(msg)) {
             m.setMessage("");
             return m;

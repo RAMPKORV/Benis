@@ -66,9 +66,13 @@ public class ConversationMaker {
 
         if(bestBuyer!=null && bestSeller!=null){
             Conversation con = new Conversation(bestBuyer, bestSeller);
+            String buyerGreeting = Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true);
+            String seööerGreetomg = Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false);
+            con.addGreeting(buyerGreeting);
+            con.addGreeting(seööerGreetomg);
             //Send greeting
-            con.onMessage(bestBuyer, new Message(bestBuyer.getName(), Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true), bestSeller.getName(), bot), false);
-            con.onMessage(bestSeller, new Message(bestSeller.getName(), Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false), bestBuyer.getName(), bot), false);
+            con.onMessage(bestBuyer, new Message(bestBuyer.getName(), buyerGreeting, bestSeller.getName(), bot), false);
+            con.onMessage(bestSeller, new Message(bestSeller.getName(), seööerGreetomg, bestBuyer.getName(), bot), false);
         }
         else{
             //reset timer to try on next message recieved instead of waiting 30 seconds

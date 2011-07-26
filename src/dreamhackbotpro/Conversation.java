@@ -17,6 +17,7 @@ public class Conversation implements Comparable<Conversation> {
     private int buyerPrice;
     private int sellerPrice;
     private int numMessages = 0;
+    private List<String> greetings = new ArrayList<String>();
 
     public int getNumMessages() {
         return numMessages;
@@ -134,4 +135,12 @@ public class Conversation implements Comparable<Conversation> {
         return 0;
     }
 
+    public void addGreeting(String greeting) {
+        greetings.add(greeting);
+    }
+
+    public List<String> getGreetings() {
+        return greetings;
+    }
+    
 }

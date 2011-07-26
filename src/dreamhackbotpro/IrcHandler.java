@@ -123,6 +123,14 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         pMC.add(sender, message);
 
+        message = recode(message);
+        
+        for(ChatListener l : listeners) {
+            l.onMessage(new Message(sender, message, null, info));
+        }
+    }
+
+    private String recode(String message) {
         try {
             String recoded = new String(message.getBytes("ISO-8859-1"));
             if(recoded.length()!=message.length()){
@@ -132,16 +140,14 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             //happens when ISO is not found
             error(ex.getMessage());
         }
-        
-        for(ChatListener l : listeners) {
-            l.onMessage(new Message(sender, message, null, info));
-        }
+        return message;
     }
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
         if(opUsers.contains(sender))
             return;
+        message = recode(message);
         for(ChatListener l : listeners) {
             l.onPrivateMessage(new Message(sender, message, null, info));
         }
