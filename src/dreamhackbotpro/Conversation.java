@@ -61,12 +61,12 @@ public class Conversation implements Comparable<Conversation> {
         sellerPrice = sellerInterest.getPrice();
         if(sellerPrice == -1) {
             ThingInfo sInfo = iMap.get(sellerThing);
-            sellerPrice = (int) (sInfo.getMedian() - sInfo.getStdDev()*0.5);
+            sellerPrice = Utils.roundPrice((int) (sInfo.getMedian() - sInfo.getStdDev()*0.5));
         }
         buyerPrice = buyerInterest.getPrice();
         if(buyerPrice == -1) {
             ThingInfo sInfo = iMap.get(buyerThing);
-            buyerPrice = (int) (sInfo.getMedian() + sInfo.getStdDev()*0.5);
+            buyerPrice = Utils.roundPrice((int) (sInfo.getMedian() + sInfo.getStdDev()*0.5));
         }
         
     }
