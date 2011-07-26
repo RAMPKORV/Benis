@@ -2,8 +2,13 @@ package dreamhackbotpro;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.NickAlreadyInUseException;
@@ -20,16 +25,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private String ircChannel;
     private volatile BotInfo info = null;
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
-
     private Set<String> opUsers = new HashSet<String>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
-    
+    private Set<String> leftUsers = new TreeSet<String>();
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
         info = new BotInfo(ircNick);
+        setAutoNickChange(true);
         setLogin(System.getProperty("user.name"));
         try {
             setEncoding("ISO-8859-1");
@@ -89,24 +94,14 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     public void connect() throws InterruptedException {
-        int connectionAttempts = 0;
-        String attemptedNick = null;
-        do {
-            attemptedNick = ircNick + (connectionAttempts > 0 ? connectionAttempts : "");
-            this.setName(attemptedNick);
-                try {
-                    connect(ircServer);
-                } catch (IOException ex) {
-                    error("IOException");
-                } catch (NickAlreadyInUseException ex) {
-                    error("Användarnamnet \""+attemptedNick+"\" är upptaget");
-                } catch (IrcException ex) {
-                    error("IRC Exception");
-                } finally {
-                    connectionAttempts++;
-                }
-        } while (this.isConnected() == false);
-        joinChannel(ircChannel);
+        this.setName(ircNick);
+        try {
+            connect(ircServer);
+            joinChannel(ircChannel);
+            createNickChangeThread();
+        } catch(Exception ex) {
+            error(ex.getMessage());
+        }
     }
 
     @Override
@@ -185,6 +180,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
+        leftUsers.add(sender);
         onQuit(sender);
     }
 
@@ -216,5 +212,40 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     public void updateBotNick(String newNick) {
         info = new BotInfo(newNick);
+    }
+
+    private void createNickChangeThread() {
+        new Thread(new Runnable(){
+            public void run() {
+                while(true) {
+                    try {
+                        Thread.sleep(20 * 60 * 1000);
+                    } catch (InterruptedException ex) {
+                        return;
+                    }
+                    String nickBefore = IrcHandler.this.getNick();
+                    List<String> leftUsersCopy = null;
+                    synchronized (leftUsers) {
+                        leftUsersCopy = new ArrayList<String>(leftUsers);
+                    }
+                    if(!leftUsersCopy.isEmpty()) {
+                        for(String nick : leftUsersCopy) {
+                            IrcHandler.this.changeNick(nick);
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                            if(IrcHandler.this.getNick().equals(nickBefore)) {
+                                leftUsers.remove(nick);
+                            } else {
+                                leftUsers.remove(nickBefore);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }).start();
     }
 }
