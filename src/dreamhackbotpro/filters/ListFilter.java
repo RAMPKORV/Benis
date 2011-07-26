@@ -16,20 +16,30 @@ import java.util.regex.Pattern;
  * @author patrik
  */
 public class ListFilter implements MessageFilter {
-    Pattern pattern = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]+)(,\\s*[a-zA-Z0-9åäöÅÄÖ ]+)*");
     public void filter(Message m) {
         String msg = m.getMessage();
-        msg = msg.replaceAll("(?i)och",",");
-        Matcher matcher = pattern.matcher(msg);
-        StringBuffer sb = new StringBuffer("");
-        if(matcher.find()) {
-            sb.append(matcher.group(1) + " " + matcher.group(2) + ". ");
-            String[] parts = matcher.group(3).split(",");
+        msg = msg.replace("och", ",");
+        String[] sentences = msg.split("\\.");
+        StringBuilder sb = new StringBuilder("");
+        for(String sentence : sentences) {
+            String[] parts = sentence.split(",");
+            String type = null;
             for(String part : parts) {
-                sb.append(matcher.group(1) + " " + part + ". ");
+                if(part.contains("WTB") && !part.contains("WTS"))
+                    type = "WTB";
+                if(part.contains("WTS") && !part.contains("WTB"))
+                    type = "WTS";
+                sb.append(type + " " + part.replace(type, " ").trim() + ". ");
             }
         }
         m.setMessage(sb.toString().trim());
+    }
+
+    public static void main(String[] args) {
+        String msg = "WTB A, WTS B, C";
+        Message m = new Message(msg, "Monsquaz");
+        new ListFilter().filter(m);
+        System.out.println(m.getMessage());
     }
 
 }

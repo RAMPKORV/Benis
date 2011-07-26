@@ -20,6 +20,8 @@ public class MasterFilter extends CompositeMessageFilter {
 
         //TODO add RelatedSentenceFilter
 
+        addMessageFilter(new ListFilter());
+
         addMessageFilter(new WhiteSpaceCleanerFilter());
     }
 }
