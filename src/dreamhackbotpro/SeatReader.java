@@ -9,10 +9,9 @@ import java.util.regex.Pattern;
  */
 public class SeatReader implements ConversationsListener, ChatListener {
 
-    private static Pattern pattern = null;
+    private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
 
     public SeatReader() {
-        pattern = Pattern.compile("(^|\\s)([a-d])[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
     }
 
     
