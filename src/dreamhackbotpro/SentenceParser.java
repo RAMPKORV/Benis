@@ -228,7 +228,7 @@ public class SentenceParser {
         for(ThingInfo ti : Interest.getInterestsSorted()){
             String thing = ti.getThing();
             for(String word : words) {
-                if(getLevenshteinDistance(thing, word) <= Math.max(word.length(),thing.length())/4) {
+                if(Utils.getLevenshteinDistance(thing, word) <= Math.max(word.length(),thing.length())/4) {
                     return thing;
                 }
             }
@@ -266,52 +266,6 @@ public class SentenceParser {
         // For now, simply return the first word.
         //System.out.println("THING3\n"+words[0]);
         //return words[0];
-    }
-
-    /**
-     * Calculates the number of changes needed to turn one string into another string.
-     * @param s
-     * @param t
-     * @return
-     */
-    public static int getLevenshteinDistance (String s, String t) {
-        if (s == null || t == null) {
-            throw new IllegalArgumentException("Strings must not be null");
-        }
-
-        int n = s.length();
-        int m = t.length();
-
-        if (n == 0) {
-            return m;
-        } else if (m == 0) {
-            return n;
-        }
-
-        int p[] = new int[n+1];
-        int d[] = new int[n+1];
-        int _d[];
-        int i;
-        int j;
-        char t_j;
-        int cost;
-
-        for (i = 0; i<=n; i++) {
-            p[i] = i;
-        }
-
-        for (j = 1; j<=m; j++) {
-            t_j = t.charAt(j-1);
-            d[0] = j;
-            for (i=1; i<=n; i++) {
-                cost = s.charAt(i-1)==t_j ? 0 : 1;
-                d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);
-            }
-            _d = p;
-            p = d;
-            d = _d;
-        }
-        return p[n];
     }
     
     /**
