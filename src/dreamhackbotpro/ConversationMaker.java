@@ -18,10 +18,10 @@ public class ConversationMaker {
      */
     public void check(Collection<User> users, BotInfo bot){
 
-        //if(lastConversationMade>System.currentTimeMillis()-waitTime()){
-        //    return;
-        //}
-        //lastConversationMade = System.currentTimeMillis();
+        if(lastConversationMade>System.currentTimeMillis()-waitTime()){
+            return;
+        }
+        lastConversationMade = System.currentTimeMillis();
 
         //TODO make the calculation of Certainty more advanced for Interests for better result. preDefined items should have more certainty
 
@@ -67,12 +67,12 @@ public class ConversationMaker {
         if(bestBuyer!=null && bestSeller!=null){
             Conversation con = new Conversation(bestBuyer, bestSeller);
             String buyerGreeting = Greeting.getGreeting(con.getSellerThing(), con.getSellerPrice(), true);
-            String seööerGreetomg = Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false);
+            String sellerGreeting = Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false);
             con.addGreeting(buyerGreeting);
-            con.addGreeting(seööerGreetomg);
+            con.addGreeting(sellerGreeting);
             //Send greeting
             con.onMessage(bestBuyer, new Message(bestBuyer.getName(), buyerGreeting, bestSeller.getName(), bot), false);
-            con.onMessage(bestSeller, new Message(bestSeller.getName(), seööerGreetomg, bestBuyer.getName(), bot), false);
+            con.onMessage(bestSeller, new Message(bestSeller.getName(), sellerGreeting, bestBuyer.getName(), bot), false);
         }
         else{
             //reset timer to try on next message recieved instead of waiting 30 seconds
