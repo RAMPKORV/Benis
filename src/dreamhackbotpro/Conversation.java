@@ -27,18 +27,15 @@ public class Conversation implements Comparable<Conversation> {
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
-    @Override
-    protected void finalize() throws Throwable {
+    public void save() throws Throwable {
         try {
             if(getNumMessages() > 2) {
                 //TODO: Save conversation to textfile or database
             }
         } catch(Exception e) {
 
-        } finally {
-            super.finalize();
-        }
-}
+        } 
+    }
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
         this.buyer = buyer;
