@@ -97,7 +97,7 @@ public class Greeting {
         int i = 1;
         for(String word: words) {
             for(String w : iceBreakers) {
-                if(SentenceParser.getLevenshteinDistance(word, w) < 2) {
+                if(Utils.getLevenshteinDistance(word, w) < 2) {
                     return word;
                 }
             }
