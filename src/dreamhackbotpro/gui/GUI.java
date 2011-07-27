@@ -218,9 +218,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     private ListCellRenderer renderer = new DefaultListCellRenderer();
-    public Component getListCellRendererComponent(JList jlist, Object o, int i, boolean bln, boolean bln1) {
-        Component c = renderer.getListCellRendererComponent(jlist, o, i, bln, bln1);
-        if(unread.contains(o.toString())) {
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        Component c = renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        if(!isSelected && !cellHasFocus && unread.contains(value.toString())) {
             c.setBackground(Color.pink);
         } 
         return c;
