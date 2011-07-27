@@ -22,14 +22,25 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public Message transformMessage(Conversation c, Message m) {
+
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
+
+        // Remove immediate affirmations like "Japp"
+        if(c.getNumMessages() == 3) {
+            if(Greeting.isAffirmation(msg)) {
+                m.setMessage("");
+                return m;
+            }
+        }
 
         // Remove references to original greetings
         List<String> greetings = c.getGreetings();
         for(String greeting : greetings) {
-            if(msg.contains(greeting))
+            if(msg.contains(greeting)) {
+                m.setMessage("");
                 return m;
+            }
         }
 
         // Remove simple greetings
@@ -43,7 +54,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         do {
             greeting = Greeting.hasGreeting(msg);
             if(greeting != null) {
-                msg = msg.replaceAll("(?i)"+Pattern.quote(greeting), "");
+                msg = msg.replaceAll("(?i)"+greeting+"[a-z]*", "");
             }
         } while(greeting != null);
 

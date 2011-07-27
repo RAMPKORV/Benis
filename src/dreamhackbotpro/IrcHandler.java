@@ -258,6 +258,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                         }
                         Collections.shuffle(leftUsersCopy);
                         for(String nick : leftUsersCopy) {
+                            if(!IrcHandler.this.isConnected())
+                                break;
                             IrcHandler.this.changeNick(nick);
                             try {
                                 Thread.sleep(5000);

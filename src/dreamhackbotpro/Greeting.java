@@ -15,6 +15,11 @@ public class Greeting {
         "tjo! ","tjo ","tja!","tja... ",
         "hallå ","yo ","tjena! ","tjenare! "
     };
+    private static String[] iceBreakersClean = {
+        "hejsan","hej","tjo","tja",
+        "hallå","tjena","tjenare","goddag",
+        "gokväll"
+    };
     private static String[] buyingProposals = {
         "%price%%currency% för %thing%?",
         "Köper %thing% för %price%%currency%",
@@ -76,18 +81,41 @@ public class Greeting {
     }
 
     public static boolean isSimpleGreeting(String s) {
+        System.out.println("Testing SimpleGreeting: " + s);
         String greeting = hasGreeting(s);
         if(greeting == null || greeting.length() < 2)
             return false;
         return s.length() < 18;
     }
 
+    private static String[] affirmations = {
+        "ja","japp","javisst","jajamensan",
+        "jajjamen","jajjamensan","visst",
+        "yeah","jopp","jaa","yes",
+        "yep","yepp","sure","sure bacon",
+        "jo","jovisst","jadå","jodå",
+        "m","mm","mmm","a",
+        "aa","aaa","gärna","jättegärna",
+        "självklart","oja","ohja","o ja",
+        "jepp"
+    };
+    
+    public static boolean isAffirmation(String s) {
+        s = s.toLowerCase();
+        int sLen = s.length();
+        for(String affirmation : affirmations) {
+            if(s.startsWith(affirmation) && (affirmation.length() - sLen) < 2)
+                return true;
+        }
+        return false;
+    }
+
     public static String hasGreeting(String s) {
         String filtered = s.replaceAll("[^a-zA-ZåäöÅÄÖ ]", "");
-        for(String w : iceBreakers) {
+        for(String w : iceBreakersClean) {
             if(w.length() < 2)
                 continue;
-            Pattern p = Pattern.compile("^"+Pattern.quote(w), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            Pattern p = Pattern.compile("^"+w+"[^ ]*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
             Matcher m = p.matcher(s);
             if(m.find()) {
                 return m.group(0);
