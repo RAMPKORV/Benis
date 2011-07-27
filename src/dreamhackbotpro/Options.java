@@ -27,7 +27,7 @@ public class Options {
         return maxActiveConversations;
     }
 
-    public void setMaxActiveConversations(int maxActiveConversations) {
+    public synchronized void setMaxActiveConversations(int maxActiveConversations) {
         this.maxActiveConversations = maxActiveConversations;
     }
 
@@ -35,7 +35,7 @@ public class Options {
         return inactiveTimeLimit;
     }
 
-    public void setInactiveTimeLimit(long inactiveTimeLimit) {
+    public synchronized void setInactiveTimeLimit(long inactiveTimeLimit) {
         this.inactiveTimeLimit = inactiveTimeLimit;
     }
 
@@ -51,7 +51,7 @@ public class Options {
         return secondsBetweenNewConversation;
     }
 
-    public void setSecondsBetweenNewConversation(int secondsBetweenNewConversation) {
+    public synchronized void setSecondsBetweenNewConversation(int secondsBetweenNewConversation) {
         this.secondsBetweenNewConversation = secondsBetweenNewConversation;
     }
       

@@ -23,7 +23,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
     private Set<String> opUsers = new HashSet<String>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
-    private Collection<String> leftUsers = new ArrayList<String>();
+    private final Collection<String> leftUsers = new ArrayList<String>();
     private Thread nickChanger = null;
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
@@ -246,11 +246,17 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                     } catch (InterruptedException ex) {
                         return;
                     }
-                    String nickBefore = IrcHandler.this.getNick();
-                    List<String> leftUsersCopy = null;
-                    leftUsersCopy = new ArrayList<String>(leftUsers);
-                    Collections.shuffle(leftUsersCopy);
-                    if(!leftUsersCopy.isEmpty()) {
+                    boolean empty = true;
+                    synchronized (leftUsers) {
+                        empty = leftUsers.isEmpty();
+                    }
+                    if(!empty) {
+                        String nickBefore = IrcHandler.this.getNick();
+                        List<String> leftUsersCopy = null;
+                        synchronized (leftUsers) {
+                            leftUsersCopy = new ArrayList<String>(leftUsers);
+                        }
+                        Collections.shuffle(leftUsersCopy);
                         for(String nick : leftUsersCopy) {
                             IrcHandler.this.changeNick(nick);
                             try {
