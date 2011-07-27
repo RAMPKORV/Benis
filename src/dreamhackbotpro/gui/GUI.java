@@ -222,9 +222,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         Component c = renderer.getListCellRendererComponent(jlist, o, i, bln, bln1);
         if(unread.contains(o.toString())) {
             c.setBackground(Color.pink);
-        } else {
-            c.setBackground(Color.WHITE);
-        }
+        } 
         return c;
     }
 
