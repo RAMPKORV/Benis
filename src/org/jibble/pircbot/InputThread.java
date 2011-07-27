@@ -81,6 +81,7 @@ public class InputThread extends Thread {
      * after such a problem, but the existance of any uncaught exceptions
      * in your code is something you should really fix.
      */
+    @Override
     public void run() {
         try {
             boolean running = true;
@@ -89,7 +90,12 @@ public class InputThread extends Thread {
                     String line = null;
                     while ((line = _breader.readLine()) != null) {
                         try {
-                            _bot.handleLine(line);
+                            final String finalLine = line;
+                            new Thread(new Runnable(){
+                                public void run() {
+                                    _bot.handleLine(finalLine);
+                                }
+                            }).start();
                         }
                         catch (Throwable t) {
                             // Stick the whole stack trace into a String so we can output it nicely.
@@ -118,8 +124,12 @@ public class InputThread extends Thread {
                 catch (InterruptedIOException iioe) {
                     // This will happen if we haven't received anything from the server for a while.
                     // So we shall send it a ping to check that we are still connected.
-                    this.sendRawLine("PING " + (System.currentTimeMillis() / 1000));
+                    //this.sendRawLine("PING " + (System.currentTimeMillis() / 1000));
                     // Now we go back to listening for stuff from the server...
+
+                    //Updated by Patrik
+                    // Assume disconnected
+                    _bot.onDisconnect();
                 }
             }
         }

@@ -7,3 +7,4 @@ manifest.mf
 .classpath
 .project
 manifest.mf
+build-before-profiler.xml

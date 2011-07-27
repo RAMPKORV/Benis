@@ -112,7 +112,17 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onDisconnect() {
-            connect();
+        while (!isConnected()) {
+            try {
+                reconnect();
+            } catch (Exception e) {
+                try {
+                    Thread.sleep(10000L);
+                } catch (InterruptedException ex) {
+                    return;
+                }
+            }
+        }
     }
 
     @Override

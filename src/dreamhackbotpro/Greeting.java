@@ -124,7 +124,7 @@ public class Greeting {
         String[] words = filtered.split(" ");
         int i = 1;
         for(String word: words) {
-            for(String w : iceBreakers) {
+            for(String w : iceBreakersClean) {
                 if(Utils.getLevenshteinDistance(word, w) < 2) {
                     return word;
                 }
