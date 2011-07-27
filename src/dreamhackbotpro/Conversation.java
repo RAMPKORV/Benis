@@ -16,17 +16,27 @@ public class Conversation implements Comparable<Conversation> {
     private String sellerThing;
     private int buyerPrice;
     private int sellerPrice;
-    private int numMessages = 0;
     private List<String> greetings = new ArrayList<String>();
+    private List<TimestampedMessage> messages = new ArrayList<TimestampedMessage>();
 
     public int getNumMessages() {
-        return numMessages;
+        return messages.size();
     }
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            //TODO: Save conversation to textfile or database
+        } catch(Exception e) {
+
+        } finally {
+            super.finalize();
+        }
+}
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
         this.buyer = buyer;
@@ -102,7 +112,7 @@ public class Conversation implements Comparable<Conversation> {
     }
 
     public void onMessage(User u, Message m, boolean transform){
-        numMessages++;
+        messages.add(new TimestampedMessage(m));
         if(u==buyer)
             m.setTo(seller.getName());
         else
@@ -120,9 +130,9 @@ public class Conversation implements Comparable<Conversation> {
     }
 
     public int compareTo(Conversation t) {
-        if(numMessages > t.numMessages)
+        if(messages.size() > t.getNumMessages())
             return 1;
-        if(numMessages < t.numMessages)
+        if(messages.size() < t.getNumMessages())
             return -1;
         if(buyerPrice > t.buyerPrice)
             return 1;
