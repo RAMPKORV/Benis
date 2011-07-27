@@ -171,6 +171,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             opUsers.remove(oldNick);
             opUsers.add(newNick);
         } else {
+            leftUsers.add(oldNick);
             for(ChatListener l : listeners) {
                 l.onNameChange(oldNick,newNick);
             }

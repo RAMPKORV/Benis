@@ -4,22 +4,30 @@ import dreamhackbotpro.ChatListener;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener{
+public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener, ListCellRenderer {
     
     private DefaultListModel listData;
     private JList conversationList;
@@ -30,6 +38,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private ThingTable thingTable;
     private JScrollPane textAreaScroll;
     private Map<String, JTextArea> chats = new HashMap<String, JTextArea>();
+    private Set<String> unread = new HashSet<String>();
     private ChatOptionsPanel chatOptions;
     
     public static void main(String[] args) {
@@ -61,6 +70,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         listData.addElement(" ----- ");
         
         conversationList = new JList(listData);
+        conversationList.setCellRenderer(this);
         conversationList.setSelectedIndex(0);
         conversationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         conversationList.addListSelectionListener(this);
@@ -102,15 +112,16 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         return String.format("(%02d:%02d:%02d) ", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
     }
     
-    private void appendTo(JTextArea area, String s){
+    private void appendTo(String name, JTextArea area, String s){
         area.append('\n'+timeStamp()+s);
+        addUnread(name);
         if(chatOptions.isAutoScroll())
             area.setCaretPosition(area.getDocument().getLength());
     }
 
     @Override
     public void onMessage(Message m) {
-        appendTo(channel, m.toString());
+        appendTo("Main channel", channel, m.toString());
     }
 
     @Override
@@ -130,7 +141,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     
     @Override
     public void onError(String error) {
-        appendTo(errors, error);
+        appendTo("Errors", errors, error);
     }
 
     @Override
@@ -142,6 +153,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
 
         JTextArea chat = chats.get(chatName);
+
         if(chat==null){
             chat = new JTextArea(chatName);
             chat.setLineWrap(true);
@@ -153,7 +165,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             listData.removeElement(chatName);
             listData.addElement(chatName);
         }
-        chat.append('\n'+timeStamp()+m.toString());
+        //chat.append('\n'+timeStamp()+m.toString());
+        appendTo(chatName, chat, '\n'+timeStamp()+m.toString());
         if(chatOptions.isAutoScroll())
             chat.setCaretPosition(chat.getDocument().getLength());
     }
@@ -164,6 +177,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         if(e.getValueIsAdjusting() != enableLiveUpdate)
             return;
         int index = conversationList.getSelectedIndex();
+        removeUnread(conversationList.getSelectedValue().toString());
         if(index==0){
             textAreaScroll.setViewportView(channel);
             return;
@@ -200,7 +214,30 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     public void onServerMessage(String message) {
-        appendTo(server, message);
+        appendTo("Server", server, message);
+    }
+
+    private ListCellRenderer renderer = new DefaultListCellRenderer();
+    public Component getListCellRendererComponent(JList jlist, Object o, int i, boolean bln, boolean bln1) {
+        Component c = renderer.getListCellRendererComponent(jlist, o, i, bln, bln1);
+        if(unread.contains(o.toString())) {
+            System.out.println(o.toString());
+            c.setBackground(Color.pink);
+        } else {
+            c.setBackground(Color.WHITE);
+        }
+        return c;
+    }
+
+    private void addUnread(String chatName) {
+        if(!conversationList.getSelectedValue().equals(chatName)) {
+            unread.add(chatName);
+        }
+        conversationList.repaint();
+    }
+
+    private void removeUnread(String chatName) {
+        unread.remove(chatName);
     }
 
 }
