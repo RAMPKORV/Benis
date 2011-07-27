@@ -35,6 +35,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         info = new BotInfo(ircNick);
         setMessageDelay(1500);
         setAutoNickChange(true);
+        setVerbose(true);
         setLogin(System.getProperty("user.name"));
         try {
             setEncoding("ISO-8859-1");

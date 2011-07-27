@@ -28,13 +28,12 @@ public class Conversation implements Comparable<Conversation> {
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
 
     public void save() throws Throwable {
-        try {
-            if(getNumMessages() > 2) {
+        if(getNumMessages() > 2) {
+            try {
                 //TODO: Save conversation to textfile or database
+            } catch(Exception e) {
             }
-        } catch(Exception e) {
-
-        } 
+        }
     }
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
