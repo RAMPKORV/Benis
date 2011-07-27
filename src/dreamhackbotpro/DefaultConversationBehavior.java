@@ -55,6 +55,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String sellerThing = c.getSellerThing();
         int buyerPrice = c.getBuyerPrice();
         int sellerPrice = c.getSellerPrice();
+        float buyerSTD = c.getBuyerSTD();
+        float sellerSTD = c.getSellerSTD();
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
              List<String> priceStrings = p.parsePriceStrings(msg);
@@ -67,7 +69,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     newPrices.add(newPriceString);
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
-                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, true);
+                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, sellerSTD, buyerSTD, true);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
                     newPrices.add(newPriceString);
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
@@ -104,7 +106,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     newPrices.add(newPriceString);
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
-                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, false);
+                    int newPrice = convertPrice(price, sellerPrice, buyerPrice, sellerSTD, buyerSTD, false);
                     String newPriceString = priceString.replace(price+"", newPrice+"");
                     newPrices.add(newPriceString);
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
@@ -135,18 +137,22 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         return m;
     }
 
-    private int convertPrice(int price, int sellerPrice, int buyerPrice, boolean wtb) {
+    private int convertPrice(int price, int sellerPrice, int buyerPrice, float sellerSTD, float buyerSTD, boolean wtb) {
         float priceFloat = (float)price;
         float sellerPriceFloat = (float)sellerPrice;
         float buyerPriceFloat = (float)buyerPrice;
-        float percentageChange = 0;
+        float STDs = 0;
         float converted;
+        if(sellerSTD == 0)
+                sellerSTD = sellerPrice*0.341f;
+        if(buyerSTD == 0)
+                buyerSTD = buyerPrice*0.341f;
         if(wtb) {
-            percentageChange = (priceFloat-buyerPrice)/buyerPrice;
-            converted = sellerPriceFloat + sellerPriceFloat * percentageChange;
+            STDs = (price-buyerPrice)/buyerSTD;
+            converted = sellerPriceFloat + sellerSTD*STDs;
         } else {
-            percentageChange = (priceFloat-sellerPrice)/sellerPrice;
-            converted = buyerPriceFloat + buyerPriceFloat * percentageChange;
+            STDs = (price-sellerPrice)/sellerSTD;
+            converted = buyerPriceFloat + buyerSTD*STDs;
         }
         return Utils.roundPrice((int)converted);
     }

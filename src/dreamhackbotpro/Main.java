@@ -21,11 +21,7 @@ public class Main {
         Conversation.addConversationsListener(gui);
         SeatReader seatReader = new SeatReader();
         Conversation.addConversationsListener(seatReader);
-        try {
-            irc.connect();
-        } catch (InterruptedException ex) {
-            return;
-        }
+        irc.connect();
     }
 
 }

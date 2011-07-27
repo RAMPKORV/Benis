@@ -1,17 +1,13 @@
 package dreamhackbotpro;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
-import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
 /**
@@ -27,7 +23,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
     private Set<String> opUsers = new HashSet<String>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
-    private Set<String> leftUsers = new TreeSet<String>();
+    private Collection<String> leftUsers = new ArrayList<String>();
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
         this.ircNick = nick;
@@ -93,7 +89,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }
     }
 
-    public void connect() throws InterruptedException {
+    public void connect() {
         this.setName(ircNick);
         try {
             connect(ircServer);
@@ -102,6 +98,11 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         } catch(Exception ex) {
             error(ex.getMessage());
         }
+    }
+
+    @Override
+    protected void onDisconnect() {
+            connect();
     }
 
     @Override
@@ -173,6 +174,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(nick)) {
             opUsers.remove(nick);
         } else {
+            leftUsers.add(nick);
             for(ChatListener l : listeners) {
                 l.onQuit(nick);
             }
@@ -186,7 +188,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
-        leftUsers.add(sender);
         onQuit(sender);
     }
 
@@ -231,9 +232,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                     }
                     String nickBefore = IrcHandler.this.getNick();
                     List<String> leftUsersCopy = null;
-                    synchronized (leftUsers) {
-                        leftUsersCopy = new ArrayList<String>(leftUsers);
-                    }
+                    leftUsersCopy = new ArrayList<String>(leftUsers);
+                    Collections.shuffle(leftUsersCopy);
                     if(!leftUsersCopy.isEmpty()) {
                         for(String nick : leftUsersCopy) {
                             IrcHandler.this.changeNick(nick);
