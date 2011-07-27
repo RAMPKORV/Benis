@@ -24,12 +24,14 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private Set<String> opUsers = new HashSet<String>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
     private Collection<String> leftUsers = new ArrayList<String>();
+    private Thread nickChanger = null;
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
         info = new BotInfo(ircNick);
+        setMessageDelay(1500);
         setAutoNickChange(true);
         setLogin(System.getProperty("user.name"));
         try {
@@ -93,11 +95,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.setName(ircNick);
         try {
             connect(ircServer);
-            joinChannel(ircChannel);
-            createNickChangeThread();
+
         } catch(Exception ex) {
             error(ex.getMessage());
         }
+    }
+
+    @Override
+    protected void onConnect() {
+        joinChannel(ircChannel);
+        createNickChangeThread();
     }
 
     @Override
@@ -207,6 +214,13 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     @Override
+    protected void onServerResponse(int code, String response) {
+        for(ChatListener l : listeners) {
+                l.onServerMessage(code + ": " + response);
+        }
+    }
+
+    @Override
     public void onConversationMessage(Message m) {
         String botNick = m.getBotInfo().getNick();
         if(botNick.equals(info.getNick())) {
@@ -222,6 +236,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     private void createNickChangeThread() {
+        if(nickChanger != null)
+            return;
         new Thread(new Runnable(){
             public void run() {
                 while(true) {

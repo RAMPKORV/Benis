@@ -78,7 +78,7 @@ public class MasterFilterTest extends MessageFilterTest {
         checkFromTo("********--------> säljer Razer DEATHADDER (PM) <-------  10kr         *****", "WTS Razer DEATHADDER PM 10kr");
 
         checkFromTo("SÄLJER ICECOFFEE  , Sockerdricka och dextro mint BILLIGT!!!!!!!!!", "WTS ICECOFFEE. WTS Sockerdricka. WTS dextro mint");
-        checkFromTo("musmatta steelseries 4HD Small s?ljes 100kr!", "WTS musmatta steelseries 4HD Small 100kr");
+        checkFromTo("musmatta steelseries 4HD Small säljes 100kr!", "WTS musmatta steelseries 4HD Small 100kr.");
         checkFromTo("ACE EDGE3200 gaming mouse säljes eller bytes mot en mionix naos5000 PM!", "WTS ACE EDGE3200 gaming mouse");
         checkFromTo("WTS min ljusblå mössa/min rosa mössa 50 kr st", "WTS ljusblå mössa 50kr. WTS rosa mössa 50kr");
         checkFromTo("Säljer Kämd Razer mus, den som ger bud får köpa innom 1 minut!!!!!!", "WTS Kämd Razer mus");      

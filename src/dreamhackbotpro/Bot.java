@@ -110,7 +110,7 @@ public class Bot implements ChatListener{
 
     @Override
     public void onError(String error) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //Ignore
     }
     
     /**
@@ -153,6 +153,10 @@ public class Bot implements ChatListener{
             return true;
         }
         return false;
+    }
+
+    public void onServerMessage(String message) {
+        //Ignore
     }
 
 }

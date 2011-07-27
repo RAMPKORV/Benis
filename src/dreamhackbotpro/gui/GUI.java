@@ -5,12 +5,12 @@ import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +25,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private JList conversationList;
     private JTextArea channel;
     private JTextArea errors;
+    private JTextArea server;
     private GlobalOptionsPanel options;
     private ThingTable thingTable;
     private JScrollPane textAreaScroll;
@@ -56,6 +57,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         listData.addElement("Options");
         listData.addElement("Thing table");
         listData.addElement("Errors");
+        listData.addElement("Server");
         listData.addElement(" ----- ");
         
         conversationList = new JList(listData);
@@ -66,13 +68,20 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         
         add(listScroll, BorderLayout.WEST);
         JPanel mainMenu = new JPanel(new BorderLayout());
-        
+
+        Font f = new Font("Monospaced", Font.PLAIN, 12);
         channel = new JTextArea(" - Main channel - ");
+        channel.setFont(f);
         channel.setLineWrap(true);
         channel.setEditable(false);
         errors = new JTextArea(" - Errors - ");
+        errors.setFont(f);
         errors.setLineWrap(true);
         errors.setEditable(false);
+        server = new JTextArea(" - Server - ");
+        server.setFont(f);
+        server.setLineWrap(true);
+        server.setEditable(false);
         
         options = new GlobalOptionsPanel();
         thingTable = new ThingTable();
@@ -173,6 +182,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             textAreaScroll.setViewportView(errors);
             return;
         }
+        if(index==4){
+            textAreaScroll.setViewportView(server);
+            return;
+        }
         String listValue = conversationList.getSelectedValue().toString();
         if(listValue.equals(" ----- "))
             return;
@@ -184,6 +197,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     public void updateListMark(){
         listData.removeElement(" ----- ");
         listData.addElement(" ----- ");
+    }
+
+    public void onServerMessage(String message) {
+        appendTo(server, message);
     }
 
 }

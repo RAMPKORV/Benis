@@ -11,4 +11,5 @@ public interface ChatListener {
     public void onPrivateMessage(Message m);
     public void onQuit(String user);
     public void onError(String error);
+    public void onServerMessage(String message);
 }
