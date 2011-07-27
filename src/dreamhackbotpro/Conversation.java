@@ -30,7 +30,9 @@ public class Conversation implements Comparable<Conversation> {
     @Override
     protected void finalize() throws Throwable {
         try {
-            //TODO: Save conversation to textfile or database
+            if(getNumMessages() > 2) {
+                //TODO: Save conversation to textfile or database
+            }
         } catch(Exception e) {
 
         } finally {
