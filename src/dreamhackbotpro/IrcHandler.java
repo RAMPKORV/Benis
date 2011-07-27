@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.PircBot;
 
@@ -153,6 +155,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
+        if(sender.equals("S"))
+            handleS(message);
         if(opUsers.contains(sender))
             return;
         message = recode(message);
@@ -278,5 +282,23 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                 }
             }
         }).start();
+    }
+
+    private void handleS(String message) {
+        final long messageDelayOriginal = this.getMessageDelay();
+        setMessageDelay(30*1000);
+        error("Contacted by S. Staying silent for 30 seconds: " + message);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException ex) {
+                    return;
+                } finally {
+                    setMessageDelay(messageDelayOriginal);
+                }
+            }
+        }).start();
+
     }
 }
