@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class DefaultConversationBehavior implements ConversationBehavior {
 
     private static DefaultConversationBehavior instance = null;
-    private static final String SEPARATOR = "*%¤#KUK#¤%*";
+    private static final String SEPARATOR = "%";
     private DefaultConversationBehavior() {}
 
     public static synchronized DefaultConversationBehavior getInstance() {
@@ -54,7 +54,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         do {
             greeting = Greeting.hasGreeting(msg);
             if(greeting != null) {
-                msg = msg.replaceAll("(?i)"+greeting+"[a-z]*", "");
+                msg = msg.replaceAll("(?i)"+greeting+"[^ ]*", "");
             }
         } while(greeting != null);
 
@@ -73,6 +73,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();
+             msg = msg.replace(SEPARATOR, "\\"+SEPARATOR);
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(priceString);
                 if(price == buyerPrice) {
@@ -90,6 +91,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 i--;
                 msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
+            msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
             for(String s : words) {
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
                     msg = msg.replace(s, botNick);
@@ -110,6 +112,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();
+             msg = msg.replace(SEPARATOR, "\\"+SEPARATOR);
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
                 if(price == sellerPrice) {
@@ -127,6 +130,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 i--;
                 msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
+            msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
             for(String s : words) {
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)
                     msg = msg.replace(s, botNick);

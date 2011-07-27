@@ -8,11 +8,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultListCellRenderer;
@@ -166,7 +164,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             listData.addElement(chatName);
         }
         //chat.append('\n'+timeStamp()+m.toString());
-        appendTo(chatName, chat, '\n'+timeStamp()+m.toString());
+        appendTo(chatName, chat, m.toString());
         if(chatOptions.isAutoScroll())
             chat.setCaretPosition(chat.getDocument().getLength());
     }
