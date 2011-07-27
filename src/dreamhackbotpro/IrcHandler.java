@@ -178,6 +178,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(nick)) {
             opUsers.remove(nick);
         } else {
+            leftUsers.add(nick);
             for(ChatListener l : listeners) {
                 l.onQuit(nick);
             }
@@ -191,7 +192,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
-        leftUsers.add(sender);
         onQuit(sender);
     }
 
