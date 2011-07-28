@@ -65,12 +65,19 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String buyerThing = c.getBuyerThing();
         String sellerThing = c.getSellerThing();
         final String buyerBrand = ThingInfo.getBrandByItem(buyerThing);
+        final String sellerBrand = ThingInfo.getBrandByItem(sellerThing);
         int buyerPrice = c.getBuyerPrice();
         int sellerPrice = c.getSellerPrice();
         float buyerSTD = c.getBuyerSTD();
         float sellerSTD = c.getSellerSTD();
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
+            if(buyerBrand != null && sellerBrand != null) {
+                msg = msg.replace(buyerBrand, sellerBrand);
+            }
+            if(buyerBrand != null && sellerBrand == null) {
+                msg = msg.replace(buyerBrand, sellerThing);
+            }
             if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
                     m.setMessage("");
                     send(5000L, c, new Message(seller,buyerBrand,buyer,bot));
@@ -131,6 +138,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         } else {
+            if(buyerBrand != null && sellerBrand != null) {
+                msg = msg.replace(sellerBrand, buyerBrand);
+            }
+            if(seller != null && buyerBrand == null) {
+                msg = msg.replace(sellerBrand, buyerThing);
+            }
             String[] xy = ThingInfo.isXorYQuestion(msg);
             if(xy != null) {
                 m.setMessage("");

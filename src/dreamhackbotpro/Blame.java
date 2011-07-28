@@ -16,7 +16,7 @@ public class Blame {
         msg = msg.replaceAll("(?i)du skrev[a-zåäöÅÄÖ ]*först","jag skrev först");
         msg = msg.replaceAll("(?i)du startade","jag startade");
         msg = msg.replaceAll("(?i)du kontaktade (mig|mej)","jag kontaktade dig");
-        msg = msg.replaceAll("(?i)(varför|vrf) skrev du (till|te|til) mig","jag skrev till dig!");
+        msg = msg.replaceAll("(?i)(varför|vrf) (skrev/skriver) du (till|te|til) mig","jag skrev till dig!");
         return msg;
     }
 }
