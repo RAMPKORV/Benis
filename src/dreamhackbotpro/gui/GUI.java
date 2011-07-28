@@ -10,11 +10,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -218,12 +215,13 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         appendTo("Server", server, message);
     }
 
+    private static Color myRed = new Color(225,125,125);
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         Component c = renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if(!isSelected && !cellHasFocus) {
             Integer flashesLeft = unread.get(value.toString());
             if(flashesLeft != null) {
-                c.setBackground(flashesLeft % 2 == 0 ? Color.pink : Color.RED);
+                c.setBackground(flashesLeft % 2 == 0 ? Color.PINK : myRed);
             }
         } 
         return c;

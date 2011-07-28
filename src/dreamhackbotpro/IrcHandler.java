@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.PircBot;
 
@@ -35,7 +33,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         info = new BotInfo(ircNick);
         setMessageDelay(1500);
         setAutoNickChange(true);
-        setVerbose(true);
+        //setVerbose(true);
         setLogin(System.getProperty("user.name"));
         try {
             setEncoding("ISO-8859-1");
