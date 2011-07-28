@@ -46,6 +46,7 @@ public class RelatedSentenceFilter implements MessageFilter{
             newMessage+=s+". ";
         }
         newMessage = newMessage.substring(0, newMessage.length()-2); //remove dot+space at end
+
         m.setMessage(newMessage);
     }
 

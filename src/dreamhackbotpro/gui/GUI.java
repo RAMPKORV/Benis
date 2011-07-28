@@ -38,6 +38,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private Map<String, JTextArea> chats = new HashMap<String, JTextArea>();
     private Set<String> unread = new HashSet<String>();
     private ChatOptionsPanel chatOptions;
+    private ListCellRenderer renderer = new DefaultListCellRenderer();
     
     public static void main(String[] args) {
         //testing
@@ -215,7 +216,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         appendTo("Server", server, message);
     }
 
-    private ListCellRenderer renderer = new DefaultListCellRenderer();
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         Component c = renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if(!isSelected && !cellHasFocus && unread.contains(value.toString())) {

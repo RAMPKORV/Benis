@@ -20,26 +20,27 @@ public class PriceSynonymFilter implements MessageFilter {
             String value = matcher.group(1);
             String unit = matcher.group(2);
             try {
-            if(unit.equals("lax")) {
+                if(unit.equals("lax")) {
                     msg = msg.replace(matcher.group(0), 1000 * Integer.parseInt(value) + "kr");
-            } else if(unit.equals("sek") ||
-                      unit.equals("kr") ||
-                      unit.equals("spänn") ||
-                      unit.equals("kronor") ||
-                      unit.equals("riksdaler") ||
-                      unit.equals(":-")) {
-                msg = msg.replace(matcher.group(0), value + "kr");
-            } else if(unit.equals("tjuga") ||
-                      unit.equals("tjugor") ||
-                      unit.equals("tjugolapp") || 
-                      unit.equals("tjugolappar")) {
-                msg = msg.replace(matcher.group(0), 20 * Integer.parseInt(value) + "kr");
-            } else if(unit.equals("hundring") ||
-                      unit.equals("hundralapp") ||
-                      unit.equals("hundralappar")) {
-                msg = msg.replace(matcher.group(0), 100 * Integer.parseInt(value) + "kr");
-            }
+                } else if(unit.equals("sek") ||
+                    unit.equals("kr") ||
+                    unit.equals("spänn") ||
+                    unit.equals("kronor") ||
+                    unit.equals("riksdaler") ||
+                    unit.equals(":-")) {
+                    msg = msg.replace(matcher.group(0), value + "kr");
+                } else if(unit.equals("tjuga") ||
+                    unit.equals("tjugor") ||
+                    unit.equals("tjugolapp") || 
+                    unit.equals("tjugolappar")) {
+                    msg = msg.replace(matcher.group(0), 20 * Integer.parseInt(value) + "kr");
+                } else if(unit.equals("hundring") ||
+                    unit.equals("hundralapp") ||
+                    unit.equals("hundralappar")) {
+                    msg = msg.replace(matcher.group(0), 100 * Integer.parseInt(value) + "kr");
+                }
             } catch(NumberFormatException ex) {
+                // Could not be converted, so we remove it instead.
                 msg = msg.replace(matcher.group(0), "");
             }
         }

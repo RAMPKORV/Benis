@@ -21,6 +21,8 @@ public class ListFilter implements MessageFilter {
             String[] parts = sentence.split(",");
             String type = "";
             for(String part : parts) {
+                if(part.trim().equals(""))
+                    continue;
                 if(part.contains("WTB") && !part.contains("WTS"))
                     type = "WTB ";
                 if(part.contains("WTS") && !part.contains("WTB"))
