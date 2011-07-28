@@ -148,6 +148,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         }
+        msg = Blame.negateBlames(msg);
         m.setMessage(msg);
         return m;
     }

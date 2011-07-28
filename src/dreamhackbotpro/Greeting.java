@@ -96,7 +96,8 @@ public class Greeting {
         "m","mm","mmm","a",
         "aa","aaa","gärna","jättegärna",
         "självklart","oja","ohja","o ja",
-        "jepp"
+        "jepp","ok","okej","gott",
+        "gött","najs","nice"
     };
     
     public static boolean isAffirmation(String s) {
