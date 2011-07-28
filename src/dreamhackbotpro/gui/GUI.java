@@ -25,7 +25,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener, ListCellRenderer {
-    private static final int NUM_FLASHES = 6;
+    private static final int NUMBER_OF_FLASHES = 12;
+    private static final long DELAY_BETWEEN_FLASHES = 250;
     private DefaultListModel listData;
     private JList conversationList;
     private JTextArea channel;
@@ -229,7 +230,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
 
     private void addUnread(String chatName) {
         if(!conversationList.getSelectedValue().equals(chatName)) {
-            unread.put(chatName, NUM_FLASHES);
+            unread.put(chatName, NUMBER_OF_FLASHES);
         }
         repaintThread();
     }
@@ -254,7 +255,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
                     unread.put(s, flashesLeft);
                 }
                 try {
-                    Thread.sleep(500L);
+                    Thread.sleep(DELAY_BETWEEN_FLASHES);
                 } catch (InterruptedException ex) {
                     return;
                 }
