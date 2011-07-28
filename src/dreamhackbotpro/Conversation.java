@@ -111,10 +111,13 @@ public class Conversation implements Comparable<Conversation> {
 
     public void onMessage(User u, Message m, boolean transform){
         messages.add(new TimestampedMessage(m));
-        if(u==buyer)
-            m.setTo(seller.getName());
-        else
-            m.setTo(buyer.getName());
+        // u is set to null when message is sent from ConversationBehavior
+        if(u != null) {
+            if(u==buyer)
+                m.setTo(seller.getName());
+            else
+                m.setTo(buyer.getName());
+        }
 
         //do all the logic. Replace buyerThing with sellerThing etc.
         if(transform)

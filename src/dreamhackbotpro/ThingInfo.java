@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -319,6 +321,39 @@ public class ThingInfo implements Comparable<ThingInfo> {
     public static boolean isBrandQuestion(String msg) {
         msg = msg.toLowerCase();
         for(String q : brandQuestions) {
+            if(msg.matches(q))
+                return true;
+        }
+        return false;
+    }
+
+    private static Pattern xy = Pattern.compile("(?i)^([a-zA-Z0-9åäöÅÄÖ-]+)[ ]+eller[ ]+([a-zA-Z0-9åäöÅÄÖ-]+)($|\\?)");
+    public static String[] isXorYQuestion(String msg) {
+        Matcher m = xy.matcher(msg);
+        if(m.find()) {
+            return new String[]{m.group(1),m.group(2)};
+        }
+        return null;
+    }
+
+    private static String[] confirmQuestions = {
+        "^är det [a-zåäöÅÄÖ]+[ ]*(\\?|$)", "skall vi säga så[a-zA-ZåäöÅÄÖ ]*\\?"
+    };
+    public static boolean isConfirmQuestion(String msg) {
+        msg = msg.toLowerCase();
+        for(String q : confirmQuestions) {
+            if(msg.matches(q))
+                return true;
+        }
+        return false;
+    }
+
+    private static String[] howmanyQuestions = {
+        "^hur många\\??$","^hur många vill du ha","^hur många skall du ha"
+    };
+    public static boolean isHowManyQuestion(String msg) {
+        msg = msg.toLowerCase();
+        for(String q : howmanyQuestions) {
             if(msg.matches(q))
                 return true;
         }

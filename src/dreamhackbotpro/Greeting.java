@@ -110,6 +110,10 @@ public class Greeting {
         return false;
     }
 
+    public static String getYes() {
+        return "Ja"; // TODO: Alternative answers
+    }
+
     public static String hasGreeting(String s) {
         String filtered = s.replaceAll("[^a-zA-ZåäöÅÄÖ ]", "");
         for(String w : iceBreakersClean) {

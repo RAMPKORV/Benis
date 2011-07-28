@@ -73,17 +73,24 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         if(m.getFrom().equals(c.getBuyer().getName())) {
             if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
                     m.setMessage("");
-                    new Thread(new Runnable(){
-                        public void run() {
-                            try {
-                                Thread.sleep(5000L);
-                                c.onMessage(null,new Message(seller,buyerBrand,buyer,bot), false);
-                            } catch (InterruptedException ex) {
-                                return;
-                            }
-                        }
-                    }).start();
+                    send(5000L, c, new Message(seller,buyerBrand,buyer,bot));
                     return m;
+            }
+            String[] xy = ThingInfo.isXorYQuestion(msg);
+            if(xy != null) {
+                m.setMessage("");
+                send(5000L, c, new Message(seller,xy[Utils.random.nextInt(xy.length)],buyer,bot));
+                return m;
+            }
+            if(ThingInfo.isConfirmQuestion(msg)) {
+                m.setMessage("");
+                send(5000L, c, new Message(seller,Greeting.getYes(),buyer,bot));
+                return m;
+            }
+            if(ThingInfo.isHowManyQuestion(msg)) {
+                m.setMessage("");
+                send(5000L, c, new Message(seller,""+(Utils.random.nextInt(4)+1),buyer,bot));
+                return m;
             }
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
@@ -124,6 +131,22 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 }
             }
         } else {
+            String[] xy = ThingInfo.isXorYQuestion(msg);
+            if(xy != null) {
+                m.setMessage("");
+                send(5000L, c, new Message(buyer,xy[Utils.random.nextInt(xy.length)],seller,bot));
+                return m;
+            }
+            if(ThingInfo.isConfirmQuestion(msg)) {
+                m.setMessage("");
+                send(5000L, c, new Message(buyer,Greeting.getYes(),seller,bot));
+                return m;
+            }
+            if(ThingInfo.isHowManyQuestion(msg)) {
+                m.setMessage("");
+                send(5000L, c, new Message(buyer,""+(Utils.random.nextInt(4)+1),seller,bot));
+                return m;
+            }
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();
@@ -166,6 +189,19 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         msg = Blame.negateBlames(msg);
         m.setMessage(msg);
         return m;
+    }
+
+    private void send(long delay, final Conversation c, final Message m) {
+        new Thread(new Runnable(){
+                        public void run() {
+                            try {
+                                Thread.sleep(5000L);
+                                c.onMessage(null,m, false);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                        }
+       }).start();
     }
 
     private int convertPrice(int price, int sellerPrice, int buyerPrice, float sellerSTD, float buyerSTD, boolean wtb) {
