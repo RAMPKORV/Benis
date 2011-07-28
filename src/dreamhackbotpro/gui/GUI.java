@@ -170,28 +170,26 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
             return;
         int index = conversationList.getSelectedIndex();
         removeUnread(conversationList.getSelectedValue().toString());
-        if(index==0){
-            textAreaScroll.setViewportView(channel);
-            return;
+
+        switch(index){
+            case 0: textAreaScroll.setViewportView(channel);
+                    return;
+
+            case 1: options.updateOptionsDisplayed();
+                    textAreaScroll.setViewportView(options);
+                    return;
+
+            case 2: thingTable.updateData();
+                    textAreaScroll.setViewportView(thingTable);
+                    return;
+
+            case 3: textAreaScroll.setViewportView(errors);
+                    return;
+
+            case 4: textAreaScroll.setViewportView(server);
+                    return;
         }
-        if(index==1){
-            options.updateOptionsDisplayed();
-            textAreaScroll.setViewportView(options);
-            return;
-        }
-        if(index==2){
-            thingTable.updateData();
-            textAreaScroll.setViewportView(thingTable);
-            return;
-        }
-        if(index==3){
-            textAreaScroll.setViewportView(errors);
-            return;
-        }
-        if(index==4){
-            textAreaScroll.setViewportView(server);
-            return;
-        }
+
         String listValue = conversationList.getSelectedValue().toString();
         if(listValue.equals(" ----- "))
             return;
