@@ -45,10 +45,6 @@ public class Conversation implements Comparable<Conversation> {
         this.sellerPrice = sellerPrice;
         buyer.setConversation(this);
         seller.setConversation(this);
-        
-        //TODO send a greeting to buyer and seller
-        //Problem: Do not send greeting before buyerThing and sellerThing has been generated in the other constructor
-        //Possible solution: add a public sendGreeting method called after Conversation has been constructed
     }
 
     public int getBuyerPrice() {
