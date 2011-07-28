@@ -17,7 +17,7 @@ public class Conversation implements Comparable<Conversation> {
     private int buyerPrice;
     private int sellerPrice;
     private List<String> greetings = new ArrayList<String>();
-    private List<TimestampedMessage> messages = new ArrayList<TimestampedMessage>();
+    private List<String> messages = new ArrayList<String>();
 
     public int getNumMessages() {
         return messages.size();
@@ -106,7 +106,6 @@ public class Conversation implements Comparable<Conversation> {
     }
 
     public void onMessage(User u, Message m, boolean transform){
-        messages.add(new TimestampedMessage(m));
         // u is set to null when message is sent from ConversationBehavior
         if(u != null) {
             if(u==buyer)
@@ -118,6 +117,8 @@ public class Conversation implements Comparable<Conversation> {
         //do all the logic. Replace buyerThing with sellerThing etc.
         if(transform)
             behavior.transformMessage(this, m);
+
+        messages.add(Utils.timeStamp().concat(m.toString()));
 
         if(m.getMessage().length() > 0) {
             for(ConversationsListener l : listeners){
