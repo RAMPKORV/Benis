@@ -158,11 +158,19 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
-        newBrands("snus","rapé");
-        newBrands("cigg", "john silver");
-        newBrands("tangentbord", "saitek eclipse");
-        newBrands("mus",  "deathadder", "steelseries");
+        newBrands("snus","rapé","portion", "general", "grov");
+        newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "level", "maryland", "winston");
+        newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard");
+        newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
+        newBrands("musmatta", "fnatic", "razer", "steelseries", "qpad");
+        newBrands("headset", "siberia v2", "siberia", "steelseries", "logitech", "koss", "sennheiser");
+        newBrands("datorskärm", "dell", "lg", "benq", "samsung");
+        newBrands("skärm", "dell", "lg", "benq", "samsung");
+        newBrands("plattskärm", "dell", "lg", "benq", "samsung");
+        newBrands("smartphone", "xperia");
         newBrands("jolt", "jolt");
+        newBrands("läsk","jolt","cola","fanta","sprite","dr pepper");
+        newBrands("energidryck", "powerking","redbull");
 
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
@@ -179,7 +187,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     private static void newBrands(String item, String... brands){
         itemToBrand.put(item, brands[0]);
         for(String brand : brands){
-            brandToItem.put(item, brand);
+            brandToItem.put(brand, item);
         }
     }
 
@@ -292,6 +300,29 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     public String getDefaultBrand() {
         return itemToBrand.get(thing);
+    }
+
+    public static String getItemByBrand(String brand) {
+        return brandToItem.get(brand);
+    }
+
+    public static String getBrandByItem(String item) {
+        return itemToBrand.get(item);
+    }
+
+
+    private static String[] brandQuestions = {
+        "^märke\\?$","vad för märke\\?","vad är det för märke\\?","vilket märke","^modell\\?$",
+        "^vilken modell\\?","^tillverkare\\?","^vilken tillverkare"
+    };
+
+    public static boolean isBrandQuestion(String msg) {
+        msg = msg.toLowerCase();
+        for(String q : brandQuestions) {
+            if(msg.matches(q))
+                return true;
+        }
+        return false;
     }
 
 }

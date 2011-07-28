@@ -104,7 +104,7 @@ public class Greeting {
         s = s.toLowerCase();
         int sLen = s.length();
         for(String affirmation : affirmations) {
-            if(s.startsWith(affirmation) && (affirmation.length() - sLen) < 2)
+            if(s.startsWith(affirmation) && Math.abs(affirmation.length() - sLen) < 2)
                 return true;
         }
         return false;

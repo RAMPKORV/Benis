@@ -21,7 +21,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
     }
 
     @Override
-    public Message transformMessage(Conversation c, Message m) {
+    public Message transformMessage(final Conversation c, Message m) {
 
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
@@ -58,18 +58,33 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } while(greeting != null);
 
-        BotInfo bot = m.getBotInfo();
+        final BotInfo bot = m.getBotInfo();
         String botNick = bot.getNick();
-        String buyer = c.getBuyer().getName();
-        String seller = c.getSeller().getName();
+        final String buyer = c.getBuyer().getName();
+        final String seller = c.getSeller().getName();
         String buyerThing = c.getBuyerThing();
         String sellerThing = c.getSellerThing();
+        final String buyerBrand = ThingInfo.getBrandByItem(buyerThing);
         int buyerPrice = c.getBuyerPrice();
         int sellerPrice = c.getSellerPrice();
         float buyerSTD = c.getBuyerSTD();
         float sellerSTD = c.getSellerSTD();
         String[] words = msg.split("[ \\.\\!\\?\\,]");
         if(m.getFrom().equals(c.getBuyer().getName())) {
+            if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
+                    m.setMessage("");
+                    new Thread(new Runnable(){
+                        public void run() {
+                            try {
+                                Thread.sleep(5000L);
+                                c.onMessage(null,new Message(seller,buyerBrand,buyer,bot), false);
+                            } catch (InterruptedException ex) {
+                                return;
+                            }
+                        }
+                    }).start();
+                    return m;
+            }
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();

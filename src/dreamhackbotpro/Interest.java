@@ -33,7 +33,12 @@ public class Interest {
     }
 
     public Interest(String thing, int price, boolean wtb, float certainty) {
-        this.thing = thing.toLowerCase();
+        String item = ThingInfo.getItemByBrand(thing);
+        if(item == null) {
+            this.thing = thing.toLowerCase();
+        } else {
+            this.thing = item;
+        }
         this.price = price;
         this.wtb = wtb;
         this.certainty = certainty;
