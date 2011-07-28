@@ -1,5 +1,6 @@
 package dreamhackbotpro;
 
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -69,6 +70,11 @@ public class Utils {
             d = _d;
         }
         return p[n];
+    }
+
+    public static String timeStamp(){
+        Calendar cal = Calendar.getInstance();
+        return String.format("(%02d:%02d:%02d) ", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
     }
 
 }

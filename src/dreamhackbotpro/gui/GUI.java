@@ -3,12 +3,12 @@ package dreamhackbotpro.gui;
 import dreamhackbotpro.ChatListener;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
+import dreamhackbotpro.Utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -106,13 +106,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         setVisible(true);
     }
     
-    private String timeStamp(){
-        Calendar cal = Calendar.getInstance();
-        return String.format("(%02d:%02d:%02d) ", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
-    }
-    
     private void appendTo(String name, JTextArea area, String s){
-        area.append('\n'+timeStamp()+s);
+        area.append('\n'+Utils.timeStamp()+s);
         addUnread(name);
         if(chatOptions.isAutoScroll())
             area.setCaretPosition(area.getDocument().getLength());
@@ -166,8 +161,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
         //chat.append('\n'+timeStamp()+m.toString());
         appendTo(chatName, chat, m.toString());
-        if(chatOptions.isAutoScroll())
-            chat.setCaretPosition(chat.getDocument().getLength());
     }
     
     @Override
