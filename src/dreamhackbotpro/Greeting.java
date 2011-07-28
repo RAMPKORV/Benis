@@ -81,7 +81,6 @@ public class Greeting {
     }
 
     public static boolean isSimpleGreeting(String s) {
-        System.out.println("Testing SimpleGreeting: " + s);
         String greeting = hasGreeting(s);
         if(greeting == null || greeting.length() < 2)
             return false;
