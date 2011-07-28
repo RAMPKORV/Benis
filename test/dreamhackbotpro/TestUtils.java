@@ -46,4 +46,14 @@ public class TestUtils {
         assertEquals(750, Utils.roundPrice(742));
         assertEquals(1650, Utils.roundPrice(1666));
     }
+
+    @Test
+    public void testGetLevenshteinDistance() {
+        assertEquals(0, Utils.getLevenshteinDistance("test", "test"));
+        assertEquals(1, Utils.getLevenshteinDistance("test", "testa"));
+        assertEquals(1, Utils.getLevenshteinDistance("test", "atest"));
+        assertEquals(1, Utils.getLevenshteinDistance("test", "teet"));
+        assertEquals(1, Utils.getLevenshteinDistance("test", "tes"));
+        assertEquals(2, Utils.getLevenshteinDistance("test", "tas"));
+    }
 }
