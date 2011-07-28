@@ -38,7 +38,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private ThingTable thingTable;
     private JScrollPane textAreaScroll;
     private Map<String, JTextArea> chats = new HashMap<String, JTextArea>();
-    private Map<String,Integer> unread = new HashMap<String, Integer>();
+    private volatile Map<String,Integer> unread = new HashMap<String, Integer>();
     private ChatOptionsPanel chatOptions;
     private ListCellRenderer renderer = new DefaultListCellRenderer();
     
