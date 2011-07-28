@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -26,7 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener, ListCellRenderer {
-    
+    private static final int NUM_FLASHES = 6;
     private DefaultListModel listData;
     private JList conversationList;
     private JTextArea channel;
@@ -36,7 +38,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private ThingTable thingTable;
     private JScrollPane textAreaScroll;
     private Map<String, JTextArea> chats = new HashMap<String, JTextArea>();
-    private Set<String> unread = new HashSet<String>();
+    private Map<String,Integer> unread = new HashMap<String, Integer>();
     private ChatOptionsPanel chatOptions;
     private ListCellRenderer renderer = new DefaultListCellRenderer();
     
@@ -218,21 +220,55 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
 
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         Component c = renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        if(!isSelected && !cellHasFocus && unread.contains(value.toString())) {
-            c.setBackground(Color.pink);
+        if(!isSelected && !cellHasFocus) {
+            Integer flashesLeft = unread.get(value.toString());
+            if(flashesLeft != null) {
+                c.setBackground(flashesLeft % 2 == 0 ? Color.pink : Color.RED);
+            }
         } 
         return c;
     }
 
     private void addUnread(String chatName) {
         if(!conversationList.getSelectedValue().equals(chatName)) {
-            unread.add(chatName);
+            unread.put(chatName, NUM_FLASHES);
         }
-        conversationList.repaint();
+        repaintThread();
     }
 
     private void removeUnread(String chatName) {
         unread.remove(chatName);
+    }
+
+    private Thread flashThread = null;
+    private Runnable repainter = new Runnable() {
+        public void run() {
+            int counter = 0;
+            do {
+                conversationList.repaint();
+                Set<String> keys= unread.keySet();
+                for(String s : keys) {
+                    int flashesLeft = unread.get(s);
+                    if(flashesLeft > 0) {
+                        counter++;
+                        flashesLeft--;
+                    } 
+                    unread.put(s, flashesLeft);
+                }
+                try {
+                    Thread.sleep(500L);
+                } catch (InterruptedException ex) {
+                    return;
+                }
+            } while(counter > 0);
+        }
+    };
+
+    private void repaintThread() {
+        if(flashThread == null || !flashThread.isAlive()) {
+            flashThread = new Thread(repainter);
+            flashThread.start();
+        }
     }
 
 }
