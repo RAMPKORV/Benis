@@ -262,4 +262,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
     }
 
+    public void onUserInfo(UserInfo ui) {
+        // Ignore for now
+    }
+
 }

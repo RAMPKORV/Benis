@@ -30,6 +30,10 @@ public class User {
         return info;
     }
 
+    public void setUserInfo(UserInfo ui) {
+        info = ui;
+    }
+
     /**
      * Checks if the user is inactive
      * @return true if the user has not said anything in Options.getInactiveTimeLimit() seconds.

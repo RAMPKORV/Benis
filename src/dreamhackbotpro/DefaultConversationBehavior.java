@@ -22,7 +22,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public Message transformMessage(final Conversation c, Message m) {
-
+System.out.println(m);
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
 
@@ -73,9 +73,10 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         if(m.getFrom().nick.equals(c.getBuyer().getName())) {
             if(buyerBrand != null && sellerBrand != null) {
                 msg = msg.replace(buyerBrand, sellerBrand);
-            }
-            if(buyerBrand != null && sellerBrand == null) {
-                msg = msg.replace(buyerBrand, sellerThing);
+            } else {
+                if(buyerBrand != null && sellerBrand == null) {
+                    msg = msg.replace(buyerBrand, sellerThing);
+                }
             }
             if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
                     m.setMessage("");
@@ -123,6 +124,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             for(String s : words) {
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.nick.toLowerCase()) <= Math.max(s.length(),buyer.nick.length())/4)
                     msg = msg.replace(s, bot.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ident.toLowerCase()) <= Math.max(s.length(),buyer.ident.length())/4)
+                    msg = msg.replace(s, bot.ident);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.host.toLowerCase()) <= Math.max(s.length(),buyer.host.length())/4)
+                    msg = msg.replace(s, bot.host);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ip.toLowerCase()) <= Math.max(s.length(),buyer.ip.length())/4)
+                    msg = msg.replace(s, bot.ip);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
                     msg = msg.replace(s, seller.nick);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
@@ -145,9 +152,10 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         } else {
             if(buyerBrand != null && sellerBrand != null) {
                 msg = msg.replace(sellerBrand, buyerBrand);
-            }
-            if(seller != null && buyerBrand == null) {
-                msg = msg.replace(sellerBrand, buyerThing);
+            } else {
+                if(sellerBrand != null && buyerBrand == null) {
+                    msg = msg.replace(sellerBrand, buyerThing);
+                }
             }
             String[] xy = ThingInfo.isXorYQuestion(msg);
             if(xy != null) {
@@ -190,6 +198,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             for(String s : words) {
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.nick.toLowerCase()) <= Math.max(s.length(),seller.nick.length())/4)
                     msg = msg.replace(s, bot.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ident.toLowerCase()) <= Math.max(s.length(),seller.ident.length())/4)
+                    msg = msg.replace(s, bot.ident);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.host.toLowerCase()) <= Math.max(s.length(),seller.host.length())/4)
+                    msg = msg.replace(s, bot.host);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ip.toLowerCase()) <= Math.max(s.length(),seller.ip.length())/4)
+                    msg = msg.replace(s, bot.ip);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
                     msg = msg.replace(s, buyer.nick);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)

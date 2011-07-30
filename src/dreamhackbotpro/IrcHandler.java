@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.PircBot;
 
@@ -180,10 +182,35 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         message = recode(message);
         UserInfo senderInfo = usersMap.get(sender);
+        if(senderInfo.requireWhois()) {
+            sendRawLineViaQueue("WHOIS "+ sender);
+        }
         if(senderInfo != null)  {
             for(ChatListener l : listeners) {
                 l.onPrivateMessage(new Message(senderInfo, message, null, info));
             }
+        }
+    }
+
+    @Override
+    protected void onServerResponse(int code, String response) {
+        if(code == RPL_WHOISUSER) {
+        	String parts[] = response.split(" ");
+        	String user = parts[1].toLowerCase();
+                String IP;
+                try {
+                    IP = InetAddress.getByName(parts[3]).getHostAddress();
+                } catch (UnknownHostException ex) {
+                    IP = "";
+                }
+                UserInfo ui = new UserInfo(parts[1], parts[2], parts[3], IP);
+        	usersMap.put(parts[1], ui);
+                for(ChatListener l : listeners) {
+                    l.onUserInfo(ui);
+                }
+        }
+        for(ChatListener l : listeners) {
+                l.onServerMessage(code + ": " + response);
         }
     }
 
@@ -247,13 +274,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     @Override
     protected void onFinger(String sourceNick, String sourceLogin, String sourceHostname, String target) {
         this.sendRawLine("NOTICE " + sourceNick + " :\u0001FINGER " + Options.getInstance().getFinger() + "\u0001");
-    }
-
-    @Override
-    protected void onServerResponse(int code, String response) {
-        for(ChatListener l : listeners) {
-                l.onServerMessage(code + ": " + response);
-        }
     }
 
     @Override
@@ -344,4 +364,5 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }).start();
 
     }
+
 }

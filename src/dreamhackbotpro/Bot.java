@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Bot implements ChatListener{
     
-    private Map<Integer, User> users = new HashMap<Integer, User>();
+    private Map<String, User> users = new HashMap<String, User>();
     private User orphanUser = null;
     private MessageFilter messageFilter = new MasterFilter();
     private SentenceParser parser = SentenceParser.getInstance();
@@ -20,14 +20,23 @@ public class Bot implements ChatListener{
     public Bot(){
     }
 
+    public void onUserInfo(UserInfo ui) {
+        User user = users.get(ui.nick);
+        if(user == null) { 
+            user = new User(ui);
+            users.put(ui.nick, user);
+        } else { 
+            user.setUserInfo(ui);
+        }
+    }
+
     @Override
     public void onMessage(final Message m) {
-        User user = users.get(m.getFrom().hashCode());
+        User user = users.get(m.getFrom().nick);
         if(user==null){
             user = new User(m.getFrom());
-            users.put(m.getFrom().hashCode(), user);
-        }
-        else
+            users.put(m.getFrom().nick, user);
+        } else 
             user.updateActivity();
         
         messageFilter.filter(m);
@@ -49,25 +58,25 @@ public class Bot implements ChatListener{
 
     @Override
     public void onNameChange(UserInfo olduser, UserInfo newuser) {
-        User user = users.get(olduser.hashCode());
+        User user = users.get(olduser.nick);
         if(user==null){
             user = new User(newuser);
-            users.put(newuser.hashCode(), user);
+            users.put(newuser.nick, user);
             return;
         }
         else
             user.setName(newuser.nick);
         user.updateActivity();
-        users.remove(olduser.hashCode());
-        users.put(newuser.hashCode(), user);
+        users.remove(olduser.nick);
+        users.put(newuser.nick, user);
     }
 
     @Override
     public void onPrivateMessage(Message m) {
-        User user = users.get(m.getFrom().hashCode());
+        User user = users.get(m.getFrom().nick);
         if(user==null){
             user = new User(m.getFrom());
-            users.put(m.getFrom().hashCode(), user);
+            users.put(m.getFrom().nick, user);
         }
         else
             user.updateActivity();
@@ -86,7 +95,7 @@ public class Bot implements ChatListener{
 
     @Override
     public void onQuit(UserInfo userInfo) {
-        User user = users.get(userInfo.hashCode());
+        User user = users.get(userInfo.nick);
         if(user==null)
             return;
         

@@ -68,4 +68,8 @@ public class UserInfo implements Comparable<UserInfo> {
         return hash;
     }
 
+    public boolean requireWhois() {
+        return ident.equals("") && host.equals("") && ip.equals("");
+    }
+
 }
