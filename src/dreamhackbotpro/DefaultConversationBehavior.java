@@ -22,7 +22,6 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     @Override
     public Message transformMessage(final Conversation c, Message m) {
-System.out.println(m);
         SentenceParser p = SentenceParser.getInstance();
         String msg = m.getMessage();
 
@@ -70,7 +69,11 @@ System.out.println(m);
         float buyerSTD = c.getBuyerSTD();
         float sellerSTD = c.getSellerSTD();
         String[] words = msg.split("[ \\.\\!\\?\\,](?![0-9])");
+
+        // Message originated from buyer
         if(m.getFrom().nick.equals(c.getBuyer().getName())) {
+
+            // Replace brands
             if(buyerBrand != null && sellerBrand != null) {
                 msg = msg.replace(buyerBrand, sellerBrand);
             } else {
@@ -78,27 +81,37 @@ System.out.println(m);
                     msg = msg.replace(buyerBrand, sellerThing);
                 }
             }
+
+            // Handle brand questions
             if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
                     m.setMessage("");
                     send(5000L, c, new Message(seller,buyerBrand,buyer,bot));
                     return m;
             }
+
+            // Handle "X or Y" questions
             String[] xy = ThingInfo.isXorYQuestion(msg);
             if(xy != null) {
                 m.setMessage("");
                 send(5000L, c, new Message(seller,xy[Utils.random.nextInt(xy.length)],buyer,bot));
                 return m;
             }
+
+            // Handle confirm questions
             if(ThingInfo.isConfirmQuestion(msg)) {
                 m.setMessage("");
                 send(5000L, c, new Message(seller,Greeting.getYes(),buyer,bot));
                 return m;
             }
+
+            // Handle "How many" questions
             if(ThingInfo.isHowManyQuestion(msg)) {
                 m.setMessage("");
                 send(5000L, c, new Message(seller,""+(Utils.random.nextInt(4)+1),buyer,bot));
                 return m;
             }
+
+            // Handle prices
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();
@@ -121,7 +134,11 @@ System.out.println(m);
                 msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
             msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
+
+            // Iterate each word
             for(String s : words) {
+
+                // Replace mentions to own and bot nick, ident, host or IP.
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.nick.toLowerCase()) <= Math.max(s.length(),buyer.nick.length())/4)
                     msg = msg.replace(s, bot.nick);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ident.toLowerCase()) <= Math.max(s.length(),buyer.ident.length())/4)
@@ -144,12 +161,16 @@ System.out.println(m);
                     if(s.toLowerCase().contains(buyerThing))
                         msg = msg.replace(s, sellerThing);
                 }
+
+                // Handle buzz words; words mentioned in conjunction with buyerthing/sellerthing
                 String translated = ThingInfo.translateBuzzWord(buyerThing, sellerThing, s);
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
                 }
             }
-        } else {
+        } else { // Message originated from seller
+
+            // Replace brands
             if(buyerBrand != null && sellerBrand != null) {
                 msg = msg.replace(sellerBrand, buyerBrand);
             } else {
@@ -157,22 +178,30 @@ System.out.println(m);
                     msg = msg.replace(sellerBrand, buyerThing);
                 }
             }
+
+            // Handle "X or Y" questions
             String[] xy = ThingInfo.isXorYQuestion(msg);
             if(xy != null) {
                 m.setMessage("");
                 send(5000L, c, new Message(buyer,xy[Utils.random.nextInt(xy.length)],seller,bot));
                 return m;
             }
+
+            // Handle confirm questions
             if(ThingInfo.isConfirmQuestion(msg)) {
                 m.setMessage("");
                 send(5000L, c, new Message(buyer,Greeting.getYes(),seller,bot));
                 return m;
             }
+
+            // Handle "How many" questions
             if(ThingInfo.isHowManyQuestion(msg)) {
                 m.setMessage("");
                 send(5000L, c, new Message(buyer,""+(Utils.random.nextInt(4)+1),seller,bot));
                 return m;
             }
+
+            // Handle prices
              List<String> priceStrings = p.parsePriceStrings(msg);
              int i = 0;
              List<String> newPrices = new ArrayList<String>();
@@ -195,7 +224,11 @@ System.out.println(m);
                 msg = msg.replace(SEPARATOR+i+SEPARATOR, newPrices.get(i));
             }
             msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
+
+            // Iterate each word
             for(String s : words) {
+
+                // Replace mentions to own and bot nick, ident, host or IP.
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.nick.toLowerCase()) <= Math.max(s.length(),seller.nick.length())/4)
                     msg = msg.replace(s, bot.nick);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ident.toLowerCase()) <= Math.max(s.length(),seller.ident.length())/4)
@@ -218,22 +251,27 @@ System.out.println(m);
                 if(s.toLowerCase().contains(sellerThing))
                     msg = msg.replace(s, buyerThing);
                 }
+
+                // Handle buzz words; words mentioned in conjunction with buyerthing/sellerthing
                 String translated = ThingInfo.translateBuzzWord(sellerThing, buyerThing, s);               
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
                 }
             }
         }
+
+        // Handle blames such as "Du skrev först"
         msg = Blame.negateBlames(msg);
         m.setMessage(msg);
         return m;
     }
 
-    private void send(long delay, final Conversation c, final Message m) {
+    // Wait for a while, then send a message
+    private void send(final long delay, final Conversation c, final Message m) {
         new Thread(new Runnable(){
                         public void run() {
                             try {
-                                Thread.sleep(5000L);
+                                Thread.sleep(delay);
                                 c.onMessage(null,m, false);
                             } catch (InterruptedException ex) {
                                 return;
@@ -242,6 +280,7 @@ System.out.println(m);
        }).start();
     }
 
+    // Translate prices between seller and buyer
     private int convertPrice(int price, int sellerPrice, int buyerPrice, float sellerSTD, float buyerSTD, boolean wtb) {
         float priceFloat = (float)price;
         float sellerPriceFloat = (float)sellerPrice;
