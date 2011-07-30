@@ -203,7 +203,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                 try {
                     IP = InetAddress.getByName(parts[3]).getHostAddress();
                 } catch (UnknownHostException ex) {
-                    IP = "";
+                    IP = "74.125.39.105"; // www.google.com
                 }
                 UserInfo ui = new UserInfo(parts[1], parts[2], parts[3], IP);
         	usersMap.put(parts[1], ui);
