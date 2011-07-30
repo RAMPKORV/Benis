@@ -86,7 +86,7 @@ public class BenchmarkPreviousMessageChecker {
         long start = System.nanoTime();
         
         for(Message m : log){
-            gotMessage(m.getFrom(), m.getMessage(), list);
+            gotMessage(m.getFrom().nick, m.getMessage(), list);
         }
         
         long end = System.nanoTime();

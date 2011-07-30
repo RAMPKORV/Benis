@@ -103,7 +103,7 @@ public class LogReader implements ChatObservable {
             return false;
         pMC.add(user, msg);
         
-        Message m = new Message(user, msg, new BotInfo("LogReader"));
+        Message m = new Message(new UserInfo(user), msg, new UserInfo("LogReader"));
         for(ChatListener l : listeners){
             l.onMessage(m);
         }

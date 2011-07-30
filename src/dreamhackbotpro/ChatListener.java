@@ -7,9 +7,9 @@ package dreamhackbotpro;
 public interface ChatListener {
 
     public void onMessage(Message m);
-    public void onNameChange(String oldName, String newName);
+    public void onNameChange(UserInfo olduser, UserInfo newuser);
     public void onPrivateMessage(Message m);
-    public void onQuit(String user);
+    public void onQuit(UserInfo userInfo);
     public void onError(String error);
     public void onServerMessage(String message);
 }

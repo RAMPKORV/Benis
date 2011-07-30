@@ -1,11 +1,15 @@
 package dreamhackbotpro;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.PircBot;
@@ -19,9 +23,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private String ircNick;
     private String ircServer;
     private String ircChannel;
-    private volatile BotInfo info = null;
+    private volatile UserInfo info = null;
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
     private Set<String> opUsers = new HashSet<String>();
+    private Map<String, UserInfo> usersMap = new HashMap<String, UserInfo>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
     private final Collection<String> leftUsers = new ArrayList<String>();
     private Thread nickChanger = null;
@@ -30,7 +35,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         this.ircNick = nick;
         this.ircServer = ircServer;
         this.ircChannel = ircChannel;
-        info = new BotInfo(ircNick);
         setMessageDelay(1500);
         setAutoNickChange(true);
         //setVerbose(true);
@@ -49,6 +53,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             if(u.isOp()) {
                 opUsers.add(u.getNick());
             }
+            // TODO: Add Ident, Host and IP to the UserInfo
+            usersMap.put(u.getNick(), new UserInfo(u.getNick()));
         }
     }
 
@@ -104,6 +110,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onConnect() {
+        info = new UserInfo(ircNick, this.getLogin(), getInetAddress().getHostName(), getInetAddress().getHostAddress());
         joinChannel(ircChannel);
         createNickChangeThread();
     }
@@ -144,8 +151,11 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
         message = recode(message);
         
-        for(ChatListener l : listeners) {
-            l.onMessage(new Message(sender, message, null, info));
+        UserInfo senderInfo = usersMap.get(sender);
+        if(senderInfo != null)  {
+            for(ChatListener l : listeners) {
+                l.onMessage(new Message(senderInfo, message, null, info));
+            }
         }
     }
 
@@ -169,35 +179,47 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(opUsers.contains(sender))
             return;
         message = recode(message);
-        for(ChatListener l : listeners) {
-            l.onPrivateMessage(new Message(sender, message, null, info));
+        UserInfo senderInfo = usersMap.get(sender);
+        if(senderInfo != null)  {
+            for(ChatListener l : listeners) {
+                l.onPrivateMessage(new Message(senderInfo, message, null, info));
+            }
         }
     }
 
     @Override
     protected void onNickChange(String oldNick, String login, String hostname, String newNick) {
-        if(oldNick.equals(info.getNick())) {
+        if(oldNick.equals(info.nick)) {
             updateBotNick(newNick);
             return;
         }
+        UserInfo oldInfo = usersMap.get(oldNick);
+        if(oldInfo == null)
+            return;
+        UserInfo newInfo = new UserInfo(newNick, oldInfo.ident, oldInfo.host, oldInfo.ip);
+        usersMap.put(newNick, newInfo);
         if(opUsers.contains(oldNick)) {
             opUsers.remove(oldNick);
             opUsers.add(newNick);
         } else {
             leftUsers.add(oldNick);
             for(ChatListener l : listeners) {
-                l.onNameChange(oldNick,newNick);
+                l.onNameChange(oldInfo,newInfo);
             }
         }
     }
 
     private void onQuit(String nick) {
+        usersMap.remove(nick);
         if(opUsers.contains(nick)) {
             opUsers.remove(nick);
         } else {
             leftUsers.add(nick);
-            for(ChatListener l : listeners) {
-                l.onQuit(nick);
+            UserInfo quitter = usersMap.get(nick);
+            if(quitter != null) {
+                for(ChatListener l : listeners) {
+                    l.onQuit(quitter);
+                }
             }
         }
     }
@@ -236,17 +258,29 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     public void onConversationMessage(Message m) {
-        String botNick = m.getBotInfo().getNick();
-        if(botNick.equals(info.getNick())) {
-            if(opUsers.contains(m.getTo())) {
+        String botNick = m.getBotInfo().nick;
+        if(botNick.equals(info.nick)) {
+            if(opUsers.contains(m.getTo().nick)) {
                 return;
             }
-            this.sendMessage(m.getTo(), m.getMessage());
+            this.sendMessage(m.getTo().nick, m.getMessage());
         }
     }
 
+    @Override
+    protected void onJoin(String channel, String sender, String login, String hostname) {
+        String IP = "";
+        try {
+            IP = InetAddress.getByName(hostname).getHostAddress();
+        } catch (UnknownHostException ex) {
+
+        }
+        UserInfo joined = new UserInfo(sender, login, hostname, IP);
+        usersMap.put(sender, joined);
+    }
+
     public void updateBotNick(String newNick) {
-        info = new BotInfo(newNick);
+        info = new UserInfo(newNick, info.ident, info.host, info.ip);
     }
 
     private void createNickChangeThread() {

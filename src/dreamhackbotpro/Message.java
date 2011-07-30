@@ -2,12 +2,12 @@ package dreamhackbotpro;
 
 public class Message {
 
-    private String from;
+    private UserInfo from;
     private String message;
-    private String to;
-    private BotInfo bot;
+    private UserInfo to;
+    private final UserInfo bot;
 
-    public Message(String from, String message, String to, final BotInfo bot) {
+    public Message(final UserInfo from, final String message, final UserInfo to, final UserInfo bot) {
         this.from = from;
         this.message = message;
         this.to = to;
@@ -19,7 +19,7 @@ public class Message {
      * @param from
      * @param message
      */
-    public Message(String from, String message, final BotInfo bot) {
+    public Message(final UserInfo from, final String message, final UserInfo bot) {
         this(from, message, null, bot);
     }
 
@@ -27,11 +27,11 @@ public class Message {
      * Convenience constructor for quick testing
      * @param message
      */
-    public Message(String message, final BotInfo bot) {
+    public Message(String message, final UserInfo bot) {
         this(null, message, null, bot);
     }
 
-    public String getFrom() {
+    public UserInfo getFrom() {
         return from;
     }
 
@@ -39,20 +39,20 @@ public class Message {
         return message;
     }
 
-    public String getTo() {
+    public UserInfo getTo() {
         return to;
     }
 
-    public BotInfo getBotInfo() {
+    public UserInfo getBotInfo() {
         return bot;
     }
 
     @Override
     public String toString() {
-        return from+": "+message;
+        return from.nick+": "+message;
     }
 
-    public void setTo(String to) {
+    public void setTo(UserInfo to) {
         this.to=to;
     }
 

@@ -27,7 +27,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         String msg = m.getMessage();
 
         // Remove immediate affirmations like "Japp"
-        if(c.getNumMessages() == 3) {
+        if(c.getNumMessages() <= 3) {
             if(Greeting.isAffirmation(msg)) {
                 m.setMessage("");
                 return m;
@@ -58,10 +58,9 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } while(greeting != null);
 
-        final BotInfo bot = m.getBotInfo();
-        String botNick = bot.getNick();
-        final String buyer = c.getBuyer().getName();
-        final String seller = c.getSeller().getName();
+        final UserInfo bot = m.getBotInfo();
+        final UserInfo buyer = c.getBuyer().getUserInfo();
+        final UserInfo seller = c.getSeller().getUserInfo();
         String buyerThing = c.getBuyerThing();
         String sellerThing = c.getSellerThing();
         final String buyerBrand = ThingInfo.getBrandByItem(buyerThing);
@@ -70,8 +69,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         int sellerPrice = c.getSellerPrice();
         float buyerSTD = c.getBuyerSTD();
         float sellerSTD = c.getSellerSTD();
-        String[] words = msg.split("[ \\.\\!\\?\\,]");
-        if(m.getFrom().equals(c.getBuyer().getName())) {
+        String[] words = msg.split("[ \\.\\!\\?\\,](?![0-9])");
+        if(m.getFrom().nick.equals(c.getBuyer().getName())) {
             if(buyerBrand != null && sellerBrand != null) {
                 msg = msg.replace(buyerBrand, sellerBrand);
             }
@@ -122,10 +121,16 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
             msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
             for(String s : words) {
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.toLowerCase()) <= Math.max(s.length(),buyer.length())/4)
-                    msg = msg.replace(s, botNick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
-                    msg = msg.replace(s, seller);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.nick.toLowerCase()) <= Math.max(s.length(),buyer.nick.length())/4)
+                    msg = msg.replace(s, bot.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
+                    msg = msg.replace(s, seller.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
+                    msg = msg.replace(s, seller.ident);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
+                    msg = msg.replace(s, seller.host);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
+                    msg = msg.replace(s, seller.ip);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= Math.max(s.length(),buyerThing.length())/4) {
                     msg = msg.replace(s, sellerThing);
                 } else {
@@ -183,10 +188,16 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
             msg = msg.replace("\\"+SEPARATOR, SEPARATOR);
             for(String s : words) {
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.toLowerCase()) <= Math.max(s.length(),seller.length())/4)
-                    msg = msg.replace(s, botNick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), botNick.toLowerCase()) <= Math.max(s.length(),botNick.length())/4)
-                    msg = msg.replace(s, buyer);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.nick.toLowerCase()) <= Math.max(s.length(),seller.nick.length())/4)
+                    msg = msg.replace(s, bot.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
+                    msg = msg.replace(s, buyer.nick);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
+                    msg = msg.replace(s, buyer.ident);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
+                    msg = msg.replace(s, buyer.host);
+                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
+                    msg = msg.replace(s, buyer.ip);
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= Math.max(s.length(),sellerThing.length())/4) {
                     msg = msg.replace(s, buyerThing);
                 } else {

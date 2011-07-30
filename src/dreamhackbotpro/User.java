@@ -13,15 +13,21 @@ public class User {
     private volatile List<Interest> interests = new ArrayList<Interest>();
     private Conversation conversation = null;
     private long lastMessage;
+    private UserInfo info = null;
 
     public Conversation getConversation() {
         return conversation;
     }
     private String name;
 
-    public User(String name) {
+    public User(UserInfo info) {
         this.lastMessage = System.currentTimeMillis();
-        this.name=name;
+        this.name = info.nick;
+        this.info = info;
+    }
+
+    public UserInfo getUserInfo() {
+        return info;
     }
 
     /**

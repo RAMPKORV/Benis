@@ -109,9 +109,9 @@ public class Conversation implements Comparable<Conversation> {
         // u is set to null when message is sent from ConversationBehavior
         if(u != null) {
             if(u==buyer)
-                m.setTo(seller.getName());
+                m.setTo(seller.getUserInfo());
             else
-                m.setTo(buyer.getName());
+                m.setTo(buyer.getUserInfo());
         }
 
         //do all the logic. Replace buyerThing with sellerThing etc.

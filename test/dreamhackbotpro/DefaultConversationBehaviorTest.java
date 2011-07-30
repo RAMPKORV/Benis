@@ -20,9 +20,9 @@ public class DefaultConversationBehaviorTest {
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
     private Conversation conversation;
-    private String buyer;
-    private String seller;
-    private BotInfo bot;
+    private UserInfo buyer;
+    private UserInfo seller;
+    private UserInfo bot;
 
     public DefaultConversationBehaviorTest() {
     }
@@ -37,9 +37,9 @@ public class DefaultConversationBehaviorTest {
 
     @Before
     public void setUp() {
-        bot = new BotInfo("Monsquaz");
-        buyer = "WASD";
-        seller = "RAMPKORV";
+        bot = new UserInfo("Monsquaz");
+        buyer = new UserInfo("WASD");
+        seller = new UserInfo("RAMPKORV");
         //WASD köper cigg för 50kr
         //RAMPKORV säljer headset för 200kr
         conversation = new Conversation(new User(buyer), new User(seller), "cigg", "headset", 50, 200);

@@ -45,12 +45,9 @@ public class SeatReader implements ConversationsListener, ChatListener {
         scanSeats(m);
     }
 
-    public void onNameChange(String oldName, String newName) {}
     public void onPrivateMessage(Message m) {}
-    public void onQuit(String user) {}
     public void onError(String error) {}
-
-    public void onServerMessage(String message) {
-        //Ignore
-    }
+    public void onServerMessage(String message) {}
+    public void onNameChange(UserInfo olduser, UserInfo newuser) {}
+    public void onQuit(UserInfo userInfo) {}
 }

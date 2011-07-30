@@ -41,7 +41,7 @@ public class InterestTest {
 
     private static int counter = 0;
     private void addInterest(String thing, int price, boolean wtb, float certainty) {
-        new User(""+(counter++)).addInterest(new Interest(thing, price, wtb, certainty));
+        new User(new UserInfo(""+(counter++))).addInterest(new Interest(thing, price, wtb, certainty));
     }
 
     /**

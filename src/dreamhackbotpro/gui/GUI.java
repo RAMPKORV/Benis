@@ -3,6 +3,7 @@ package dreamhackbotpro.gui;
 import dreamhackbotpro.ChatListener;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
+import dreamhackbotpro.UserInfo;
 import dreamhackbotpro.Utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -119,7 +120,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     @Override
-    public void onNameChange(String oldName, String newName) {
+    public void onNameChange(UserInfo olduser, UserInfo newuser) {
         //TODO check if the user is in any chat, append namechange in chat
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -130,7 +131,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     @Override
-    public void onQuit(String user) {
+    public void onQuit(UserInfo userInfo) {
     }
     
     @Override
@@ -141,9 +142,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onConversationMessage(Message m) {
 
-        String chatName = m.getFrom()+" - "+m.getTo();
+        String chatName = m.getFrom().nick+" - "+m.getTo().nick;
         if(m.getFrom().compareTo(m.getTo())>0){
-            chatName = m.getTo()+" - "+m.getFrom();
+            chatName = m.getTo().nick+" - "+m.getFrom().nick;
         }
 
         JTextArea chat = chats.get(chatName);
