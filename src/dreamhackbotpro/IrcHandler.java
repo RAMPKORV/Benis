@@ -55,7 +55,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             if(u.isOp()) {
                 opUsers.add(u.getNick());
             }
-            // TODO: Add Ident, Host and IP to the UserInfo
             usersMap.put(u.getNick(), new UserInfo(u.getNick()));
         }
     }
@@ -199,13 +198,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         if(code == RPL_WHOISUSER) {
         	String parts[] = response.split(" ");
         	String user = parts[1].toLowerCase();
-                String IP;
-                try {
-                    IP = InetAddress.getByName(parts[3]).getHostAddress();
-                } catch (UnknownHostException ex) {
-                    IP = "74.125.39.105"; // www.google.com
-                }
-                UserInfo ui = new UserInfo(parts[1], parts[2], parts[3], IP);
+                UserInfo ui = new UserInfo(parts[1], parts[2], parts[3], ipFromHost(parts[3]));
         	usersMap.put(parts[1], ui);
                 for(ChatListener l : listeners) {
                     l.onUserInfo(ui);
@@ -214,6 +207,16 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         for(ChatListener l : listeners) {
                 l.onServerMessage(code + ": " + response);
         }
+    }
+
+    private String ipFromHost(String host) {
+        String IP;
+        try {
+            IP = InetAddress.getByName(host).getHostAddress();
+        } catch (UnknownHostException ex) {
+            IP = "74.125.39.105"; // www.google.com
+        }
+        return IP;
     }
 
     @Override
@@ -291,13 +294,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
-        String IP = "";
-        try {
-            IP = InetAddress.getByName(hostname).getHostAddress();
-        } catch (UnknownHostException ex) {
-
-        }
-        UserInfo joined = new UserInfo(sender, login, hostname, IP);
+        UserInfo joined = new UserInfo(sender, login, hostname, ipFromHost(hostname));
         usersMap.put(sender, joined);
     }
 
