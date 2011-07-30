@@ -176,8 +176,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
-        if(sender.equals("S"))
+        if(sender.equals("S")) {
             handleS(message);
+            return;
+        }
         if(opUsers.contains(sender))
             return;
         message = recode(message);
