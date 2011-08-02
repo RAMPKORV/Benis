@@ -140,21 +140,26 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
                 // Replace mentions to own and bot nick, ident, host or IP.
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.nick.toLowerCase()) <= Math.max(s.length(),buyer.nick.length())/4)
-                    msg = msg.replace(s, bot.nick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ident.toLowerCase()) <= Math.max(s.length(),buyer.ident.length())/4)
-                    msg = msg.replace(s, bot.ident);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.host.toLowerCase()) <= Math.max(s.length(),buyer.host.length())/4)
-                    msg = msg.replace(s, bot.host);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ip.toLowerCase()) <= Math.max(s.length(),buyer.ip.length())/4)
-                    msg = msg.replace(s, bot.ip);
+                        msg = msg.replace(s, bot.nick);
+                if(!buyer.requireWhois()) {
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ident.toLowerCase()) <= Math.max(s.length(),buyer.ident.length())/4)
+                        msg = msg.replace(s, bot.ident);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.host.toLowerCase()) <= Math.max(s.length(),buyer.host.length())/4)
+                        msg = msg.replace(s, bot.host);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), buyer.ip.toLowerCase()) <= Math.max(s.length(),buyer.ip.length())/4)
+                        msg = msg.replace(s, bot.ip);
+                }
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
-                    msg = msg.replace(s, seller.nick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
-                    msg = msg.replace(s, seller.ident);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
-                    msg = msg.replace(s, seller.host);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
-                    msg = msg.replace(s, seller.ip);
+                        msg = msg.replace(s, seller.nick);
+                if(!bot.requireWhois()) {
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
+                        msg = msg.replace(s, seller.ident);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
+                        msg = msg.replace(s, seller.host);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
+                        msg = msg.replace(s, seller.ip);
+                }
+
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), buyerThing.toLowerCase()) <= Math.max(s.length(),buyerThing.length())/4) {
                     msg = msg.replace(s, sellerThing);
                 } else {
@@ -230,21 +235,25 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
                 // Replace mentions to own and bot nick, ident, host or IP.
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.nick.toLowerCase()) <= Math.max(s.length(),seller.nick.length())/4)
-                    msg = msg.replace(s, bot.nick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ident.toLowerCase()) <= Math.max(s.length(),seller.ident.length())/4)
-                    msg = msg.replace(s, bot.ident);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.host.toLowerCase()) <= Math.max(s.length(),seller.host.length())/4)
-                    msg = msg.replace(s, bot.host);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ip.toLowerCase()) <= Math.max(s.length(),seller.ip.length())/4)
-                    msg = msg.replace(s, bot.ip);
+                        msg = msg.replace(s, bot.nick);
+                if(!seller.requireWhois()) {
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ident.toLowerCase()) <= Math.max(s.length(),seller.ident.length())/4)
+                        msg = msg.replace(s, bot.ident);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.host.toLowerCase()) <= Math.max(s.length(),seller.host.length())/4)
+                        msg = msg.replace(s, bot.host);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), seller.ip.toLowerCase()) <= Math.max(s.length(),seller.ip.length())/4)
+                        msg = msg.replace(s, bot.ip);
+                }
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.nick.toLowerCase()) <= Math.max(s.length(),bot.nick.length())/4)
                     msg = msg.replace(s, buyer.nick);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
-                    msg = msg.replace(s, buyer.ident);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
-                    msg = msg.replace(s, buyer.host);
-                if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
-                    msg = msg.replace(s, buyer.ip);
+                if(!bot.requireWhois()) {
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ident.toLowerCase()) <= Math.max(s.length(),bot.ident.length())/4)
+                        msg = msg.replace(s, buyer.ident);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.host.toLowerCase()) <= Math.max(s.length(),bot.host.length())/4)
+                        msg = msg.replace(s, buyer.host);
+                    if(Utils.getLevenshteinDistance(s.toLowerCase(), bot.ip.toLowerCase()) <= Math.max(s.length(),bot.ip.length())/4)
+                        msg = msg.replace(s, buyer.ip);
+                }
                 if(Utils.getLevenshteinDistance(s.toLowerCase(), sellerThing.toLowerCase()) <= Math.max(s.length(),sellerThing.length())/4) {
                     msg = msg.replace(s, buyerThing);
                 } else {
