@@ -183,6 +183,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         message = recode(message);
         UserInfo senderInfo = usersMap.get(sender);
+        //FIXME senderInfo may be null
         if(senderInfo.requireWhois()) {
             sendRawLineViaQueue("WHOIS "+ sender);
         }
