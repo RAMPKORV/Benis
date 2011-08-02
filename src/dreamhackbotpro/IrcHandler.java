@@ -153,6 +153,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         message = recode(message);
         
         UserInfo senderInfo = usersMap.get(sender);
+        //FIXME senderInfo will be null the first time someone sends a message
         if(senderInfo != null)  {
             for(ChatListener l : listeners) {
                 l.onMessage(new Message(senderInfo, message, null, info));
