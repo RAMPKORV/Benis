@@ -110,8 +110,11 @@ public class Greeting {
         return false;
     }
 
+    private static String[] simpleAffirmation = {
+        "Ja","Yes","Jepp"
+    };
     public static String getYes() {
-        return "Ja"; // TODO: Alternative answers
+        return simpleAffirmation[Utils.random.nextInt(simpleAffirmation.length)];
     }
 
     public static String hasGreeting(String s) {
