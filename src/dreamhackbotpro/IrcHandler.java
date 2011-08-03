@@ -151,12 +151,14 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         message = recode(message);
         
         UserInfo senderInfo = usersMap.get(sender);
-        //FIXME senderInfo will be null the first time someone sends a message
-        if(senderInfo != null)  {
-            for(ChatListener l : listeners) {
-                l.onMessage(new Message(senderInfo, message, null, info));
-            }
+        if(senderInfo == null || senderInfo.requireWhois())  {
+            senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
+            usersMap.put(sender, senderInfo);
         }
+        for(ChatListener l : listeners) {
+            l.onMessage(new Message(senderInfo, message, null, info));
+        }
+        
     }
 
     private String recode(String message) {
@@ -182,14 +184,13 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         message = recode(message);
         UserInfo senderInfo = usersMap.get(sender);
-        if(senderInfo != null)  {
-            if(senderInfo.requireWhois()) {
-                sendRawLineViaQueue("WHOIS "+ sender);
-            }
-            for(ChatListener l : listeners) {
-                l.onPrivateMessage(new Message(senderInfo, message, null, info));
-            }
+        if(senderInfo == null || senderInfo.requireWhois())  {
+            senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
+            usersMap.put(sender, senderInfo);
         }
+        for(ChatListener l : listeners) {
+            l.onPrivateMessage(new Message(senderInfo, message, null, info));
+        }     
     }
 
     @Override
