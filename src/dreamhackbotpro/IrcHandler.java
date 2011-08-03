@@ -11,8 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.PircBot;
 
@@ -184,11 +182,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         message = recode(message);
         UserInfo senderInfo = usersMap.get(sender);
-        //FIXME senderInfo may be null
-        if(senderInfo.requireWhois()) {
-            sendRawLineViaQueue("WHOIS "+ sender);
-        }
         if(senderInfo != null)  {
+            if(senderInfo.requireWhois()) {
+                sendRawLineViaQueue("WHOIS "+ sender);
+            }
             for(ChatListener l : listeners) {
                 l.onPrivateMessage(new Message(senderInfo, message, null, info));
             }
