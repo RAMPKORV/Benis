@@ -56,6 +56,9 @@ public class SentenceParser {
                 if(familiar!=null)
                     thing=familiar;
             }
+            if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
+                continue;
+            }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
             found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"), certainty);
@@ -81,6 +84,9 @@ public class SentenceParser {
                 String familiar = familiarWord(thing);
                 if(familiar!=null)
                     thing=familiar;
+            }
+            if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
+                continue;
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;

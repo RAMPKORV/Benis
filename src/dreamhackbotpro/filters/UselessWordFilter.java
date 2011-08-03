@@ -39,12 +39,12 @@ public class UselessWordFilter implements MessageFilter{
         "liknande","fräsh","fräsha","fräsch","fräscha",
         "fräsht","fräscht","ny","nya","nytt",
         "fraesha","fraesh","fraesht","oöppnad","oöppnat",
-        "oöpnnat","oöpnnad","saknas"
+        "oöpnnat","oöpnnad","saknas","medföljer","inklusive","exklusive"
     };
 
     private String[] other = {
         "fråga","ifall","också","lol","usb","gärna","intresserad","mycket","nästan","pma","pm",
-                "uppskattas", "även", "levererar","sätter"
+                "uppskattas", "även", "levererar","sätter", "installerat","något","följer"
     };
 
     private static Pattern useless = null;
