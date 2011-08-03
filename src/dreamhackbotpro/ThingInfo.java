@@ -327,7 +327,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         return false;
     }
 
-    private static Pattern xy = Pattern.compile("^(är det|e det|e de|är de)?[ ]*([a-zA-Z0-9åäöÅÄÖ-]+)[ ]+eller[ ]+([a-zA-Z0-9åäöÅÄÖ-]+)($|\\?)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    private static Pattern xy = Pattern.compile("([a-zA-Z0-9åäöÅÄÖ-]+)[ ]+eller[ ]+([a-zA-Z0-9åäöÅÄÖ-]+)($|\\?)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static String[] isXorYQuestion(String msg) {
         Matcher m = xy.matcher(msg);
         if(m.find()) {
@@ -337,7 +337,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static String[] confirmQuestions = {
-        "^är det [a-zåäöÅÄÖ]+[ ]*(\\?|$)", "skall vi säga så[a-zA-ZåäöÅÄÖ ]*\\?"
+        "^är de[tn] [a-zåäöÅÄÖ]+[ ]*(\\?|$)", "skall vi säga så[a-zA-ZåäöÅÄÖ ]*\\?"
     };
     public static boolean isConfirmQuestion(String msg) {
         msg = msg.toLowerCase();
