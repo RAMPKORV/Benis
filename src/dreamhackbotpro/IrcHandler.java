@@ -25,8 +25,8 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private String ircChannel;
     private volatile UserInfo info = null;
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
-    private Set<String> opUsers = new HashSet<String>();
-    private Map<String, UserInfo> usersMap = new HashMap<String, UserInfo>();
+    private final Set<String> opUsers = new HashSet<String>();
+    private final Map<String, UserInfo> usersMap = new HashMap<String, UserInfo>();
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
     private final Collection<String> leftUsers = new ArrayList<String>();
     private Thread nickChanger = null;
@@ -49,17 +49,23 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onUserList(String channel, IrcUser[] users) {
-        for(IrcUser u : users) {
-            if(u.isOp()) {
-                opUsers.add(u.getNick());
+        synchronized (usersMap) {
+            for(IrcUser u : users) {
+                if(u.isOp()) {
+                    synchronized(opUsers) {
+                        opUsers.add(u.getNick());
+                    }
+                }
+                usersMap.put(u.getNick(), new UserInfo(u.getNick()));
             }
-            usersMap.put(u.getNick(), new UserInfo(u.getNick()));
         }
     }
 
     @Override
     protected void onOp(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
-        opUsers.add(recipient);
+        synchronized(opUsers) {
+            opUsers.add(recipient);
+        }
     }
 
     @Override
@@ -141,19 +147,23 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
-        if(opUsers.contains(sender))
-            return;
+        synchronized(opUsers) {
+            if(opUsers.contains(sender))
+                return;
+        }
 
         if(pMC.contains(sender, message))
             return;
         pMC.add(sender, message);
 
         message = recode(message);
-        
-        UserInfo senderInfo = usersMap.get(sender);
-        if(senderInfo == null || senderInfo.requireWhois())  {
-            senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
-            usersMap.put(sender, senderInfo);
+        UserInfo senderInfo;
+        synchronized(usersMap) {
+            senderInfo = usersMap.get(sender);
+            if(senderInfo == null || senderInfo.requireWhois())  {
+                senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
+                usersMap.put(sender, senderInfo);
+            }
         }
         for(ChatListener l : listeners) {
             l.onMessage(new Message(senderInfo, message, null, info));
@@ -180,13 +190,18 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             handleS(message);
             return;
         }
-        if(opUsers.contains(sender))
-            return;
+        synchronized(opUsers) {
+            if(opUsers.contains(sender))
+                return;
+        }
         message = recode(message);
-        UserInfo senderInfo = usersMap.get(sender);
-        if(senderInfo == null || senderInfo.requireWhois())  {
-            senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
-            usersMap.put(sender, senderInfo);
+        UserInfo senderInfo;
+        synchronized(usersMap) {
+            senderInfo = usersMap.get(sender);
+            if(senderInfo == null || senderInfo.requireWhois())  {
+                senderInfo = new UserInfo(sender, login, hostname, ipFromHost(hostname));
+                usersMap.put(sender, senderInfo);           
+            }
         }
         for(ChatListener l : listeners) {
             l.onPrivateMessage(new Message(senderInfo, message, null, info));
@@ -199,7 +214,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         	String parts[] = response.split(" ");
         	String user = parts[1].toLowerCase();
                 UserInfo ui = new UserInfo(parts[1], parts[2], parts[3], ipFromHost(parts[3]));
-        	usersMap.put(parts[1], ui);
+                synchronized(usersMap) {
+        	    usersMap.put(parts[1], ui);
+                }
                 for(ChatListener l : listeners) {
                     l.onUserInfo(ui);
                 }
@@ -225,32 +242,45 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             updateBotNick(newNick);
             return;
         }
-        UserInfo oldInfo = usersMap.get(oldNick);
+        UserInfo oldInfo;
+        synchronized(usersMap) {
+            oldInfo = usersMap.get(oldNick);
+        }
         if(oldInfo == null)
             return;
         UserInfo newInfo = new UserInfo(newNick, oldInfo.ident, oldInfo.host, oldInfo.ip);
-        usersMap.put(newNick, newInfo);
-        if(opUsers.contains(oldNick)) {
-            opUsers.remove(oldNick);
-            opUsers.add(newNick);
-        } else {
-            leftUsers.add(oldNick);
-            for(ChatListener l : listeners) {
-                l.onNameChange(oldInfo,newInfo);
+        synchronized(usersMap) {
+            usersMap.put(newNick, newInfo);
+        }
+        synchronized(opUsers) {
+            if(opUsers.contains(oldNick)) {
+                opUsers.remove(oldNick);
+                opUsers.add(newNick);
+            } else {
+                synchronized(leftUsers) {
+                    leftUsers.add(oldNick);
+                }
+                for(ChatListener l : listeners) {
+                    l.onNameChange(oldInfo,newInfo);
+                }
             }
         }
     }
 
     private void onQuit(String nick) {
         usersMap.remove(nick);
-        if(opUsers.contains(nick)) {
-            opUsers.remove(nick);
-        } else {
-            leftUsers.add(nick);
-            UserInfo quitter = usersMap.get(nick);
-            if(quitter != null) {
-                for(ChatListener l : listeners) {
-                    l.onQuit(quitter);
+        synchronized(opUsers) {
+            if(opUsers.contains(nick)) {
+                opUsers.remove(nick);
+            } else {
+                synchronized(leftUsers) {
+                    leftUsers.add(nick);
+                }
+                UserInfo quitter = usersMap.get(nick);
+                if(quitter != null) {
+                    for(ChatListener l : listeners) {
+                        l.onQuit(quitter);
+                    }
                 }
             }
         }
@@ -285,8 +315,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     public void onConversationMessage(Message m) {
         String botNick = m.getBotInfo().nick;
         if(botNick.equals(info.nick)) {
-            if(opUsers.contains(m.getTo().nick)) {
-                return;
+            synchronized(opUsers) {
+                if(opUsers.contains(m.getTo().nick)) {
+                    return;
+                }
             }
             this.sendMessage(m.getTo().nick, m.getMessage());
         }
@@ -295,7 +327,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
         UserInfo joined = new UserInfo(sender, login, hostname, ipFromHost(hostname));
-        usersMap.put(sender, joined);
+        synchronized(usersMap) {
+            usersMap.put(sender, joined);
+        }
     }
 
     public void updateBotNick(String newNick) {
@@ -333,11 +367,13 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                             } catch (InterruptedException ex) {
                                 return;
                             }
-                            if(IrcHandler.this.getNick().equals(nickBefore)) {
-                                leftUsers.remove(nick);
-                            } else {
-                                leftUsers.remove(nickBefore);
-                                break;
+                            synchronized(leftUsers) {
+                                if(IrcHandler.this.getNick().equals(nickBefore)) {
+                                    leftUsers.remove(nick);
+                                } else {
+                                    leftUsers.remove(nickBefore);
+                                    break;
+                                }
                             }
                         }
                     }
