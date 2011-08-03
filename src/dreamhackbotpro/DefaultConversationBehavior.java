@@ -85,7 +85,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             // Handle brand questions
             if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
                     m.setMessage("");
-                    send(5000L, c, new Message(seller,buyerBrand,buyer,bot));
+                    send(3000L + Utils.random.nextInt(3000), c, new Message(seller,buyerBrand,buyer,bot));
                     return m;
             }
 
@@ -93,21 +93,21 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             String[] xy = ThingInfo.isXorYQuestion(msg);
             if(xy != null) {
                 m.setMessage("");
-                send(5000L, c, new Message(seller,xy[Utils.random.nextInt(xy.length)],buyer,bot));
+                send(3000L + Utils.random.nextInt(3000), c, new Message(seller,xy[Utils.random.nextInt(xy.length)],buyer,bot));
                 return m;
             }
 
             // Handle confirm questions
             if(ThingInfo.isConfirmQuestion(msg)) {
                 m.setMessage("");
-                send(5000L, c, new Message(seller,Greeting.getYes(),buyer,bot));
+                send(3000L + Utils.random.nextInt(3000), c, new Message(seller,Greeting.getYes(),buyer,bot));
                 return m;
             }
 
             // Handle "How many" questions
             if(ThingInfo.isHowManyQuestion(msg)) {
                 m.setMessage("");
-                send(5000L, c, new Message(seller,""+(Utils.random.nextInt(4)+1),buyer,bot));
+                send(3000L + Utils.random.nextInt(3000), c, new Message(seller,""+(Utils.random.nextInt(4)+1),buyer,bot));
                 return m;
             }
 
