@@ -268,7 +268,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     private void onQuit(String nick) {
-        usersMap.remove(nick);
+        synchronized (usersMap) {
+            usersMap.remove(nick);
+        }
         synchronized(opUsers) {
             if(opUsers.contains(nick)) {
                 opUsers.remove(nick);
@@ -276,7 +278,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
                 synchronized(leftUsers) {
                     leftUsers.add(nick);
                 }
-                UserInfo quitter = usersMap.get(nick);
+                UserInfo quitter;
+                synchronized (usersMap) {
+                    quitter = usersMap.get(nick);
+                }
                 if(quitter != null) {
                     for(ChatListener l : listeners) {
                         l.onQuit(quitter);
