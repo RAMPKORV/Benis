@@ -331,7 +331,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     public static String[] isXorYQuestion(String msg) {
         Matcher m = xy.matcher(msg);
         if(m.find()) {
-            return new String[]{m.group(2),m.group(3)};
+            return new String[]{m.group(1),m.group(2)};
         }
         return null;
     }
