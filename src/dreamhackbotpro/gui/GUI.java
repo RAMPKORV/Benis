@@ -221,10 +221,12 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     private void addUnread(String chatName) {
-        if(!conversationList.getSelectedValue().equals(chatName)) {
-            unread.put(chatName, NUMBER_OF_FLASHES);
+        if(conversationList.getSelectedValue() != null) {
+            if(!conversationList.getSelectedValue().equals(chatName)) {
+                unread.put(chatName, NUMBER_OF_FLASHES);
+            }
+            repaintThread();
         }
-        repaintThread();
     }
 
     private void removeUnread(String chatName) {
