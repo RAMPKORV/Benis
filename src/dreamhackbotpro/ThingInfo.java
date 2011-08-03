@@ -327,11 +327,11 @@ public class ThingInfo implements Comparable<ThingInfo> {
         return false;
     }
 
-    private static Pattern xy = Pattern.compile("(?i)^([a-zA-Z0-9åäöÅÄÖ-]+)[ ]+eller[ ]+([a-zA-Z0-9åäöÅÄÖ-]+)($|\\?)");
+    private static Pattern xy = Pattern.compile("^(är det|e det|e de|är de)?[ ]*([a-zA-Z0-9åäöÅÄÖ-]+)[ ]+eller[ ]+([a-zA-Z0-9åäöÅÄÖ-]+)($|\\?)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static String[] isXorYQuestion(String msg) {
         Matcher m = xy.matcher(msg);
         if(m.find()) {
-            return new String[]{m.group(1),m.group(2)};
+            return new String[]{m.group(2),m.group(3)};
         }
         return null;
     }
