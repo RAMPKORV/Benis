@@ -1,6 +1,8 @@
 package dreamhackbotpro;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,14 +72,28 @@ public class ConversationMaker {
             String sellerGreeting = Greeting.getGreeting(con.getBuyerThing(), con.getBuyerPrice(), false);
             con.addGreeting(buyerGreeting);
             con.addGreeting(sellerGreeting);
-            //Send greeting
-            con.onMessage(bestBuyer, new Message(bestBuyer.getUserInfo(), buyerGreeting, bestSeller.getUserInfo(), bot), false);
-            con.onMessage(bestSeller, new Message(bestSeller.getUserInfo(), sellerGreeting, bestBuyer.getUserInfo(), bot), false);
-        }
+            greetLater(5000L + Utils.random.nextInt(4000), con, bestBuyer, bestSeller, buyerGreeting, sellerGreeting, bot);
+
+            }
         else{
             //reset timer to try on next message recieved instead of waiting 30 seconds
             lastConversationMade = 0;
         }
+    }
+
+    private void greetLater(final long delay, final Conversation con, final User buyer, final User seller, final String buyerGreeting, final String sellerGreeting, final UserInfo bot) {
+       new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep(delay);
+                        //Send greeting
+                        con.onMessage(buyer, new Message(buyer.getUserInfo(), buyerGreeting, seller.getUserInfo(), bot), false);
+                        con.onMessage(seller, new Message(seller.getUserInfo(), sellerGreeting, buyer.getUserInfo(), bot), false);
+                    } catch (InterruptedException ex) {
+                        return;
+                    }
+                }
+       }).start();
     }
 
     private long waitTime(){

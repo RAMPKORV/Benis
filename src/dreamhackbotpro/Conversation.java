@@ -37,6 +37,9 @@ public class Conversation implements Comparable<Conversation> {
     }
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
+        if(buyer.getName().equalsIgnoreCase(seller.getName())) {
+            throw new IllegalArgumentException("Buyer and Seller should not be the same");
+        }
         this.buyer = buyer;
         this.seller = seller;
         this.buyerThing = buyerThing;
