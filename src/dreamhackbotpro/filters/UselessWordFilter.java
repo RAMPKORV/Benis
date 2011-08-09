@@ -31,7 +31,7 @@ public class UselessWordFilter implements MessageFilter{
 
     private String[] priceStuff = {
         "billig", "billigt","billiga","billigare","billigast","bara",
-        "enbart", "för","uppskattat","uppskattningsvis"
+        "enbart", "för","uppskattat","uppskattningsvis","ursprungspris"
     };
 
     private String[] quality = {
@@ -45,7 +45,7 @@ public class UselessWordFilter implements MessageFilter{
     private String[] other = {
         "fråga","ifall","också","lol","usb","gärna","intresserad","mycket","nästan","pma","pm",
                 "uppskattas", "även", "levererar","sätter", "installerat","något","följer",
-                "annan","orginal"
+                "annan","orginal","efter","dock","andra"
     };
 
     private static Pattern useless = null;
@@ -64,16 +64,16 @@ public class UselessWordFilter implements MessageFilter{
             for(String s : other)
                 sb.append("|"+s);
             String list = sb.toString().substring(1);
-            useless = Pattern.compile("([^a-zåäöÅÄÖ]| |^)("+list+")([^a-zåäöÅÄÖ]| |$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            useless = Pattern.compile("\\b("+list+")\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
         }
     }
 
     @Override
     public void filter(Message m) {
         String msg = m.getMessage();
-        Matcher ma = useless.matcher(msg);
+        Matcher ma = useless.matcher(m.getMessage());
         while(ma.find()) {
-            msg = msg.replace(ma.group(2), "");
+            msg = msg.replace(ma.group(1), "");
         }
         m.setMessage(msg);
     }
