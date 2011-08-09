@@ -63,7 +63,7 @@ public class UselessWordFilter implements MessageFilter{
                 sb.append("|"+s);
             for(String s : other)
                 sb.append("|"+s);
-            String list = sb.toString().substring(1);
+            String list = sb.substring(1);
             useless = Pattern.compile("([^a-zåäöÅÄÖ]| |^)("+list+")([^a-zåäöÅÄÖ]| |$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
         }
     }
