@@ -1,8 +1,6 @@
 package dreamhackbotpro;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -73,9 +71,7 @@ public class ConversationMaker {
             con.addGreeting(buyerGreeting);
             con.addGreeting(sellerGreeting);
             greetLater(5000L + Utils.random.nextInt(4000), con, bestBuyer, bestSeller, buyerGreeting, sellerGreeting, bot);
-
-            }
-        else{
+        } else {
             //reset timer to try on next message recieved instead of waiting 30 seconds
             lastConversationMade = 0;
         }
