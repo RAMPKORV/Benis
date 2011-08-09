@@ -17,6 +17,9 @@ public class Confuse {
         msg = msg.replaceAll("(?i)du startade","jag startade");
         msg = msg.replaceAll("(?i)du kontaktade (mig|mej)","jag kontaktade dig");
         msg = msg.replaceAll("(?i)(varför|vrf) (skrev/skriver) du (till|te|til) mig","jag skrev till dig!");
+        msg = msg.replaceAll("(?i)jag skrev inte","jag skrev");
+        msg = msg.replaceAll("(?i)jag inte","jag");
+        msg = msg.replaceAll("(?i)inte jag","jag");
         return msg;
     }
 
