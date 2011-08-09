@@ -77,4 +77,23 @@ public class Utils {
         return String.format("(%02d:%02d:%02d) ", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
     }
 
+    public static int countChar(String string, char search){
+        int n = 0;
+        for(char c : string.toCharArray())
+            if(c==search)
+                n++;
+        return n;
+    }
+
+    public static char upperCaseChar(char c){
+        if(c>='a' && c<='z')
+            return (char)(c-32);
+        switch(c){
+            case 'å': return 'Å';
+            case 'ä': return 'Ä';
+            case 'ö': return 'Ö';
+        }
+        return c;
+    }
+
 }
