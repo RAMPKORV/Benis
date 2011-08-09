@@ -269,8 +269,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         }
 
-        // Handle blames such as "Du skrev först"
-        msg = Blame.negateBlames(msg);
+        // Handle blames
+        msg = Confuse.negateBlames(msg);
+        // Handle mismatched interests
+        msg = Confuse.negateDoNots(msg);
+        // Handle confusion
+        msg = Confuse.negateConfusion(msg);
         m.setMessage(msg);
         return m;
     }
