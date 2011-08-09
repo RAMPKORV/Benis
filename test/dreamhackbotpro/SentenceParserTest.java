@@ -20,6 +20,7 @@ public class SentenceParserTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+        ThingInfo.getBrandByItem("snus");
     }
 
     @AfterClass
@@ -44,7 +45,7 @@ public class SentenceParserTest {
     @Test
     public void testParseCommon() {
         expectedInterest("WTS wow acc med två 80s", "wow acc", -1, false);
-        expectedInterest("WTS powerking billigt", "powerking", -1, false); //Should a filter remove 'billigt'?
+        expectedInterest("WTS powerking billigt", "powerking", -1, false);
     }
     
     @Test

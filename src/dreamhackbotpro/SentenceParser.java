@@ -56,6 +56,9 @@ public class SentenceParser {
                 if(familiar!=null)
                     thing=familiar;
             }
+            if(thing == null) {
+                continue;
+            }
             if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
                 continue;
             }
@@ -84,6 +87,9 @@ public class SentenceParser {
                 String familiar = familiarWord(thing);
                 if(familiar!=null)
                     thing=familiar;
+            }
+            if(thing == null) {
+                continue;
             }
             if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
                 continue;
@@ -237,6 +243,14 @@ public class SentenceParser {
                 if(Utils.getLevenshteinDistance(thing, word) <= Math.max(word.length(),thing.length())/4) {
                     return thing;
                 }
+            }
+        }
+
+        // Check if one of the words is a brand. Then return the item om that brand
+        for(String word : words) {
+            String item = null;
+            if((item = ThingInfo.getItemByBrand(word)) != null) {
+                return item;
             }
         }
         
