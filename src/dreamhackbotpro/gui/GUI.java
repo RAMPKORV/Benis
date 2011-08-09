@@ -40,11 +40,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     private volatile Map<String,Integer> unread = new HashMap<String, Integer>();
     private ChatOptionsPanel chatOptions;
     private ListCellRenderer renderer = new DefaultListCellRenderer();
-    
-    public static void main(String[] args) {
-        //testing
-        GUI gui = new GUI();
-    }
+    private static final String LISTMARK = " -------------------- ";
 
     public GUI() {
         super("Dreamhack Bot Pro");
@@ -67,7 +63,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         listData.addElement("Thing table");
         listData.addElement("Errors");
         listData.addElement("Server");
-        listData.addElement(" ----- ");
+        listData.addElement(LISTMARK);
         
         conversationList = new JList(listData);
         conversationList.setCellRenderer(this);
@@ -192,7 +188,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
 
         String listValue = conversationList.getSelectedValue().toString();
-        if(listValue.equals(" ----- "))
+        if(listValue.equals(LISTMARK))
             return;
         JTextArea chat = chats.get(listValue);
         //presume chat is not null
@@ -200,10 +196,11 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     }
 
     public void updateListMark(){
-        listData.removeElement(" ----- ");
-        listData.addElement(" ----- ");
+        listData.removeElement(LISTMARK);
+        listData.addElement(LISTMARK);
     }
 
+    @Override
     public void onServerMessage(String message) {
         appendTo("Server", server, message);
     }
@@ -264,6 +261,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
     }
 
+    @Override
     public void onUserInfo(UserInfo ui) {
         // Ignore for now
     }
