@@ -146,6 +146,11 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     @Override
+    protected void onAction(String sender, String login, String hostname, String target, String action) {
+        onMessage(target, sender, login, hostname, action);
+    }
+
+    @Override
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
         synchronized(opUsers) {
             if(opUsers.contains(sender))
