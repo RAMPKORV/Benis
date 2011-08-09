@@ -45,11 +45,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     public GUI() {
         super("Dreamhack Bot Pro");
         
-        /* TODO:
-         * List of users in channel
-         * 
-         */
-        
         setBounds(300, 200, 800, 600);
         setMinimumSize(new Dimension(600, 400));
         //TODO discuss if we want a windowListener that does more stuff on close

@@ -31,6 +31,8 @@ public class ConversationMaker {
         for(User u : users){
             if(u.getConversation() != null)
                 continue;
+            if(u.isInactive())
+                continue;
             Interest bestInterest;
             // Use random strategy to determine best interest
             if(Utils.random.nextBoolean()) {
