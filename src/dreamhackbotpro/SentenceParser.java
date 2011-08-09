@@ -319,7 +319,7 @@ public class SentenceParser {
                 ti.mention(word);
             }
         }
-        printMentionsFor(i.getThing()); // For debugging purposes
+        //printMentionsFor(i.getThing()); // For debugging purposes
     }
 
     private void printMentionsFor(String thing) {

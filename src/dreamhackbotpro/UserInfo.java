@@ -72,4 +72,11 @@ public class UserInfo implements Comparable<UserInfo> {
         return ident.equals("") && host.equals("") && ip.equals("");
     }
 
+    @Override
+    public String toString() {
+        return nick;
+    }
+
+
+
 }
