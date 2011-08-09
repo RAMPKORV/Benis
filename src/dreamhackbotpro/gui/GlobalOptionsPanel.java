@@ -17,6 +17,7 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
 
     private JTextField maxActiveConversations;
     private JTextField secBetweenNewConversation;
+    private JTextField inactiveTimeLimitField;
     
     private JButton update;
     private JTextField errorField;
@@ -45,6 +46,10 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
         secBetweenNewConversation = new JTextField();
         addRight(secBetweenNewConversation);
 
+        addLabel("Inactive time limit");
+        inactiveTimeLimitField = new JTextField();
+        addRight(inactiveTimeLimitField);
+
         update = new JButton("Update");
         update.addActionListener(this);
         errorField = new JTextField();
@@ -71,6 +76,7 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
     public void updateOptionsDisplayed(){
         maxActiveConversations.setText(String.valueOf(o.getMaxActiveConversations()));
         secBetweenNewConversation.setText(String.valueOf(o.getSecondsBetweenNewConversation()));
+        inactiveTimeLimitField.setText(String.valueOf(o.getInactiveTimeLimit()));
         errorField.setText("");
     }
 
@@ -91,9 +97,18 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
             errorField.setText("Seconds between new conversations must be a number.");
             return;
         }
+
+        int inactiveTimeLimit = -1;
+        try {
+            inactiveTimeLimit = Integer.parseInt(inactiveTimeLimitField.getText().trim());
+        } catch (NumberFormatException ex) {
+            errorField.setText("Inactive time limit must be a number.");
+            return;
+        }
         
         o.setMaxActiveConversations(maxConversations);
         o.setSecondsBetweenNewConversation(newConversationWait);
+        o.setInactiveTimeLimit(inactiveTimeLimit);
         errorField.setText("");
     }
 }
