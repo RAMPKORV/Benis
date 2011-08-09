@@ -71,9 +71,8 @@ public class UselessWordFilter implements MessageFilter{
     @Override
     public void filter(Message m) {
         String msg = m.getMessage();
-        Matcher ma = useless.matcher(m.getMessage());
+        Matcher ma = useless.matcher(msg);
         while(ma.find()) {
-            System.out.println("Useless: " + ma.group(2));
             msg = msg.replace(ma.group(2), "");
         }
         m.setMessage(msg);
