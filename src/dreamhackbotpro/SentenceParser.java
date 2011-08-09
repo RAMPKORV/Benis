@@ -2,6 +2,7 @@ package dreamhackbotpro;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -246,11 +247,12 @@ public class SentenceParser {
             }
         }
 
+
         // Check if one of the words is a brand. Then return the item om that brand
-        for(String word : words) {
-            String item = null;
-            if((item = ThingInfo.getItemByBrand(word)) != null) {
-                return item;
+        Set<String> brands = ThingInfo.getBrands();
+        for(String brand : brands) {
+            if(sentence.toUpperCase().contains(brand.toUpperCase())) {
+                return ThingInfo.getItemByBrand(brand);
             }
         }
         

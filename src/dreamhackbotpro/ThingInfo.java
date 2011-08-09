@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,6 +311,14 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     public static String getBrandByItem(String item) {
         return itemToBrand.get(item);
+    }
+
+    public static Set<String> getBrands() {
+        return brandToItem.keySet();
+    }
+
+     public static Set<String> getItems() {
+        return itemToBrand.keySet();
     }
 
 
