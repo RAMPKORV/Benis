@@ -44,7 +44,8 @@ public class UselessWordFilter implements MessageFilter{
 
     private String[] other = {
         "fråga","ifall","också","lol","usb","gärna","intresserad","mycket","nästan","pma","pm",
-                "uppskattas", "även", "levererar","sätter", "installerat","något","följer"
+                "uppskattas", "även", "levererar","sätter", "installerat","något","följer",
+                "annan"
     };
 
     private static Pattern useless = null;
