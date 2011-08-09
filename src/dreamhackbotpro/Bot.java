@@ -38,13 +38,13 @@ public class Bot implements ChatListener{
             users.put(m.getFrom().nick, user);
         } else 
             user.updateActivity();
-        
+
         messageFilter.filter(m);
         
         //handle each sentence individually
         for(String s : m.getMessage().split("\\.(?![0-9])")){
             Interest i = parser.parseInterest(s);
-            if(i!=null){         
+            if(i!=null){
                 user.addInterest(i);
                 parser.parseBuzzWords(i, s);
             }
