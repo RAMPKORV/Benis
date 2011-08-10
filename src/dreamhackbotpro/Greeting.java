@@ -30,19 +30,22 @@ public class Greeting {
     private static String[] buyingProposalsNoPrice = {
         "Jag är intresserad av %thing%",
         "Köper %thing%",
-        "Jag vill köpa %thing%"
+        "Jag vill köpa %thing%",
+        "Säljer du %thing%?",
     };
     private static String[] sellingProposals = {
         "Säljer %thing% för %price%%currency%",
         "Köper du %thing% för %price%%currency%?",
         "Vill du köpa %thing% för %price%%currency%?",
         "Du får köpa %thing% för %price%%currency%",
-        "Jag säljer %thing%"
+        "Jag säljer %thing% %price%%currency%"
     };
     private static String[] sellingProposalsNoPrice = {
-        "Är du intresserad av %thing%",
+        "Är du intresserad av %thing%?",
         "Säljer %thing%",
-        "Jag vill sälja %thing%"
+        "Jag vill sälja %thing%",
+        "Jag säljer %thing%",
+        "Vill du köpa %thing%?"
     };
     private static String[] currencies = {
         "kr"," kronor"," spänn",":-",""," kr"

@@ -43,7 +43,7 @@ public class Confuse {
     }
 
     public static String negateConfusion(String msg) {
-        msg = msg.replaceAll("(?i)^(ha)*(h | )?(va|what|vafan|wtf|va i helvete|lol)[\\!\\?]*$", getSoundsGood());
+        msg = msg.replaceAll("(?i)^(ha)*(h | )?(va|what|woot|w00t|vafan|wtf|va i helvete|lol)[\\!\\?]*$", getSoundsGood());
         //msg = msg.replaceAll("(?i)^\\?+$", getSoundsGood());
         if(Utils.countChar(msg, '?')==msg.length())
             msg = getSoundsGood();
