@@ -44,8 +44,11 @@ public class UselessWordFilter implements MessageFilter{
 
     private String[] other = {
         "fråga","ifall","också","lol","usb","gärna","intresserad","mycket","nästan","pma","pm",
-                "uppskattas", "även", "levererar","sätter", "installerat","något","följer",
-                "annan","orginal","efter","dock","andra"
+                "uppskattas", "även", "levererar","sätter", "installerat","något","någon","följer",
+                "annan","orginal","efter","dock","andra","göra","ngt"
+    };
+    private String[] controversial = {
+        "den","som","ger","du","har","med"
     };
 
     private static Pattern useless = null;
@@ -62,6 +65,8 @@ public class UselessWordFilter implements MessageFilter{
             for(String s : quality)
                 sb.append("|"+s);
             for(String s : other)
+                sb.append("|"+s);
+            for(String s : controversial)
                 sb.append("|"+s);
             String list = sb.substring(1);
             useless = Pattern.compile("\\b("+list+")\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
