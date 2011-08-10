@@ -3,6 +3,7 @@ package dreamhackbotpro;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
  * @author patrik
  */
 public class ThingInfo implements Comparable<ThingInfo> {
+
     private String thing = null;
     private int counter = 0;
     private List<Integer> prices = new ArrayList<Integer>();
@@ -34,6 +36,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
     //itemToBrand should be used when buyer asks "vilket märke?" or similar in private chat. If brand found, block the message and reply with brand
     private static Map<String, String> brandToItem = new HashMap<String, String>();
     private static Map<String, String> itemToBrand = new HashMap<String, String>();
+
+    //Similarly, units
+    private static Map<String, String> unitToItem = new HashMap<String, String>();
+    private static Map<String, String> itemToUnit = new HashMap<String, String>();
 
     static{
         loadPredefineInterests();
@@ -161,8 +167,13 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
+        newUnits("ansjovis","burk");
+        newBrands("chips","pringles","estrella","olw");
+        newUnits("chips","burk","påse","påsar");
         newBrands("snus","rapé","portion", "general", "grov");
+        newUnits("snus","dosa","dosor");
         newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "level", "maryland", "winston");
+        newUnits("cigg","paket");
         newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard");
         newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
         newBrands("musmatta", "fnatic", "razer", "steelseries", "qpad");
@@ -172,9 +183,12 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newBrands("plattskärm", "dell", "lg", "benq", "samsung");
         newBrands("smartphone", "xperia");
         newBrands("jolt", "jolt");
-        newBrands("läsk","jolt","cola","fanta","sprite","dr pepper");
+        newUnits("jolt","burk","burkar","flak","lock");       
         newBrands("energidryck", "powerking","redbull");
-
+        newUnits("energidryck","burk","burkar","flak","lock");
+        newBrands("läsk","jolt","cola","fanta","sprite","dr pepper");
+        newUnits("läsk","burk","burkar","flak","lock");
+        
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
         newPredefineInterest("tangentbord", 250);
@@ -191,6 +205,13 @@ public class ThingInfo implements Comparable<ThingInfo> {
         itemToBrand.put(item, brands[0]);
         for(String brand : brands){
             brandToItem.put(brand, item);
+        }
+    }
+
+    private static void newUnits(String item, String... units){
+        itemToUnit.put(item, units[0]);
+        for(String unit : units){
+            unitToItem.put(unit, item);
         }
     }
 
@@ -317,10 +338,23 @@ public class ThingInfo implements Comparable<ThingInfo> {
         return brandToItem.keySet();
     }
 
-     public static Set<String> getItems() {
-        return itemToBrand.keySet();
+    public static Set<String> getItems() {
+        Set<String> ret = new HashSet<String>(itemToBrand.keySet());
+        ret.addAll(itemToUnit.keySet());
+        return ret;
     }
 
+    public static Set<String> getUnits() {
+        return unitToItem.keySet();
+    }
+
+    public static String getItemByUnit(String unit) {
+        return unitToItem.get(unit);
+    }
+
+    public static String getUnitByItem(String item) {
+        return itemToUnit.get(item);
+    }
 
     private static String[] brandQuestions = {
         "^märke\\?$","vad för märke\\?","vad är det för märke\\?","vilket märke","vilket märke\\?","^modell\\?$",
