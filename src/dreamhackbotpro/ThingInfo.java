@@ -195,7 +195,6 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newPredefineInterest("tangentbord", 250);
         newPredefineInterest("mus", 250);
         newPredefineInterest("musmatta", 100);
-        newPredefineInterest("siberia", 350);
         newPredefineInterest("headset", 250);
         newPredefineInterest("datorskärm", 1000);
         newPredefineInterest("skärm", 1000);
