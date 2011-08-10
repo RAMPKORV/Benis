@@ -246,16 +246,15 @@ public class SentenceParser {
                 }
             }
         }
-
-
-        // Check if one of the words is a brand. Then return the item om that brand
-        Set<String> brands = ThingInfo.getBrands();
-        for(String brand : brands) {
-            if(sentence.toUpperCase().contains(brand.toUpperCase())) {
-                return ThingInfo.getItemByBrand(brand);
+        for(String item : ThingInfo.getItems()) {
+                for(String word : words) {
+                if(Utils.getLevenshteinDistance(item, word) <= Math.max(word.length(),item.length())/4) {
+                    System.out.println(sentence + "\nPARSED: " + item);
+                    return item;
+                }
             }
         }
-        
+
         //second attempt. Checks if word and thing has someting similar. Musmatta would return Matta if that is a known item
         //same alrogitm as familiarWord but for the entire sentence
         for(ThingInfo ti : Interest.getInterestsSorted()) {
@@ -264,6 +263,22 @@ public class SentenceParser {
                 if(word.length() > 3 && (word.contains(thing) || thing.contains(word))) {
                     return thing;
                 }
+        }
+
+        // Check if one of the words is a brand. Then return the item om that brand
+        Set<String> brands = ThingInfo.getBrands();
+        for(String brand : brands) {
+            if(sentence.toUpperCase().contains(brand.toUpperCase())) {
+                return ThingInfo.getItemByBrand(brand);
+            }
+        }
+
+        // Check if one of the words is a unit. Then return the item om that unit
+        Set<String> units = ThingInfo.getUnits();
+        for(String unit : units) {
+            if(sentence.toUpperCase().contains(unit.toUpperCase())) {                
+                return ThingInfo.getItemByUnit(unit);
+            }
         }
 
         // Pick the longest word
