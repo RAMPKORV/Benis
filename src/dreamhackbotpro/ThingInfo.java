@@ -174,8 +174,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newUnits("snus","dosa","dosor");
         newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "level", "maryland", "winston");
         newUnits("cigg","paket");
-        newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard","compaq");
-        newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
+        newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard","compaq","keysonic");
+        newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mouse","mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
         newBrands("musmatta", "fnatic", "razer", "steelseries", "qpad");
         newBrands("headset", "siberia v2", "siberia", "steelseries", "logitech", "koss", "sennheiser","thermaltake");
         newBrands("datorskärm", "dell", "lg", "benq", "samsung");
@@ -193,7 +193,19 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newPredefineInterest("cigg", 60);
         newPredefineInterest("tangentbord", 250);
         newPredefineInterest("mus", 250);
+        newPredefineInterest("musmatta", 100);
+        newPredefineInterest("siberia", 350);
+        newPredefineInterest("headset", 250);
+        newPredefineInterest("datorskärm", 1000);
+        newPredefineInterest("skärm", 1000);
+        newPredefineInterest("plattskärm", 1000);
+        newPredefineInterest("smartphone", 900);
         newPredefineInterest("jolt", 10);
+        newPredefineInterest("powerking", 10);
+        newPredefineInterest("energidryck", 10);
+        newPredefineInterest("cola", 10);
+        newPredefineInterest("läsk", 10);
+        newPredefineInterest("chips", 25);
         newPredefineInterest("keps", 50);
     }
 
