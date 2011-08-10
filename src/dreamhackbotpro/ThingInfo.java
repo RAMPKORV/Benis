@@ -167,12 +167,13 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static void loadPredefineInterests(){
+        //newBrands("account","wow","steam","warrior","shaman","shamman");
         newUnits("ansjovis","burk");
         newBrands("chips","pringles","estrella","olw");
         newUnits("chips","burk","påse","påsar");
         newBrands("snus","rapé","portion", "general", "grov");
         newUnits("snus","dosa","dosor");
-        newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "level", "maryland", "winston");
+        newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "maryland", "winston");
         newUnits("cigg","paket");
         newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard","compaq","keysonic");
         newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mouse","mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
@@ -187,7 +188,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newBrands("energidryck", "powerking","redbull");
         newUnits("energidryck","burk","burkar","flak","lock");
         newBrands("läsk","jolt","cola","fanta","sprite","dr pepper");
-        newUnits("läsk","burk","burkar","flak","lock");
+        newUnits("läsk","burk","burkar","flak","lock");        
         
         newPredefineInterest("snus", 50);
         newPredefineInterest("cigg", 60);
@@ -207,6 +208,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newPredefineInterest("läsk", 10);
         newPredefineInterest("chips", 25);
         newPredefineInterest("keps", 50);
+        newPredefineInterest("guld", -1);
     }
 
     /**
