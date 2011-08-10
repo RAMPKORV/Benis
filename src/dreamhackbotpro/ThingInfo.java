@@ -177,7 +177,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard");
         newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
         newBrands("musmatta", "fnatic", "razer", "steelseries", "qpad");
-        newBrands("headset", "siberia v2", "siberia", "steelseries", "logitech", "koss", "sennheiser");
+        newBrands("headset", "siberia v2", "siberia", "steelseries", "logitech", "koss", "sennheiser","thermaltake");
         newBrands("datorskärm", "dell", "lg", "benq", "samsung");
         newBrands("skärm", "dell", "lg", "benq", "samsung");
         newBrands("plattskärm", "dell", "lg", "benq", "samsung");

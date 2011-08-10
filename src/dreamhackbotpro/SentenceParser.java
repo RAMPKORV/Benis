@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  */
 public class SentenceParser {
 
-    private Pattern withoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]{3,})");
-    private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ ]{3,}?) ([1-9][0-9]*)kr", Pattern.CASE_INSENSITIVE);
+    private Pattern withoutPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ\\- ]{3,})");
+    private Pattern withPrice = Pattern.compile("(WTB|WTS) ([a-zA-Z0-9åäöÅÄÖ\\- ]{3,}?) ([1-9][0-9]*)kr", Pattern.CASE_INSENSITIVE);
     private static SentenceParser instance;
 
     private SentenceParser() {
