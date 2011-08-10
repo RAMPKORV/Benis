@@ -48,7 +48,7 @@ public class UselessWordFilter implements MessageFilter{
                 "annan","orginal","efter","dock","andra","göra","ngt"
     };
     private String[] controversial = {
-        "den","som","ger","du","har","med"
+        "den","som","ger","du","har","med","att","man","in","får"
     };
 
     private static Pattern useless = null;
