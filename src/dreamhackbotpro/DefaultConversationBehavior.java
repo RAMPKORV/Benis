@@ -83,7 +83,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
 
             // Handle brand questions
-            if(buyerBrand != null && ThingInfo.isBrandQuestion(msg)) {
+            if(buyerBrand != null && ThingInfo.isBrandQuestion(msg, buyerThing)) {
                     m.setMessage("");
                     send(3000L + Utils.random.nextInt(3000), c, new Message(seller,buyerBrand,buyer,bot));
                     return m;

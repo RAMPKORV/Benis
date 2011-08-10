@@ -112,7 +112,7 @@ public class Greeting {
     }
 
     private static String[] simpleAffirmation = {
-        "Ja","Yes","Jepp"
+        "Ja","Yes","Jepp","Visst","Sure"
     };
     public static String getYes() {
         return simpleAffirmation[Utils.random.nextInt(simpleAffirmation.length)];

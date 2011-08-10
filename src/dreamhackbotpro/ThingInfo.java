@@ -357,15 +357,25 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static String[] brandQuestions = {
-        "^märke\\?$","vad för märke\\?","vad är det för märke\\?","vilket märke","vilket märke\\?","^modell\\?$",
+        "^märke\\?$","vad för märke","vad är det för märke","vilket märke","vilket märke\\?","^modell\\?$",
         "^vilken modell\\?","^tillverkare\\?","^vilken tillverkare"
     };
+    private static String[] brandQuestionsThing = {
+        "^vad för %thing%","^vilke(n|t) %thing"
+    };
 
-    public static boolean isBrandQuestion(String msg) {
+    public static boolean isBrandQuestion(String msg, String thing) {
         msg = msg.toLowerCase();
         for(String q : brandQuestions) {
             if(msg.matches(q))
                 return true;
+        }
+        if(thing != null) {
+            for(String q : brandQuestionsThing) {
+                q = q.replace("%thing%", thing);
+                if(msg.matches(q))
+                    return true;
+            }
         }
         return false;
     }
@@ -392,7 +402,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static String[] howmanyQuestions = {
-        "^hur många\\??$","^hur många vill du ha","^hur många skall du ha"
+        "^hur många\\??$","^hur många vill du ha","^hur många skall du ha",
+        "^hur många [a-zåäöÅÄÖ]+[ ]*(\\?|$)"
     };
     public static boolean isHowManyQuestion(String msg) {
         msg = msg.toLowerCase();
