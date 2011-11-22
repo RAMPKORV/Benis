@@ -12,6 +12,8 @@ public class Options {
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
 
+    private long inactivityTimeout = 30 * 1000;
+
     private static Options instance = null;
 
     
@@ -29,6 +31,14 @@ public class Options {
 
     public synchronized void setMaxActiveConversations(int maxActiveConversations) {
         this.maxActiveConversations = maxActiveConversations;
+    }
+
+    public long getInactivityTimeout() {
+        return inactivityTimeout;
+    }
+
+    public void setInactivityTimeout(long inactivityTimeout) {
+        this.inactivityTimeout = inactivityTimeout;
     }
 
     public long getInactiveTimeLimit() {

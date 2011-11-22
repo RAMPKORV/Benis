@@ -51,4 +51,7 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void onNameChange(UserInfo olduser, UserInfo newuser) {}
     public void onQuit(UserInfo userInfo) {}
     public void onUserInfo(UserInfo ui) {}
+
+    public void onConversationClose(Conversation c) {
+    }
 }

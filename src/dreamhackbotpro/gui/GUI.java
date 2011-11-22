@@ -1,6 +1,7 @@
 package dreamhackbotpro.gui;
 
 import dreamhackbotpro.ChatListener;
+import dreamhackbotpro.Conversation;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
 import dreamhackbotpro.UserInfo;
@@ -113,7 +114,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onNameChange(UserInfo olduser, UserInfo newuser) {
         //TODO check if the user is in any chat, append namechange in chat
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -259,6 +259,10 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onUserInfo(UserInfo ui) {
         // Ignore for now
+    }
+
+    public void onConversationClose(Conversation c) {
+        //TODO change tab color to grey and output and append CLOSED in tab
     }
 
 }

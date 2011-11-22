@@ -1,13 +1,19 @@
+Fixa så att Conversation dör och sätt den till null hos användaren
+
 Något som återansluter vid fel
 
 Konversationsloggare
 
-Fixa en massa arrayer ked regex och ord
+Fixa en massa arrayer med regex och ord
 
-Proxylyssnartråd
+Proxylyssnartråd, http://www.textproxylists.com/
 
 Saftblandargrejen
 
 "text"-GUI
+
+GUI ska inte visa inte tab förens en äkta användare skrivit nåt, inte falska hej
+
+Skicka loggarna till oss på nåt sätt, mail/webbserver
 
 

@@ -1,6 +1,7 @@
 package dreamhackbotpro;
 
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -11,7 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
+import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
 /**
@@ -30,6 +35,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private Set<ChatListener> listeners = new HashSet<ChatListener>();
     private final Collection<String> leftUsers = new ArrayList<String>();
     private Thread nickChanger = null;
+    private long lastActivity = System.currentTimeMillis();
 
     public IrcHandler(String nick, String ircServer, String ircChannel) {
         this.ircNick = nick;
@@ -152,6 +158,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onMessage(String channel, String sender, String login, String hostname, String message) {
+        lastActivity = System.currentTimeMillis();
         synchronized(opUsers) {
             if(opUsers.contains(sender))
                 return;
@@ -191,6 +198,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     @Override
     protected void onPrivateMessage(String sender, String login, String hostname, String message) {
+        lastActivity = System.currentTimeMillis();
         if(sender.equals("S")) {
             handleS(message);
             return;
@@ -411,5 +419,31 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }).start();
 
     }
+
+    private void startReconnectorThread(){
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(10 * 1000);
+                    if((System.currentTimeMillis()-lastActivity)>Options.getInstance().getInactiveTimeLimit()){
+                        try {
+                            //TODO reconnect to irc
+                            reconnect();
+                        } catch (IOException ex) {
+                        } catch (NickAlreadyInUseException ex) {
+                        } catch (IrcException ex){
+                        }
+                    }
+                } catch (InterruptedException ex) {
+                    return;
+                }
+            }
+        }).start();
+    }
+
+    public void onConversationClose(Conversation c) {
+    }
+
 
 }
