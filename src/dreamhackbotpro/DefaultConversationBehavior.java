@@ -57,6 +57,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             }
         } while(greeting != null);
 
+        //Convenience
         final UserInfo bot = m.getBotInfo();
         final UserInfo buyer = c.getBuyer().getUserInfo();
         final UserInfo seller = c.getSeller().getUserInfo();

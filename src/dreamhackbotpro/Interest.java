@@ -83,6 +83,7 @@ public class Interest {
      * Used when a User says he wants to buy or sell the same thing twice
      */
     public void update(Interest theInterest) {
+        //TODO find out why the if-statenent is there
         if(theInterest.price>this.price){
             this.price=theInterest.price;
             //TODO also update ThingInfo with the new price

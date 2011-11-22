@@ -22,17 +22,21 @@ public class Main {
      *
      */
     public static void main(String[] args) {
-        IrcHandler irc = new IrcHandler("Bot_"+System.getProperty("user.name"),"irc.esper.net","#trade_test");
+        IrcHandler irc = new IrcHandler("Bot_" + System.getProperty("user.name"), "irc.esper.net", "#trade_test");
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);
-        GUI gui = new GUI();
-        irc.addChatListener(gui);
-        Conversation.addConversationsListener(gui);
+        try {
+            GUI gui = new GUI();
+            irc.addChatListener(gui);
+            Conversation.addConversationsListener(gui);
+        } catch (Exception ex) {
+            //TODO: "text" GUI
+        }
+
         SeatReader seatReader = new SeatReader();
         Conversation.addConversationsListener(seatReader);
         irc.connect();
     }
-
 }
 

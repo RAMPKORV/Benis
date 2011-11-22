@@ -196,8 +196,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
             return;
         }
         synchronized(opUsers) {
-            if(opUsers.contains(sender))
+            if(opUsers.contains(sender)) {
+                error("Contacted by OP: "+sender+": "+message);
                 return;
+            }
         }
         message = recode(message);
         UserInfo senderInfo;
