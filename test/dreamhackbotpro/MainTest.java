@@ -18,8 +18,12 @@ public class MainTest {
         logReader.addChatListener(seatReader);
         Conversation.addConversationsListener(seatReader);
         Conversation.addConversationsListener(new ConversationsListener(){
+            @Override
             public void onConversationMessage(Message m) {
                 System.out.println("Message sent:" + m);
+            }
+            @Override
+            public void onConversationClose(Conversation c) {
             }
         });
         logReader.read("log4000.txt");
