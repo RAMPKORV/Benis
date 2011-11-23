@@ -39,7 +39,6 @@ public class SeatReaderTest {
 
     @Test
     public void testGetSeat() {
-        SeatReader sr = new SeatReader();
         System.out.println("getSeat");
         assertEquals("D12:34", SeatReader.getSeat("Jag sitter på D12:34. Kom hit!"));
         assertEquals("D12:34", SeatReader.getSeat("Jag sitter på Rad D12 Plats 34 Kom hit!"));

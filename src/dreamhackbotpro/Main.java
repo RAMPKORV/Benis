@@ -28,17 +28,19 @@ public class Main {
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);
+        boolean hasGui = false;
         try {
             GUI gui = new GUI();
             irc.addChatListener(gui);
             Conversation.addConversationsListener(gui);
+            hasGui = true;
         } catch (HeadlessException ex) {
             System.out.println("No graphics found. Using TextGUI");
             TextGUI textGui = new TextGUI();
             Conversation.addConversationsListener(textGui);
         }
 
-        SeatReader seatReader = new SeatReader();
+        SeatReader seatReader = new SeatReader(hasGui);
         Conversation.addConversationsListener(seatReader);
         irc.connect();
     }

@@ -15,6 +15,7 @@ public class Options {
     private long inactivityTimeout = 30 * 1000;
 
     private static Options instance = null;
+    private boolean seatPopupEnabled = true;
 
     
     private Options(){}
@@ -63,6 +64,14 @@ public class Options {
 
     public synchronized void setSecondsBetweenNewConversation(int secondsBetweenNewConversation) {
         this.secondsBetweenNewConversation = secondsBetweenNewConversation;
+    }
+
+    public boolean isSeatPopupEnabled() {
+        return seatPopupEnabled;
+    }
+
+    public void setSeatPopupEnabled(boolean seatPopupEnabled) {
+        this.seatPopupEnabled = seatPopupEnabled;
     }
       
 }
