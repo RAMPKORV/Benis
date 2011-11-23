@@ -35,7 +35,8 @@ public class Confuse {
     }
 
     private static String[] soundGoods = {
-        "Låter bra", "Ok", ":)", ":-)", "Najs",
+        "Låter bra", "Ok", "Najs", "Så gör vi",
+        "Vi säger så",
         "Underbart", "Toppen", "Lysande"
     };
     private static String getSoundsGood() {

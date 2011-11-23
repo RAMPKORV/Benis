@@ -29,6 +29,7 @@ public class WordInfo implements Comparable<WordInfo> {
         this.word = word;
     }
 
+    @Override
     public int compareTo(WordInfo t) {
         if(mentions > t.getMentions())
             return 1;

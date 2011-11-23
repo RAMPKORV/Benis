@@ -13,9 +13,7 @@ public class SeatReader implements ConversationsListener, ChatListener {
 
     public SeatReader() {
     }
-
     
-
     public void alarm(Message m) {
         System.out.println("RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage());
     }
@@ -51,7 +49,5 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void onNameChange(UserInfo olduser, UserInfo newuser) {}
     public void onQuit(UserInfo userInfo) {}
     public void onUserInfo(UserInfo ui) {}
-
-    public void onConversationClose(Conversation c) {
-    }
+    public void onConversationClose(Conversation c) {}
 }

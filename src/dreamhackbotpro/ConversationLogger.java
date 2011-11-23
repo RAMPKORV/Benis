@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConversationLogger implements ConversationsListener {
 
@@ -29,6 +27,7 @@ public class ConversationLogger implements ConversationsListener {
         }
     }
 
+    @Override
     public void onConversationMessage(Message m) {
         String filename = getName(m.getFrom().nick, m.getTo().nick);
         BufferedWriter log = logs.get(filename);
@@ -56,6 +55,7 @@ public class ConversationLogger implements ConversationsListener {
         }
     }
 
+    @Override
     public void onConversationClose(Conversation c) {
         String filename = getName(c.getBuyer().getName(), c.getSeller().getName());
         BufferedWriter log = logs.get(filename);
@@ -67,5 +67,8 @@ public class ConversationLogger implements ConversationsListener {
             log.close();
         } catch (IOException ex) {
         }
+        
+        //remove the BufferedWriter
+        logs.remove(filename);
     }
 }

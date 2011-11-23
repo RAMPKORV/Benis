@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.IrcUser;
 import org.jibble.pircbot.NickAlreadyInUseException;
@@ -442,6 +440,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         }).start();
     }
 
+    @Override
     public void onConversationClose(Conversation c) {
     }
 

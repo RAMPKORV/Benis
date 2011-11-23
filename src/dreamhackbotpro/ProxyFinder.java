@@ -1,6 +1,4 @@
-
 package dreamhackbotpro;
-
 
 public class ProxyFinder {
     

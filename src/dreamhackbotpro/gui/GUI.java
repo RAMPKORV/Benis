@@ -133,17 +133,24 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onConversationMessage(Message m) {
 
-        String chatName = m.getFrom().nick+" - "+m.getTo().nick;
+        String chatName;
         if(m.getFrom().compareTo(m.getTo())>0){
             chatName = m.getTo().nick+" - "+m.getFrom().nick;
+        }
+        else{
+            chatName = m.getFrom().nick+" - "+m.getTo().nick;
         }
 
         JTextArea chat = chats.get(chatName);
 
+        //TODO count the amount of lines to see how many messages has been written in 'chat'
+        //If more than two lines, make sure that chatName is in listData.
+        //This will prevent listData to show chats that only has two greetings.
         if(chat==null){
             chat = new JTextArea(chatName);
             chat.setLineWrap(true);
             chat.setEditable(false);
+            
             listData.addElement(chatName);
             chats.put(chatName, chat);
         }
