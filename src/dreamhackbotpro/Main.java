@@ -1,6 +1,8 @@
 package dreamhackbotpro;
 
 import dreamhackbotpro.gui.GUI;
+import dreamhackbotpro.gui.TextGUI;
+import java.awt.HeadlessException;
 
 /**
  *
@@ -30,8 +32,10 @@ public class Main {
             GUI gui = new GUI();
             irc.addChatListener(gui);
             Conversation.addConversationsListener(gui);
-        } catch (Exception ex) {
-            //TODO: "text" GUI
+        } catch (HeadlessException ex) {
+            System.out.println("No graphics found. Using TextGUI");
+            TextGUI textGui = new TextGUI();
+            Conversation.addConversationsListener(textGui);
         }
 
         SeatReader seatReader = new SeatReader();
