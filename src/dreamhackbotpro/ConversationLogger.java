@@ -41,7 +41,9 @@ public class ConversationLogger implements ConversationsListener {
                 logs.put(filename, log);
             }
             log.write(Utils.timeStamp() + m.getFrom().nick + ": " + m.getMessage() + '\n');
+            log.flush();
         } catch (IOException ex) {
+            System.err.println(ex);
         }
 
     }
