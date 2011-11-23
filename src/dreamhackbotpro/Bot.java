@@ -62,13 +62,14 @@ public class Bot implements ChatListener{
         if(user==null){
             user = new User(newuser);
             users.put(newuser.nick, user);
-            return;
         }
-        else
+        else{
             user.setName(newuser.nick);
-        user.updateActivity();
-        users.remove(olduser.nick);
-        users.put(newuser.nick, user);
+            user.updateActivity();
+            users.remove(olduser.nick);
+            users.put(newuser.nick, user);
+        }
+        conversationMaker.onNickChange(olduser.nick, newuser.nick);
     }
 
     @Override
@@ -107,8 +108,14 @@ public class Bot implements ChatListener{
         //Ignore
     }
 
+    @Override
     public void onServerMessage(String message) {
         //Ignore
+    }
+
+    @Override
+    public void onBotNickChange() {
+        conversationMaker.onBotNickChange();
     }
 
 }

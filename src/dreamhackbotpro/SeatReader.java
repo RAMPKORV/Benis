@@ -112,5 +112,9 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void addSeatMentionListener(SeatMentionListener sml){
         listeners.add(sml);
     }
+
+    @Override
+    public void onBotNickChange() {
+    }
     
 }

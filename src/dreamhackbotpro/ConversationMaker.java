@@ -12,6 +12,7 @@ public class ConversationMaker {
 
     private long lastConversationMade = 0;
     private List<Conversation> conversations = new ArrayList<Conversation>();
+    private List<String> contactedNicks = new ArrayList<String>();
 
     public ConversationMaker() {
         new Thread(new Runnable() {
@@ -54,8 +55,11 @@ public class ConversationMaker {
         for(User u : users){
             if(u.getConversation() != null)
                 continue;
-//            if(u.isInactive())
-//                continue;
+            if(u.isInactive())
+                continue;
+            if(contactedNicks.contains(u.getName()))
+                continue;
+            
             Interest bestInterest;
             // Use random strategy to determine best interest
             if(Utils.random.nextBoolean()) {
@@ -120,6 +124,17 @@ public class ConversationMaker {
 
     private long waitTime(){
         return Options.getInstance().getSecondsBetweenNewConversation()*1000L;
+    }
+    
+    public void onNickChange(String oldNick, String newNick){
+        if(contactedNicks.contains(oldNick)){
+            contactedNicks.remove(oldNick);
+            contactedNicks.add(newNick);
+        }
+    }
+    
+    public void onBotNickChange(){
+        contactedNicks.clear();
     }
 
 }

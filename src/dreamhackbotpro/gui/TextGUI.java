@@ -42,5 +42,7 @@ public class TextGUI implements ConversationsListener, ChatListener {
     public void onServerMessage(String message) {}
     @Override
     public void onUserInfo(UserInfo ui) {}
+    @Override
+    public void onBotNickChange() {}
     
 }

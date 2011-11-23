@@ -323,4 +323,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
         }
         seatMentions.add(chatName);
     }
+
+    @Override
+    public void onBotNickChange() {
+    }
 }
