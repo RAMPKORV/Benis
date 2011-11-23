@@ -176,7 +176,7 @@ public class Conversation implements Comparable<Conversation> {
     
     private boolean isInactive(){
         //user inactivity limit is 2 minutes by default, using the same variable here
-        return System.currentTimeMillis()>lastActivity+Options.getInstance().getInactiveTimeLimit()*1000L;
+        return System.currentTimeMillis()>lastActivity+Options.getInstance().getConversationTimeout()*1000L;
     }
 
     /**

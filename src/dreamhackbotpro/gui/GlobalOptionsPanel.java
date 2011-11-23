@@ -19,6 +19,7 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
     private JTextField maxActiveConversations;
     private JTextField secBetweenNewConversation;
     private JTextField inactiveTimeLimitField;
+    private JTextField conversationTimeoutField;
     private JCheckBox enablePopup;
     
     private JButton update;
@@ -51,6 +52,10 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
         addLabel("Inactive time limit");
         inactiveTimeLimitField = new JTextField();
         addRight(inactiveTimeLimitField);
+        
+        addLabel("Conversation inactivity timeout");
+        conversationTimeoutField = new JTextField();
+        addRight(conversationTimeoutField);
         
         addLabel("Enable popup on seat mention");
         enablePopup = new JCheckBox();
@@ -113,9 +118,18 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
             return;
         }
         
+        int conversationTimeout = -1;
+        try {
+            conversationTimeout = Integer.parseInt(conversationTimeoutField.getText().trim());
+        } catch (NumberFormatException ex) {
+            errorField.setText("Conversation inactivity timeout must be a number.");
+            return;
+        }
+        
         o.setMaxActiveConversations(maxConversations);
         o.setSecondsBetweenNewConversation(newConversationWait);
         o.setInactiveTimeLimit(inactiveTimeLimit);
+        o.setConversationTimeout(conversationTimeout);
         o.setSeatPopupEnabled(enablePopup.isSelected());
         errorField.setText("");
     }
