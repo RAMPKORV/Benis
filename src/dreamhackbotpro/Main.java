@@ -28,7 +28,6 @@ public class Main {
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);
-        boolean hasGui = false;
         SeatReader seatReader;
         try {
             GUI gui = new GUI();
@@ -45,6 +44,10 @@ public class Main {
         }
 
         Conversation.addConversationsListener(seatReader);
+        
+        ConversationLogger cl = new ConversationLogger();
+        Conversation.addConversationsListener(cl);
+        
         irc.connect();
     }
 }

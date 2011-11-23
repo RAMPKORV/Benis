@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class ConversationLogger implements ConversationsListener {
 
@@ -40,7 +41,9 @@ public class ConversationLogger implements ConversationsListener {
                 logs.put(filename, log);
             }
             log.write(Utils.timeStamp() + m.getFrom().nick + ": " + m.getMessage() + '\n');
+            log.flush();
         } catch (IOException ex) {
+            System.err.println(ex);
         }
 
     }
@@ -71,4 +74,20 @@ public class ConversationLogger implements ConversationsListener {
         //remove the BufferedWriter
         logs.remove(filename);
     }
+    
+    /**
+     * Close all files on shutdown
+     */
+    public void onShutdown(){
+        //TODO call this when the GUI has been closed
+        for(Entry<String, BufferedWriter> e: logs.entrySet()){
+            try {
+                e.getValue().close();
+            } catch (Exception ex) {
+                
+            }
+        }
+        System.exit(0);
+    }
+    
 }
