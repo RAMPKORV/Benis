@@ -80,9 +80,9 @@ public class ConversationLogger implements ConversationsListener {
      */
     public void onShutdown(){
         //TODO call this when the GUI has been closed
-        for(Entry<String, BufferedWriter> e: logs.entrySet()){
+        for(BufferedWriter bw: logs.values()){
             try {
-                e.getValue().close();
+                bw.close();
             } catch (Exception ex) {
                 
             }
