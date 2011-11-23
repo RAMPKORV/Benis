@@ -4,6 +4,7 @@ import dreamhackbotpro.ChatListener;
 import dreamhackbotpro.Conversation;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
+import dreamhackbotpro.SeatMentionListener;
 import dreamhackbotpro.UserInfo;
 import dreamhackbotpro.Utils;
 import java.awt.BorderLayout;
@@ -26,7 +27,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class GUI extends JFrame implements ChatListener, ConversationsListener, ListSelectionListener, ListCellRenderer {
+public class GUI extends JFrame implements ChatListener, ConversationsListener,
+        ListSelectionListener, ListCellRenderer, SeatMentionListener {
     private static final int NUMBER_OF_FLASHES = 12;
     private static final long DELAY_BETWEEN_FLASHES = 250;
     private DefaultListModel listData;
@@ -133,13 +135,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
     @Override
     public void onConversationMessage(Message m) {
 
-        String chatName;
-        if(m.getFrom().compareTo(m.getTo())>0){
-            chatName = m.getTo().nick+" - "+m.getFrom().nick;
-        }
-        else{
-            chatName = m.getFrom().nick+" - "+m.getTo().nick;
-        }
+        String chatName = getChatName(m);
 
         JTextArea chat = chats.get(chatName);
 
@@ -160,6 +156,18 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         }
         //chat.append('\n'+timeStamp()+m.toString());
         appendTo(chatName, chat, m.toString());
+    }
+    
+    /**
+     * 
+     * @return the name of the chat-tab that belongs to Message m
+     */
+    private String getChatName(Message m){
+        if(m.getFrom().compareTo(m.getTo())>0)
+            return m.getTo().nick+" - "+m.getFrom().nick;
+        else
+            return m.getFrom().nick+" - "+m.getTo().nick;
+        
     }
     
     @Override
@@ -268,8 +276,21 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener, 
         // Ignore for now
     }
 
+    @Override
     public void onConversationClose(Conversation c) {
         //TODO change tab color to grey and output and append CLOSED in tab
+    }
+
+    @Override
+    public void onSeatMention(Message m) {
+        String chatName = getChatName(m);
+        JTextArea chat = chats.get(chatName);
+        if(chat==null){
+            //will happen if someone manually contacts the bot with a seat
+            System.out.println("Stupid seat mention: "+m);
+            return;
+        }
+        //TODO give chat an easy noticed color. Red is already used for new messages. Maybe blue
     }
 
 }

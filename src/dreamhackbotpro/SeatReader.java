@@ -3,6 +3,8 @@ package dreamhackbotpro;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
@@ -17,6 +19,8 @@ public class SeatReader implements ConversationsListener, ChatListener {
     private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])(\\:)?[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
     private boolean hasGui;
     private JFrame window;
+    
+    private List<SeatMentionListener> listeners = new ArrayList<SeatMentionListener>();
 
     public SeatReader(){
         this(true);
@@ -29,6 +33,9 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void alarm(Message m) {
         //TODO somehow notify the GUI class so it can color the tab with a seat mention
         System.out.println("RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage());
+        for(SeatMentionListener sml : listeners){
+            sml.onSeatMention(m);
+        }
         if(hasGui && Options.getInstance().isSeatPopupEnabled()){
             popupWindow();
         }
@@ -102,4 +109,9 @@ public class SeatReader implements ConversationsListener, ChatListener {
     public void onQuit(UserInfo userInfo) {}
     public void onUserInfo(UserInfo ui) {}
     public void onConversationClose(Conversation c) {}
+    
+    public void addSeatMentionListener(SeatMentionListener sml){
+        listeners.add(sml);
+    }
+    
 }
