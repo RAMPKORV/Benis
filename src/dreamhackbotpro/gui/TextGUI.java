@@ -1,17 +1,18 @@
 package dreamhackbotpro.gui;
 
+import dreamhackbotpro.ChatListener;
 import dreamhackbotpro.Conversation;
 import dreamhackbotpro.ConversationsListener;
 import dreamhackbotpro.Message;
+import dreamhackbotpro.UserInfo;
 import dreamhackbotpro.Utils;
 
 /**
  * A ConversationsListener that outputs conversations in stdout.
- * It does not implement ChatListener since that would make it even harder to read conversations.
  * 
  * @author wasd
  */
-public class TextGUI implements ConversationsListener{
+public class TextGUI implements ConversationsListener, ChatListener {
 
 
     @Override
@@ -22,5 +23,24 @@ public class TextGUI implements ConversationsListener{
     @Override
     public void onConversationClose(Conversation c) {
     }
+    
+    @Override
+    public void onError(String error) {
+        System.err.println(Utils.timeStamp()+error);  
+    }
+
+    // Empty ChatListener methods. These would bloat down the display.
+    @Override
+    public void onMessage(Message m) {}
+    @Override
+    public void onNameChange(UserInfo olduser, UserInfo newuser) {}
+    @Override
+    public void onPrivateMessage(Message m) {}
+    @Override
+    public void onQuit(UserInfo userInfo) {}
+    @Override
+    public void onServerMessage(String message) {}
+    @Override
+    public void onUserInfo(UserInfo ui) {}
     
 }

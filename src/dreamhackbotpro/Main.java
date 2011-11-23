@@ -24,7 +24,7 @@ public class Main {
      *
      */
     public static void main(String[] args) {
-        IrcHandler irc = new IrcHandler("Bot_" + System.getProperty("user.name"), "irc.esper.net", "#trade_test");
+        IrcHandler irc = new IrcHandler("Bot_" + System.getProperty("user.name"), "irc.esper.net", "#trade_test2");
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);

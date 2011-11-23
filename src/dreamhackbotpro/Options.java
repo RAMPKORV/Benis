@@ -12,7 +12,7 @@ public class Options {
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
 
-    private long inactivityTimeout = 30 * 1000;
+    private long inactivityTimeout = 5 * 60 * 1000;
 
     private static Options instance = null;
     private boolean seatPopupEnabled = true;
