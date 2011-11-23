@@ -357,6 +357,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         synchronized (usersMap) {
             usersMap.put(sender, joined);
         }
+        synchronized (leftUsers){
+            leftUsers.remove(sender);
+        }
     }
 
     public void updateBotNick(String newNick) {
