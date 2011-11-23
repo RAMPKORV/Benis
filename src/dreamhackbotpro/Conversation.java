@@ -17,24 +17,17 @@ public class Conversation implements Comparable<Conversation> {
     private int buyerPrice;
     private int sellerPrice;
     private List<String> greetings = new ArrayList<String>();
-    private List<String> messages = new ArrayList<String>();
+    //private List<String> messages = new ArrayList<String>();
+    private int messages = 0;
 
     public int getNumMessages() {
-        return messages.size();
+        //return messages.size();
+        return messages;
     }
 
     private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
 
     private static List<ConversationsListener> listeners = new ArrayList<ConversationsListener>();
-
-    public void save() throws Throwable {
-        if(getNumMessages() > 2) {
-            try {
-                //TODO: Save conversation to textfile or database
-            } catch(Exception e) {
-            }
-        }
-    }
 
     public Conversation(User buyer, User seller, String buyerThing, String sellerThing, int buyerPrice, int sellerPrice) {
         if(buyer.getName().equalsIgnoreCase(seller.getName())) {
@@ -123,7 +116,8 @@ public class Conversation implements Comparable<Conversation> {
         if(transform)
             behavior.transformMessage(this, m);
 
-        messages.add(Utils.timeStamp().concat(m.toString()));
+        //messages.add(Utils.timeStamp().concat(m.toString()));
+        messages++;
 
         if(m.getMessage().length() > 0) {
             for(ConversationsListener l : listeners){
@@ -133,9 +127,9 @@ public class Conversation implements Comparable<Conversation> {
     }
 
     public int compareTo(Conversation t) {
-        if(messages.size() > t.getNumMessages())
+        if(messages > t.getNumMessages())
             return 1;
-        if(messages.size() < t.getNumMessages())
+        if(messages < t.getNumMessages())
             return -1;
         if(buyerPrice > t.buyerPrice)
             return 1;
