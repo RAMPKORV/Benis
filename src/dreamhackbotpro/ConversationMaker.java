@@ -14,6 +14,26 @@ public class ConversationMaker {
     private List<Conversation> conversations = new ArrayList<Conversation>();
 
     public ConversationMaker() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    try {
+                        Thread.sleep(5000);
+                    } catch (Exception e) {
+                    }
+                    List<Conversation> removeList = new ArrayList<Conversation>();
+                    for(Conversation c : conversations){
+                        boolean inactive = c.checkInactivity();
+                        if(inactive)
+                            removeList.add(c);
+                    }
+                    if(!removeList.isEmpty()){
+                        conversations.removeAll(removeList);
+                    }
+                }
+            }
+        }).start();
     }
 
     /**
@@ -76,6 +96,7 @@ public class ConversationMaker {
             con.addGreeting(buyerGreeting);
             con.addGreeting(sellerGreeting);
             greetLater(5000L + Utils.random.nextInt(4000), con, bestBuyer, bestSeller, buyerGreeting, sellerGreeting, bot);
+            conversations.add(con);
         } else {
             //reset timer to try on next message recieved instead of waiting 30 seconds
             lastConversationMade = 0;

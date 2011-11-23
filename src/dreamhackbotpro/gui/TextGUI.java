@@ -21,7 +21,7 @@ public class TextGUI implements ConversationsListener, ChatListener {
     }
 
     @Override
-    public void onConversationClose(Conversation c) {
+    public void onConversationInactive(Conversation c) {
     }
     
     @Override

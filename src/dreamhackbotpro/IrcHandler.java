@@ -468,6 +468,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     }
 
     @Override
-    public void onConversationClose(Conversation c) {
+    public void onConversationInactive(Conversation c) {
     }
 }

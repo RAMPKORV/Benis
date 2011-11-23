@@ -296,7 +296,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     }
 
     @Override
-    public void onConversationClose(Conversation c) {
+    public void onConversationInactive(Conversation c) {
         //TODO change tab color to grey
         String chatName = getChatName(c.getBuyer().getName(), c.getSeller().getName());
         JTextArea chat = chats.get(chatName);

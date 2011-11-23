@@ -59,7 +59,7 @@ public class ConversationLogger implements ConversationsListener {
     }
 
     @Override
-    public void onConversationClose(Conversation c) {
+    public void onConversationInactive(Conversation c) {
         String filename = getName(c.getBuyer().getName(), c.getSeller().getName());
         BufferedWriter log = logs.get(filename);
         if(log==null){

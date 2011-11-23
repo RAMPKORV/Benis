@@ -19,6 +19,7 @@ public class Conversation implements Comparable<Conversation> {
     private List<String> greetings = new ArrayList<String>();
     //private List<String> messages = new ArrayList<String>();
     private int messages = 0;
+    private long lastActivity;
 
     public int getNumMessages() {
         //return messages.size();
@@ -41,6 +42,7 @@ public class Conversation implements Comparable<Conversation> {
         this.sellerPrice = sellerPrice;
         buyer.setConversation(this);
         seller.setConversation(this);
+        lastActivity = System.currentTimeMillis();
     }
 
     public int getBuyerPrice() {
@@ -118,6 +120,7 @@ public class Conversation implements Comparable<Conversation> {
 
         //messages.add(Utils.timeStamp().concat(m.toString()));
         messages++;
+        lastActivity = System.currentTimeMillis();
 
         if(m.getMessage().length() > 0) {
             for(ConversationsListener l : listeners){
@@ -126,6 +129,7 @@ public class Conversation implements Comparable<Conversation> {
         }
     }
 
+    @Override
     public int compareTo(Conversation t) {
         if(messages > t.getNumMessages())
             return 1;
@@ -168,6 +172,30 @@ public class Conversation implements Comparable<Conversation> {
         } else {
             return 0;
         }
+    }
+    
+    private boolean isInactive(){
+        //user inactivity limit is 2 minutes by default, using the same variable here
+        return System.currentTimeMillis()>lastActivity+Options.getInstance().getInactiveTimeLimit()*1000L;
+    }
+
+    /**
+     * 
+     * @return true if the conversation is inactive
+     */
+    public boolean checkInactivity() {
+        if(!isInactive())
+            return false;
+        
+        //here this conversation is inactive
+        
+        buyer.setConversation(null);
+        seller.setConversation(null);
+
+        for(ConversationsListener l : listeners){
+            l.onConversationInactive(this);
+        }
+        return true;
     }
     
 }

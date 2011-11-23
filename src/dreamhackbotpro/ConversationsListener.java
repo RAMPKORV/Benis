@@ -7,6 +7,6 @@ package dreamhackbotpro;
 public interface ConversationsListener {
 
     public void onConversationMessage(Message m);
-    public void onConversationClose(Conversation c);
+    public void onConversationInactive(Conversation c);
 
 }

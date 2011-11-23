@@ -23,7 +23,7 @@ public class MainTest {
                 System.out.println("Message sent:" + m);
             }
             @Override
-            public void onConversationClose(Conversation c) {
+            public void onConversationInactive(Conversation c) {
             }
         });
         logReader.read("log4000.txt");
