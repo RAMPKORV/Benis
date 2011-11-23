@@ -422,6 +422,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         error("Contacted by S. Staying silent for 30 seconds: " + message);
         new Thread(new Runnable() {
 
+            @Override
             public void run() {
                 try {
                     Thread.sleep(30 * 1000);

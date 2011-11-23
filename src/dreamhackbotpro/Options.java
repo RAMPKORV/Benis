@@ -10,11 +10,12 @@ public class Options {
     private int secondsBetweenNewConversation=15;
     private long inactiveTimeLimit=60; //1 minute
     private long conversationTimeout=3*60; //3 minutes
+    private String server = "irc.esper.net";
+    private int port = 6667;
+    private String channel = "#trade_test";
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
-
     private long inactivityTimeout = 5 * 60 * 1000;
-
     private static Options instance = null;
     private boolean seatPopupEnabled = true;
 
@@ -82,4 +83,13 @@ public class Options {
     public void setConversationTimeout(long conversationTimeout) {
         this.conversationTimeout = conversationTimeout;
     }
+
+    public String getServer() {
+        return server;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+      
 }
