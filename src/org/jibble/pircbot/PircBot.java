@@ -14,6 +14,7 @@ found at http://www.jibble.org/licenses/
 
 package org.jibble.pircbot;
 
+import dreamhackbotpro.ProxyFinder;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -137,22 +138,39 @@ public abstract class PircBot implements ReplyConstants {
         this.removeAllChannels();
         
         // Connect to the server.
-        Socket socket =  new Socket(hostname, port);
+        boolean useProxy = true;
+        InputStream is = null;
+        OutputStream os = null;
+        Socket socket = null;
+        Proxy workingProxy = ProxyFinder.getInstance().getWorkingProxy();
+        if(useProxy && workingProxy != null) {
+            socket = new Socket(workingProxy);
+            URL url = new URL(hostname+":"+port);
+            URLConnection connection = url.openConnection(workingProxy);
+            is = connection.getInputStream();
+            os = connection.getOutputStream();
+        } else {
+            socket = new Socket(hostname, port);
+            _inetAddress = socket.getLocalAddress();
+            is = socket.getInputStream();
+            os = socket.getOutputStream();
+        }
+
         this.log("*** Connected to server.");
         
-        _inetAddress = socket.getLocalAddress();
+        
         
         InputStreamReader inputStreamReader = null;
         OutputStreamWriter outputStreamWriter = null;
         if (getEncoding() != null) {
             // Assume the specified encoding is valid for this JVM.
-            inputStreamReader = new InputStreamReader(socket.getInputStream(), getEncoding());
-            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), getEncoding());
+            inputStreamReader = new InputStreamReader(is, getEncoding());
+            outputStreamWriter = new OutputStreamWriter(os, getEncoding());
         }
         else {
             // Otherwise, just use the JVM's default encoding.
-            inputStreamReader = new InputStreamReader(socket.getInputStream());
-            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
+            inputStreamReader = new InputStreamReader(is);
+            outputStreamWriter = new OutputStreamWriter(os);
         }
 
         BufferedReader breader = new BufferedReader(inputStreamReader);
