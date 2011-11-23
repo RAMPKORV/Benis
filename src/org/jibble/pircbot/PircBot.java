@@ -260,6 +260,11 @@ public abstract class PircBot implements ReplyConstants {
      */
     public final synchronized void disconnect() {
         this.quitServer();
+        
+        // Due to PircBot being broken
+        dispose();
+        _inputThread = null;
+        _outputThread = null;
     }
     
     
