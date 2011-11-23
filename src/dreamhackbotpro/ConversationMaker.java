@@ -1,6 +1,8 @@
 package dreamhackbotpro;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -9,6 +11,7 @@ import java.util.Collection;
 public class ConversationMaker {
 
     private long lastConversationMade = 0;
+    private List<Conversation> conversations = new ArrayList<Conversation>();
 
     public ConversationMaker() {
     }
