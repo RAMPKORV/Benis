@@ -12,7 +12,6 @@ import java.util.Map;
 public class Bot implements ChatListener{
     
     private Map<String, User> users = new HashMap<String, User>();
-    private User orphanUser = null;
     private MessageFilter messageFilter = new MasterFilter();
     private SentenceParser parser = SentenceParser.getInstance();
     private ConversationMaker conversationMaker = new ConversationMaker();
@@ -20,6 +19,7 @@ public class Bot implements ChatListener{
     public Bot(){
     }
 
+    @Override
     public void onUserInfo(UserInfo ui) {
         User user = users.get(ui.nick);
         if(user == null) { 
@@ -82,12 +82,8 @@ public class Bot implements ChatListener{
             user.updateActivity();
         User buddy = user.getConversationBuddy();
         if(buddy==null){
-            if(orphanUser==null){
-                orphanUser=user;
-                return;
-            }
-            createConversation(user, orphanUser, true);
-            orphanUser=null;
+            //message from new user, or user that has been in an inactive Conversation. Not sure what to do with them
+            return;
         }
         
         user.messageConversationBuddy(m);
@@ -102,65 +98,13 @@ public class Bot implements ChatListener{
         User buddy = user.getConversationBuddy();
         if(buddy==null)
             return; //user was not in any chat
-        if(buddy.isInactive())
-            return; //do not connect inactive buddy to anyone
-        
-        //TODO discuss how orphans should be handled in regards to how Conversations are closed
-        if(orphanUser==null || removeOrphanIfInactive()){
-            //no orphan or inactive orphan
-            orphanUser=buddy;
-            return;
-        }
-        
-        //buddy and orphan is active
-        createConversation(buddy, orphanUser, true);
-        orphanUser=null;
+        buddy.setConversation(null);
         
     }
 
     @Override
     public void onError(String error) {
         //Ignore
-    }
-    
-    /**
-     * Creates a conversation between u1 and u2
-     * 
-     * @param u1 The first user
-     * @param u2 The second user
-     * @param calculateBuyerAndSeller If false, u1 will be buyer and u2 will be seller.
-     * If true, calculates who is seller and buyer based on u1 and u2 Interest
-     * @return The Conversation
-     */
-    @Deprecated
-    private Conversation createConversation(User u1, User u2, boolean calculateBuyerAndSeller){
-        if(!calculateBuyerAndSeller){
-            Conversation con = new Conversation(u1, u2);
-            return con;
-        }
-        
-        if(u1.isMostlyBuying() && !u2.isMostlyBuying()){
-            return createConversation(u1, u2, false);
-        }
-        if(!u1.isMostlyBuying() && u2.isMostlyBuying()){
-            return createConversation(u2, u1, false);
-        }
-        
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Removes orphanUser if he is inactive
-     * @return true if orphanUser is removed
-     */
-    private boolean removeOrphanIfInactive(){
-        if(orphanUser==null)
-            return false;
-        if(orphanUser.isInactive()){
-            orphanUser=null;
-            return true;
-        }
-        return false;
     }
 
     public void onServerMessage(String message) {
