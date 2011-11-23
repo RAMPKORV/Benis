@@ -46,16 +46,14 @@ public class ConversationLogger implements ConversationsListener {
 
     }
 
-    private String getName(String n1, String n2) {
-        //TODO make tests
-        String name = null;
+    public String getName(String n1, String n2) {
+        n1 = n1.replaceAll("[^a-zA-Z0-9åäöÅÄÖ]", "-");
+        n2 = n2.replaceAll("[^a-zA-Z0-9åäöÅÄÖ]", "-");
         if (n1.compareTo(n2) < 0) {
-            name = n1 + "_" + n2;
+            return n1 + "_" + n2 + ".txt";
         } else {
-            name = n2 + "_" + n1;
+            return n2 + "_" + n1 + ".txt";
         }
-        name = name.replaceAll("[!a-zA-Z0-9åäöÅÄÖ]", "-")+".txt";
-        return name;
     }
 
     public void onConversationClose(Conversation c) {
