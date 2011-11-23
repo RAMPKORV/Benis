@@ -9,6 +9,9 @@ public class Options {
     private int maxActiveConversations=20;
     private int secondsBetweenNewConversation=15;
     private long inactiveTimeLimit=2*60; //2 minutes
+    private String server = "irc.esper.net";
+    private int port = 6667;
+    private String channel = "#trade_test";
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
 
@@ -72,6 +75,14 @@ public class Options {
 
     public void setSeatPopupEnabled(boolean seatPopupEnabled) {
         this.seatPopupEnabled = seatPopupEnabled;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public String getChannel() {
+        return channel;
     }
       
 }
