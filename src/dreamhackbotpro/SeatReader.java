@@ -31,7 +31,6 @@ public class SeatReader implements ConversationsListener, ChatListener {
     }
     
     public void alarm(Message m) {
-        //TODO somehow notify the GUI class so it can color the tab with a seat mention
         System.out.println("RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage());
         for(SeatMentionListener sml : listeners){
             sml.onSeatMention(m);

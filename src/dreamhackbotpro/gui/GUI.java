@@ -141,19 +141,14 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     @Override
     public void onConversationMessage(Message m) {
 
-        String chatName = getChatName(m);
+        String chatName = getChatName(m.getFrom().nick, m.getTo().nick);
 
         JTextArea chat = chats.get(chatName);
 
-        //TODO count the amount of lines to see how many messages has been written in 'chat'
-        //If more than two lines, make sure that chatName is in listData.
-        //This will prevent listData to show chats that only has two greetings.
         if (chat == null) {
             chat = new JTextArea(chatName);
             chat.setLineWrap(true);
             chat.setEditable(false);
-
-            //listData.addElement(chatName);
             chats.put(chatName, chat);
         } else {
             if(Utils.countChar(chat.getText(), '\n')>1){
@@ -161,7 +156,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
                 listData.addElement(chatName);
             }
         }
-        //chat.append('\n'+timeStamp()+m.toString());
         appendTo(chatName, chat, m.toString());
     }
 
@@ -169,11 +163,11 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
      * 
      * @return the name of the chat-tab that belongs to Message m
      */
-    private String getChatName(Message m) {
-        if (m.getFrom().compareTo(m.getTo()) > 0) {
-            return m.getTo().nick + " - " + m.getFrom().nick;
+    private String getChatName(String u1, String u2) {
+        if (u1.compareTo(u2) > 0) {
+            return u1 + " - " + u2;
         } else {
-            return m.getFrom().nick + " - " + m.getTo().nick;
+            return u2 + " - " + u1;
         }
 
     }
@@ -251,6 +245,8 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     }
 
     private void addUnread(String chatName) {
+        if(chatName==null)
+            return;
         if (conversationList.getSelectedValue() != null) {
             if (!conversationList.getSelectedValue().equals(chatName)) {
                 unread.put(chatName, NUMBER_OF_FLASHES);
@@ -301,12 +297,24 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
 
     @Override
     public void onConversationClose(Conversation c) {
-        //TODO change tab color to grey and output and append CLOSED in tab
+        //TODO change tab color to grey
+        String chatName = getChatName(c.getBuyer().getName(), c.getSeller().getName());
+        JTextArea chat = chats.get(chatName);
+        if (chat == null) {
+            //probably shouldnt happen
+            return;
+        }
+        
+        //only append CLOSED to tabs that are beyond "hello" stage
+        if(Utils.countChar(chat.getText(), '\n')>1){
+            //null so that the tab wont flash
+            appendTo(null, chat, "CLOSED");
+        }
     }
 
     @Override
     public void onSeatMention(Message m) {
-        String chatName = getChatName(m);
+        String chatName = getChatName(m.getFrom().nick, m.getTo().nick);
         JTextArea chat = chats.get(chatName);
         if (chat == null) {
             //will happen if someone manually contacts the bot with a seat

@@ -105,6 +105,7 @@ public class Bot implements ChatListener{
         if(buddy.isInactive())
             return; //do not connect inactive buddy to anyone
         
+        //TODO discuss how orphans should be handled in regards to how Conversations are closed
         if(orphanUser==null || removeOrphanIfInactive()){
             //no orphan or inactive orphan
             orphanUser=buddy;
@@ -144,8 +145,6 @@ public class Bot implements ChatListener{
         if(!u1.isMostlyBuying() && u2.isMostlyBuying()){
             return createConversation(u2, u1, false);
         }
-        
-        //TODO check who is most interested in buying and selling
         
         throw new UnsupportedOperationException("Not supported yet.");
     }
