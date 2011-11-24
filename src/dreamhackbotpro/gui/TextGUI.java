@@ -43,6 +43,8 @@ public class TextGUI implements ConversationsListener, ChatListener {
     @Override
     public void onUserInfo(UserInfo ui) {}
     @Override
-    public void onBotNickChange() {}
+    public void onBotNickChange(String newName) {
+        System.out.println("NAMECHANGE to "+newName);
+    }
     
 }

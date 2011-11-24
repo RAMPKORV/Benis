@@ -13,5 +13,5 @@ public interface ChatListener {
     public void onError(String error);
     public void onServerMessage(String message);
     public void onUserInfo(UserInfo ui);
-    public void onBotNickChange();
+    public void onBotNickChange(String newName);
 }
