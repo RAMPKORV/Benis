@@ -3,6 +3,7 @@ package dreamhackbotpro;
 import dreamhackbotpro.gui.GUI;
 import dreamhackbotpro.gui.TextGUI;
 import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,7 +28,11 @@ public class Main {
         String server = Options.getInstance().getServer();
         String channel = Options.getInstance().getChannel();
         String name = "Bot_" + System.getProperty("user.name");
-        name = "hejallihopa";
+        name = "random"+Utils.random.nextInt(100);
+        try {
+            name = JOptionPane.showInputDialog("Enter name for bot");
+        } catch (Exception e) {
+        }
         IrcHandler irc = new IrcHandler(name, server, channel);
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
