@@ -372,7 +372,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
 
     private static String[] brandQuestions = {
         "^märke\\?$","vad för märke","vad är det för märke","vilket märke","vilket märke\\?","^modell\\?$",
-        "^vilken modell\\?","^tillverkare\\?","^vilken tillverkare"
+        "^vilke[nt]","^tillverkare\\?","^vilken tillverkare"
     };
     private static String[] brandQuestionsThing = {
         "^vad för %thing%","^vilke(n|t) %thing"

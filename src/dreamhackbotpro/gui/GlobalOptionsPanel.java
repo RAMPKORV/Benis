@@ -88,6 +88,7 @@ public class GlobalOptionsPanel extends JPanel implements ActionListener {
         maxActiveConversations.setText(String.valueOf(o.getMaxActiveConversations()));
         secBetweenNewConversation.setText(String.valueOf(o.getSecondsBetweenNewConversation()));
         inactiveTimeLimitField.setText(String.valueOf(o.getInactiveTimeLimit()));
+        conversationTimeoutField.setText(String.valueOf(o.getConversationTimeout()));
         enablePopup.setSelected(Options.getInstance().isSeatPopupEnabled());
         errorField.setText("");
     }
