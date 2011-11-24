@@ -34,8 +34,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
     //TODO
     //brandToItem should be used when people announce brands in #trade to get which item they are talking about
     //itemToBrand should be used when buyer asks "vilket märke?" or similar in private chat. If brand found, block the message and reply with brand
-    private static Map<String, String> brandToItem = new HashMap<String, String>();
-    private static Map<String, String> itemToBrand = new HashMap<String, String>();
+    public static final Map<String, String> brandToItem = new HashMap<String, String>();
+    public static final Map<String, String> itemToBrand = new HashMap<String, String>();
 
     //Similarly, units
     private static Map<String, String> unitToItem = new HashMap<String, String>();

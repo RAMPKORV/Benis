@@ -48,7 +48,7 @@ public class Interest {
         
         for(ThingInfo ti : interestsSorted){
             if(ti.getThing().equals(thing)){
-                certainty+=ti.getBuyers()*.2f;
+                certainty+=ti.getBuyers()*.5f;
                 break;
             }
         }

@@ -2,6 +2,7 @@ package dreamhackbotpro;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -120,6 +121,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              msg = msg.replace(SEPARATOR, "\\"+SEPARATOR);
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(priceString);
+                if(price<=0)
+                    continue;
                 if(price == buyerPrice) {
                     String newPriceString = priceString.replace(price+"", sellerPrice+"");
                     newPrices.add(newPriceString);
@@ -176,6 +179,10 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
                 }
+                
+                String brandfix = brandToCorrectBrand(s, buyerThing);
+                if(brandfix!=null)
+                    msg = msg.replace(s, brandfix);
             }
         } else { // Message originated from seller
 
@@ -274,6 +281,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                 if(!translated.equals(s)) {
                     msg = msg.replace(s, translated);
                 }
+                
+                String brandfix = brandToCorrectBrand(s, sellerThing);
+                if(brandfix!=null)
+                    msg = msg.replace(s, brandfix);
+                
             }
         }
 
@@ -321,4 +333,22 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         
         return Utils.roundPrice((int)converted);
     }
+    
+    /**
+     * Tries to convert an incorrect brand to a correct one
+     */
+    private String brandToCorrectBrand(String sentbrand, String item){
+        Map<String, String> b2i = ThingInfo.brandToItem;
+        Map<String, String> i2b = ThingInfo.itemToBrand;
+        
+        String firstitem = b2i.get(sentbrand);
+        if(firstitem==null)
+            return null;
+        String newbrand = i2b.get(firstitem);
+        if(newbrand==null)
+            return null;
+        
+        return newbrand;
+    }
+    
 }
