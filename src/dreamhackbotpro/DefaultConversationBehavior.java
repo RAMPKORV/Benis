@@ -217,6 +217,8 @@ public class DefaultConversationBehavior implements ConversationBehavior {
              msg = msg.replace(SEPARATOR, "\\"+SEPARATOR);
              for(String priceString : priceStrings) {
                 int price = p.parsePrice(msg);
+                if(price<=0)
+                    continue;
                 if(price == sellerPrice) {
                     String newPriceString = priceString.replace(price+"", buyerPrice+"");
                     newPrices.add(newPriceString);
