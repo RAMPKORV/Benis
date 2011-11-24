@@ -296,6 +296,13 @@ public class DefaultConversationBehavior implements ConversationBehavior {
 
     // Translate prices between seller and buyer
     private int convertPrice(int price, int sellerPrice, int buyerPrice, float sellerSTD, float buyerSTD, boolean wtb) {
+        if(sellerPrice < 0 || buyerPrice < 0) {
+            if(wtb) {
+                return sellerPrice;
+            } else {
+                return buyerPrice;
+            }
+        }
         float priceFloat = (float)price;
         float sellerPriceFloat = (float)sellerPrice;
         float buyerPriceFloat = (float)buyerPrice;
