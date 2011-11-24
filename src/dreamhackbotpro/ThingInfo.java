@@ -290,7 +290,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
         if(fromSize == 0 || toSize == 0)
             return word;
 
-        return(toWords.get(fromWords.indexOf(word) % toWords.size()).getWord());
+        //return(toWords.get(fromWords.indexOf(word) % toWords.size()).getWord());
+        return(toWords.get(Utils.random.nextInt(toWords.size())).getWord());
         } catch(Exception ex) {
             ex.printStackTrace();
             return word;

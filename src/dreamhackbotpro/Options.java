@@ -7,12 +7,11 @@ package dreamhackbotpro;
 public class Options {
     
     private int maxActiveConversations=20;
-    private int secondsBetweenNewConversation=15;
+    private int secondsBetweenNewConversation=60;
     private long inactiveTimeLimit=60; //1 minute
     private long conversationTimeout=3*60; //3 minutes
-    private String server = "irc.esper.net";
-    private int port = 6667;
-    private String channel = "#trade_test";
+    private String server = "irc.quakenet.org";
+    private String channel = "#dreamhack.trade";
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
     private long inactivityTimeout = 5 * 60 * 1000;
