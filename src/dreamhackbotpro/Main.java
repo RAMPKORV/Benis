@@ -26,7 +26,9 @@ public class Main {
     public static void main(String[] args) {
         String server = Options.getInstance().getServer();
         String channel = Options.getInstance().getChannel();
-        IrcHandler irc = new IrcHandler("Bot_" + System.getProperty("user.name"), "irc.esper.net", "#trade_test");
+        String name = "Bot_" + System.getProperty("user.name");
+        name = "XhejX";
+        IrcHandler irc = new IrcHandler(name, server, channel);
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);
