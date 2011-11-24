@@ -145,7 +145,7 @@ public abstract class PircBot implements ReplyConstants {
         Proxy workingProxy = ProxyFinder.getInstance().getWorkingProxy();
         if(useProxy && workingProxy != null) {
             socket = new Socket(workingProxy);
-            URL url = new URL(hostname+":"+port);
+            URL url = new URL("irc://"+hostname+":"+port);
             URLConnection connection = url.openConnection(workingProxy);
             is = connection.getInputStream();
             os = connection.getOutputStream();
