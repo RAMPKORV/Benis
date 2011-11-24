@@ -402,7 +402,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
     }
 
     private static String[] confirmQuestions = {
-        "^är de[tn] [a-zåäöÅÄÖ]+[ ]*(\\?|$)", "skall vi säga så[a-zA-ZåäöÅÄÖ ]*\\?"
+        "^är de[tn] [a-zåäöÅÄÖ]+[ ]*(\\?|$)", "skall vi säga så[a-zA-ZåäöÅÄÖ ]*\\?", "^[a-zA-ZåäöÅÄÖ0-9]+\\?$"
     };
     public static boolean isConfirmQuestion(String msg) {
         msg = msg.toLowerCase();

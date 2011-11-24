@@ -62,15 +62,15 @@ public class ConversationMaker {
             
             Interest bestInterest;
             // Use random strategy to determine best interest
-            if(Utils.random.nextBoolean()) {
+//            if(Utils.random.nextBoolean()) {
                 bestInterest = u.getMostCertainInterest();
                 if(bestInterest==null)
                     bestInterest = u.getPrioritizedInterest();
-            } else {
-                bestInterest = u.getPrioritizedInterest();
-                if(bestInterest==null)
-                    bestInterest = u.getMostCertainInterest();
-            }
+//            } else {
+//                bestInterest = u.getPrioritizedInterest();
+//                if(bestInterest==null)
+//                    bestInterest = u.getMostCertainInterest();
+//            }
             if(bestInterest==null){
                 continue;
             }

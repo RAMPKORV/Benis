@@ -149,5 +149,10 @@ public class ThingInfoTest {
         System.out.println("getMinPrice");
 
     }
+    
+    @Test
+    public void testIsConfirmQuestion(){
+        assertTrue(ThingInfo.isConfirmQuestion("korv?"));
+    }
 
 }

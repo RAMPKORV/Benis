@@ -24,7 +24,7 @@ public class Interest {
         return interestsMap;
     }
 
-    public static List<ThingInfo> getInterestsSorted() {
+    public static synchronized List<ThingInfo> getInterestsSorted() {
         return interestsSorted;
     }
     
@@ -48,7 +48,7 @@ public class Interest {
         
         for(ThingInfo ti : interestsSorted){
             if(ti.getThing().equals(thing)){
-                certainty+=ti.getBuyers()*.5f;
+                certainty+=(ti.getBuyers()+ti.getSellers());
                 break;
             }
         }
