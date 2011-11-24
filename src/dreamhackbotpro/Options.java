@@ -9,7 +9,7 @@ public class Options {
     private int maxActiveConversations=20;
     private int secondsBetweenNewConversation=60;
     private long inactiveTimeLimit=60; //1 minute
-    private long conversationTimeout=3*60; //3 minutes
+    private long conversationTimeout=9000; //do not timeout as of now, not implemented properly
     private String server = "irc.quakenet.org";
     private String channel = "#dreamhack.trade";
     private String version = "mIRC v6.17 Khaled Mardam-Bey";

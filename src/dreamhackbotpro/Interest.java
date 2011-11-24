@@ -43,6 +43,9 @@ public class Interest {
         this.wtb = wtb;
         this.certainty = certainty;
         
+        if(price<=0)
+            certainty--;
+        
         for(ThingInfo ti : interestsSorted){
             if(ti.getThing().equals(thing)){
                 certainty+=ti.getBuyers()*.2f;
