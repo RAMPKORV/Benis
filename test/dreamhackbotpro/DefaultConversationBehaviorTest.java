@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 public class DefaultConversationBehaviorTest {
 
-    private ConversationBehavior behavior = DefaultConversationBehavior.getInstance();
+    private DefaultConversationBehavior behavior = DefaultConversationBehavior.getInstance();
     private Conversation conversation;
     private UserInfo buyer;
     private UserInfo seller;
@@ -78,6 +78,11 @@ public class DefaultConversationBehaviorTest {
 
     private void assertTransformSeller(String input, String expected) {
         assertEquals(expected, behavior.transformMessage(conversation, new Message(seller, input, buyer, bot)).getMessage());
+    }
+    
+    @Test
+    public void testBrandToCorrectBrand(){
+        assertEquals("siberia v2", behavior.brandToCorrectBrand("qpad", "headset"));
     }
 
 }

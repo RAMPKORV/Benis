@@ -337,14 +337,12 @@ public class DefaultConversationBehavior implements ConversationBehavior {
     /**
      * Tries to convert an incorrect brand to a correct one
      */
-    private String brandToCorrectBrand(String sentbrand, String item){
-        Map<String, String> b2i = ThingInfo.brandToItem;
-        Map<String, String> i2b = ThingInfo.itemToBrand;
+    public String brandToCorrectBrand(String sentbrand, String item){
         
-        String firstitem = b2i.get(sentbrand);
-        if(firstitem==null)
-            return null;
-        String newbrand = i2b.get(firstitem);
+        if(ThingInfo.brandToItem.get(sentbrand) == null)
+            return null; //not a known brand
+
+        String newbrand = ThingInfo.itemToBrand.get(item);
         if(newbrand==null)
             return null;
         
