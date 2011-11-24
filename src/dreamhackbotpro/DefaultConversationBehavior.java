@@ -70,6 +70,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
         float buyerSTD = c.getBuyerSTD();
         float sellerSTD = c.getSellerSTD();
         String[] words = msg.split("[ \\.\\!\\?\\,](?![0-9])");
+        boolean hasSeat = SeatReader.getSeat(m.getMessage()) != null;
 
         // Message originated from buyer
         if(m.getFrom().nick.equals(c.getBuyer().getName())) {
@@ -125,9 +126,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, sellerSTD, buyerSTD, true);
-                    String newPriceString = priceString.replace(price+"", newPrice+"");
-                    newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
+                    if(!hasSeat && newPrice>0){
+                        String newPriceString = priceString.replace(price+"", newPrice+"");
+                        newPrices.add(newPriceString);
+                        msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
+                    }
                 }
             }
             while(i > 0) {
@@ -220,9 +223,11 @@ public class DefaultConversationBehavior implements ConversationBehavior {
                     msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
                 } else {
                     int newPrice = convertPrice(price, sellerPrice, buyerPrice, sellerSTD, buyerSTD, false);
-                    String newPriceString = priceString.replace(price+"", newPrice+"");
-                    newPrices.add(newPriceString);
-                    msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
+                    if(!hasSeat && newPrice>0){
+                        String newPriceString = priceString.replace(price+"", newPrice+"");
+                        newPrices.add(newPriceString);
+                        msg = msg.replaceFirst(Pattern.quote(priceString), SEPARATOR+(i++)+SEPARATOR);
+                    }
                 }
             }
             while(i > 0) {
@@ -311,15 +316,7 @@ public class DefaultConversationBehavior implements ConversationBehavior {
             STDs = (price-sellerPrice)/sellerSTD;
             converted = buyerPriceFloat + buyerSTD*STDs;
         }
-        int retPrice = Utils.roundPrice((int)converted);
         
-        if(retPrice>0)
-            return retPrice;
-        
-        if(wtb) {
-            return sellerPrice;
-        } else {
-            return buyerPrice;
-        }
+        return Utils.roundPrice((int)converted);
     }
 }
