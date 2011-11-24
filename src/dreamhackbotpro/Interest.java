@@ -42,6 +42,14 @@ public class Interest {
         this.price = price;
         this.wtb = wtb;
         this.certainty = certainty;
+        
+        for(ThingInfo ti : interestsSorted){
+            if(ti.getThing().equals(thing)){
+                certainty+=ti.getBuyers()*.2f;
+                break;
+            }
+        }
+        
         //addToInterestsMap();
     }
 

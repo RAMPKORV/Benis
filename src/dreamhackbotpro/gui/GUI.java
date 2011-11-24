@@ -179,7 +179,11 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
             return;
         }
         int index = conversationList.getSelectedIndex();
-        removeUnread(conversationList.getSelectedValue().toString());
+        
+        try {
+            removeUnread(conversationList.getSelectedValue().toString());
+        } catch (Exception ex) {
+        }
 
         switch (index) {
             case 0:
