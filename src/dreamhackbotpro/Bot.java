@@ -113,9 +113,13 @@ public class Bot implements ChatListener{
         //Ignore
     }
 
-    @Override
     public void onBotNickChange() {
         conversationMaker.onBotNickChange();
+    }
+
+    @Override
+    public void onBotNickChange(String newName) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

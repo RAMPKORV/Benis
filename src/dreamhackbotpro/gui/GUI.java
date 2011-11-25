@@ -151,8 +151,11 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
             chat.setEditable(false);
             chats.put(chatName, chat);
         } else {
-            if(Utils.countChar(chat.getText(), '\n')>1){
-                listData.removeElement(chatName);
+            if (Utils.countChar(chat.getText(), '\n') > 1) {
+                try {
+                    listData.removeElement(chatName);
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                }
                 listData.addElement(chatName);
             }
         }
@@ -179,7 +182,7 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
             return;
         }
         int index = conversationList.getSelectedIndex();
-        
+
         try {
             removeUnread(conversationList.getSelectedValue().toString());
         } catch (Exception ex) {
@@ -233,9 +236,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         Component c = renderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         String chatName = value.toString();
-        if (!isSelected && !cellHasFocus) {            
+        if (!isSelected && !cellHasFocus) {
             if (seatMentions.contains(chatName)) {
-                c.setBackground(Color.CYAN);                
+                c.setBackground(Color.CYAN);
             } else {
                 Integer flashesLeft = unread.get(chatName);
                 if (flashesLeft != null) {
@@ -249,8 +252,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     }
 
     private void addUnread(String chatName) {
-        if(chatName==null)
+        if (chatName == null) {
             return;
+        }
         if (conversationList.getSelectedValue() != null) {
             if (!conversationList.getSelectedValue().equals(chatName)) {
                 unread.put(chatName, NUMBER_OF_FLASHES);
@@ -308,9 +312,9 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
             //probably shouldnt happen
             return;
         }
-        
+
         //only append CLOSED to tabs that are beyond "hello" stage
-        if(Utils.countChar(chat.getText(), '\n')>1){
+        if (Utils.countChar(chat.getText(), '\n') > 1) {
             //null so that the tab wont flash
             appendTo(null, chat, "CLOSED");
         }
