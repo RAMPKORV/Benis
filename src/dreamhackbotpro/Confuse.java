@@ -25,6 +25,7 @@ public class Confuse {
 
     public static String negateDoNots(String msg) {
         msg = msg.replaceAll("(?i)är inte intresserad","är intresserad");
+        msg = msg.replaceAll("(?i)inte intresserad","jag är intresserad");
         msg = msg.replaceAll("(?i)vill inte ha","vill ha");
         msg = msg.replaceAll("(?i)vill inte köpa","köper");
         msg = msg.replaceAll("(?i)köper inte","köper");
