@@ -29,6 +29,7 @@ public class Confuse {
         msg = msg.replaceAll("(?i)vill inte ha","vill ha");
         msg = msg.replaceAll("(?i)vill inte köpa","köper");
         msg = msg.replaceAll("(?i)köper inte","köper");
+        msg = msg.replaceAll("(?i)säljer inte ens","säljer");
         msg = msg.replaceAll("(?i)säljer inte","säljer");
         msg = msg.replaceAll("(?i)nej tack","ja tack");
         msg = msg.replaceAll("(?i)^glöm( det)?(\\!|\\.)*$",getSoundsGood());

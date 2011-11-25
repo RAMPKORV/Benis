@@ -118,6 +118,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     protected void onConnect() {
         lastActivity = System.currentTimeMillis();
         info = new UserInfo(ircNick, this.getLogin(), getInetAddress().getHostName(), getInetAddress().getHostAddress());
+
         for(String channel : ircChannels){
             joinChannel(channel);
         }
