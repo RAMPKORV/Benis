@@ -331,5 +331,6 @@ public class GUI extends JFrame implements ChatListener, ConversationsListener,
     @Override
     public void onBotNickChange(String newName) {
         //TODO append newName somewhere
+        System.out.println("NAMECHANGE to "+newName);
     }
 }

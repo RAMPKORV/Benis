@@ -114,7 +114,7 @@ public class Bot implements ChatListener{
     }
 
     @Override
-    public void onBotNickChange() {
+    public void onBotNickChange(String newName) {
         conversationMaker.onBotNickChange();
     }
 

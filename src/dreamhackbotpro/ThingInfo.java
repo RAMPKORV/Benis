@@ -183,6 +183,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newBrands("skärm", "dell", "lg", "benq", "samsung");
         newBrands("plattskärm", "dell", "lg", "benq", "samsung");
         newBrands("smartphone", "xperia");
+        newBrands("hårddisk", "ssd");
         newBrands("jolt", "jolt");
         newUnits("jolt","burk","burkar","flak","lock");       
         newBrands("energidryck", "powerking","redbull");
