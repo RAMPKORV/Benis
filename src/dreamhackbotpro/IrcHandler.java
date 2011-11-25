@@ -127,6 +127,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
         lastActivity = System.currentTimeMillis();
         info = new UserInfo(ircNick, this.getLogin(), getInetAddress().getHostName(), getInetAddress().getHostAddress());
         joinChannel(ircChannel);
+        joinChannel("#dreamhack.blackmarket");
         createNickChangeThread();
     }
 
