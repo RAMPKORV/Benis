@@ -221,7 +221,7 @@ public class SentenceParser {
         return ret;
     }
 
-    public String parseThing(String sentence) {
+    public synchronized String parseThing(String sentence) {
         sentence = sentence.toLowerCase();
         String[] words = sentence.split(" ");
         if(words.length==1){

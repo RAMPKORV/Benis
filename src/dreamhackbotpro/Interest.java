@@ -16,8 +16,7 @@ public class Interest {
     private int price;
     private boolean wtb;
     private float certainty;
-
-    private static Map<String,ThingInfo> interestsMap = new HashMap<String,ThingInfo>();
+    private static Map<String, ThingInfo> interestsMap = new HashMap<String, ThingInfo>();
     private static volatile List<ThingInfo> interestsSorted = new ArrayList<ThingInfo>();
 
     public static Map<String, ThingInfo> getInterestsMap() {
@@ -27,14 +26,14 @@ public class Interest {
     public static synchronized List<ThingInfo> getInterestsSorted() {
         return interestsSorted;
     }
-    
-    public Interest(String thing, boolean wtb, float certainty){
+
+    public Interest(String thing, boolean wtb, float certainty) {
         this(thing, -1, wtb, certainty);
     }
 
     public Interest(String thing, int price, boolean wtb, float certainty) {
         String item = ThingInfo.getItemByBrand(thing);
-        if(item == null) {
+        if (item == null) {
             this.thing = thing.toLowerCase();
         } else {
             this.thing = item;
@@ -42,17 +41,20 @@ public class Interest {
         this.price = price;
         this.wtb = wtb;
         this.certainty = certainty;
-        
-        if(price<=0)
+
+        if (price <= 0) {
             certainty--;
-        
-        for(ThingInfo ti : interestsSorted){
-            if(ti.getThing().equals(thing)){
-                certainty+=(ti.getBuyers()+ti.getSellers());
-                break;
+        }
+
+        synchronized (interestsSorted) {
+            for (ThingInfo ti : interestsSorted) {
+                if (ti.getThing().equals(thing)) {
+                    certainty += (ti.getBuyers() + ti.getSellers());
+                    break;
+                }
             }
         }
-        
+
         //addToInterestsMap();
     }
 
@@ -70,23 +72,22 @@ public class Interest {
 
     @Override
     public String toString() {
-        return thing+'-'+price+'-'+wtb;
+        return thing + '-' + price + '-' + wtb;
     }
-    
-    public void addToInterestsMap(){
+
+    public void addToInterestsMap() {
         try {
             ThingInfo ti = interestsMap.get(thing);
-            if(ti!=null){
+            if (ti != null) {
                 ti.addInterest(this);
-            }
-            else{
+            } else {
                 ti = new ThingInfo(this);
                 interestsMap.put(thing, ti);
                 interestsSorted.add(ti);
                 Collections.sort(interestsSorted);
             }
-        } catch(Exception ex) {
-                // Do nothing, for now
+        } catch (Exception ex) {
+            // Do nothing, for now
         }
     }
 
@@ -95,8 +96,8 @@ public class Interest {
      */
     public void update(Interest theInterest) {
         //TODO find out why the if-statenent is there
-        if(theInterest.price>this.price){
-            this.price=theInterest.price;
+        if (theInterest.price > this.price) {
+            this.price = theInterest.price;
             //TODO also update ThingInfo with the new price
         }
     }
@@ -104,5 +105,4 @@ public class Interest {
     public float getCertainty() {
         return certainty;
     }
-
 }
