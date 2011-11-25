@@ -26,7 +26,7 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
 
     private String ircNick;
     private String ircServer;
-    private String ircChannel;
+    private String[] ircChannels;
     private volatile UserInfo info = null;
     private PreviousMessageChecker pMC = new PreviousMessageChecker();
     private final Set<String> opUsers = new HashSet<String>();
@@ -37,10 +37,10 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     private long lastActivity = System.currentTimeMillis();
     private boolean reconnectorStarted = false;
 
-    public IrcHandler(String nick, String ircServer, String ircChannel) {
+    public IrcHandler(String nick, String ircServer, String[] ircChannels) {
         this.ircNick = nick;
         this.ircServer = ircServer;
-        this.ircChannel = ircChannel;
+        this.ircChannels = ircChannels;
         setMessageDelay(1500);
         setAutoNickChange(true);
         //setVerbose(true);
@@ -77,14 +77,6 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     @Override
     protected void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
         //opUsers.remove(recipient);
-    }
-
-    public String getChannel() {
-        return ircChannel;
-    }
-
-    public void setChannel(String ircChannel) {
-        this.ircChannel = ircChannel;
     }
 
     public String getIrcServer() {
@@ -126,7 +118,9 @@ public class IrcHandler extends PircBot implements ChatObservable, Conversations
     protected void onConnect() {
         lastActivity = System.currentTimeMillis();
         info = new UserInfo(ircNick, this.getLogin(), getInetAddress().getHostName(), getInetAddress().getHostAddress());
-        joinChannel(ircChannel);
+        for(String channel : ircChannels){
+            joinChannel(channel);
+        }
         createNickChangeThread();
     }
 

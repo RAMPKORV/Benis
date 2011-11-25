@@ -11,7 +11,7 @@ public class Options {
     private long inactiveTimeLimit=120; //2 minute
     private long conversationTimeout=9000; //do not timeout as of now, not implemented properly
     private String server = "irc.quakenet.org";
-    private String channel = "#dreamhack.trade";
+    private String[] channels = {"#dreamhack.trade","#dreamhack.blackmarket"};
     private String version = "mIRC v6.17 Khaled Mardam-Bey";
     private String finger = "Toe";
     private long inactivityTimeout = 5 * 60 * 1000;
@@ -87,8 +87,8 @@ public class Options {
         return server;
     }
 
-    public String getChannel() {
-        return channel;
+    public String[] getChannels() {
+        return channels;
     }
       
 }

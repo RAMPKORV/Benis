@@ -26,14 +26,14 @@ public class Main {
      */
     public static void main(String[] args) {
         String server = Options.getInstance().getServer();
-        String channel = Options.getInstance().getChannel();
+        String[] channels = Options.getInstance().getChannels();
         String name = "Bot_" + System.getProperty("user.name");
         name = "random"+Utils.random.nextInt(100);
         try {
             name = JOptionPane.showInputDialog("Enter name for bot");
         } catch (Exception e) {
         }
-        IrcHandler irc = new IrcHandler(name, server, channel);
+        IrcHandler irc = new IrcHandler(name, server, channels);
         Conversation.addConversationsListener(irc);
         Bot bot = new Bot();
         irc.addChatListener(bot);
