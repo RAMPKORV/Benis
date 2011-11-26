@@ -31,7 +31,17 @@ public class SeatReader implements ConversationsListener, ChatListener {
     }
     
     public void alarm(Message m) {
-        System.out.println("RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage());
+        
+        for (int i = 0; i < 20; i++) {
+            System.out.print('#');
+        }
+        System.out.println();
+        System.out.println("#### RED ALERT! FROM: "+m.getFrom()+". TO: "+m.getTo()+". MESSAGE: " + m.getMessage()+" ####");
+        for (int i = 0; i < 20; i++) {
+            System.out.print('#');
+        }
+        System.out.println();
+        
         for(SeatMentionListener sml : listeners){
             sml.onSeatMention(m);
         }
