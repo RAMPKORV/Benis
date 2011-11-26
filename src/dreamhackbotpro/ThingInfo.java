@@ -99,7 +99,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         float med = getMedian();
         float result = 0;
         for(Integer i : prices) {
-            if(i == -1)
+            if(i <= 0)
                 continue;
             result += ((float)i - med)*((float)i - med);
         }
@@ -113,7 +113,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         if(thing != null && !i.getThing().equals(thing)) {
             throw new Exception("Wrong interest");
         }
-        if(i.getPrice() != -1)
+        if(i.getPrice() > 0)
            prices.add(i.getPrice());
         counter++;
         if(i.isBuying())

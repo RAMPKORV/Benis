@@ -57,7 +57,7 @@ public class Greeting {
                 iceBreaker = Character.toUpperCase(iceBreaker.charAt(0))+iceBreaker.substring(1);
         }
         String proposal;
-        if(price != -1) {
+        if(price > 0) {
             proposal = wtb ? pickRandom(buyingProposals) : pickRandom(sellingProposals);
             proposal = proposal.replace("%price%",""+price);
             proposal = proposal.replace("%currency%",pickRandom(currencies));

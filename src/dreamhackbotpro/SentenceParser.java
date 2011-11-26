@@ -65,7 +65,10 @@ public class SentenceParser {
             }
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
-            found = new Interest(thing, Integer.parseInt(matcher.group(3)), matcher.group(1).equals("WTB"), certainty);
+            int price = Integer.parseInt(matcher.group(3));
+            if(price<=0)
+                price = -1;
+            found = new Interest(thing, price, matcher.group(1).equals("WTB"), certainty);
             if (result == null) {
                 result = found;
             }
@@ -149,7 +152,9 @@ public class SentenceParser {
         matcher = eventualPrice.matcher(s);
         if(matcher.find()) {
             try {
-                return Integer.parseInt(matcher.group(0));
+                int ret = Integer.parseInt(matcher.group(0));
+                if(ret>0)
+                    return ret;
             } catch(NumberFormatException ex) {
                 //Ignore and go on
             }
