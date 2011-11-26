@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  */
 public class SeatReader implements ConversationsListener, ChatListener {
 
-    private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])(\\:)?[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
+    private static Pattern pattern = Pattern.compile("(^|\\s)([a-d])(\\:)?[ ]*([1-9][0-9]?)([ ,]*(plats)?(\\:)?[ ;]*)([1-9][0-9]?)", Pattern.CASE_INSENSITIVE);
     private boolean hasGui;
     private JFrame window;
     
@@ -91,7 +91,7 @@ public class SeatReader implements ConversationsListener, ChatListener {
         while(matcher.find()) {
             if(matcher.group(5).length() < 1)
                 continue;
-            return matcher.group(2)+matcher.group(4)+':'+matcher.group(8);
+            return (matcher.group(2)+matcher.group(4)+':'+matcher.group(8)).toUpperCase();
         }
         return null;
     }

@@ -175,6 +175,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newUnits("snus","dosa","dosor");
         newBrands("cigg", "john silver", "marlboro", "black devil", "blend", "maryland", "winston");
         newUnits("cigg","paket");
+        newUnits("tramadol", "mg");
         newBrands("tangentbord", "saitek eclipse", "microsoft sidewinder", "steelseries", "steelkeys", "zboard","compaq","keysonic");
         newBrands("mus", "deathadder", "steelseries", "intellimouse", "logitech", "mouse","mx518", "naga", "g400", "g500", "g700", "performance mx", "xai");
         newBrands("musmatta", "fnatic", "razer", "steelseries", "qpad");
@@ -182,8 +183,9 @@ public class ThingInfo implements Comparable<ThingInfo> {
         newBrands("datorskärm", "dell", "lg", "benq", "samsung");
         newBrands("skärm", "dell", "lg", "benq", "samsung");
         newBrands("plattskärm", "dell", "lg", "benq", "samsung");
-        newBrands("smartphone", "xperia");
         newBrands("hårddisk", "ssd");
+        newBrands("mobil", "android","iphone","smartphone","xperia");
+        newUnits("hårddisk", "gb");
         newBrands("jolt", "jolt");
         newUnits("jolt","burk","burkar","flak","lock");       
         newBrands("energidryck", "powerking","redbull");
@@ -374,7 +376,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         "^vilke[nt]","^tillverkare\\?","^vilken tillverkare"
     };
     private static String[] brandQuestionsThing = {
-        "^vad för %thing%","^vilke(n|t) %thing"
+        "^vad för %thing%\\?*","^vilke(n|t) %thing%\\?*"
     };
 
     public static boolean isBrandQuestion(String msg, String thing) {

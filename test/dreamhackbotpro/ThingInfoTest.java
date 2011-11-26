@@ -154,5 +154,10 @@ public class ThingInfoTest {
     public void testIsConfirmQuestion(){
         assertTrue(ThingInfo.isConfirmQuestion("korv?"));
     }
+    
+    @Test
+    public void testIsBrandQuestion(){
+        assertTrue(ThingInfo.isBrandQuestion("vad för mus?", "mus"));
+    }
 
 }

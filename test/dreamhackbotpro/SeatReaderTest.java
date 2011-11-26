@@ -51,6 +51,7 @@ public class SeatReaderTest {
         assertEquals("D43:44", SeatReader.getSeat("Jag sitter på D:43:44"));
         assertEquals("D43:44", SeatReader.getSeat("Jag sitter på D: 43 44"));
         assertEquals("D43:44", SeatReader.getSeat("Jag sitter på Rad: D: 43 Plats: 44"));
+        assertEquals("D43:44", SeatReader.getSeat("d43;44"));
         assertEquals(null, SeatReader.getSeat("Jag sitter på DD43:44."));
         assertEquals(null, SeatReader.getSeat("Jag sitter på E43:44"));
         assertEquals(null, SeatReader.getSeat("Jag sitter på D434 4"));
