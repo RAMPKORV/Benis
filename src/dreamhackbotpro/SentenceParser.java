@@ -63,6 +63,8 @@ public class SentenceParser {
             if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
                 continue;
             }
+            if(ThingInfo.isUseless(thing))
+                continue;
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
             int price = Integer.parseInt(matcher.group(3));
@@ -98,6 +100,8 @@ public class SentenceParser {
             if(thing.matches("(?i)([1-9][0-9]+kr|wtb|wts)")) {
                 continue;
             }
+            if(ThingInfo.isUseless(thing))
+                continue;
             // We return the first result, but create the others anyway.
             certainty = 1 / words.length;
             found = new Interest(thing, parsePrice(s), matcher.group(1).equals("WTB"), certainty);

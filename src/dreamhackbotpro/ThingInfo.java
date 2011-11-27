@@ -247,7 +247,7 @@ public class ThingInfo implements Comparable<ThingInfo> {
         word = word.replaceAll("[^a-zA-ZåäöÅÄÖ0-9]", "");
         if(word.length() < 4)
             return;
-        if(useless(word)) {
+        if(isUseless(word)) {
             return;
         }
         WordInfo wi = buzzWordsMap.get(word);
@@ -303,10 +303,8 @@ public class ThingInfo implements Comparable<ThingInfo> {
         Collections.sort(buzzWordsSorted);
         return buzzWordsSorted;
     }
-
-    private boolean useless(String word) {
-        // Non-special words that should not be translated
-        String[] uselessWords = {
+    
+    private static String[] uselessWords = {
             "ingen","någon","hallen","eller",
             "helt","intresserad","båda","annan",
             "vanligt","följer","med","sätter",
@@ -328,6 +326,10 @@ public class ThingInfo implements Comparable<ThingInfo> {
             "sånt","uppskattat","nypris","installerat",
             "cirka","bannat","under"
         };
+
+    public static boolean isUseless(String word) {
+        // Non-special words that should not be translated
+        
         if(word.matches("[1-9][0-9]*kr"))
             return true;
         for(String w : uselessWords) {
